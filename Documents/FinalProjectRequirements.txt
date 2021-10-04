@@ -1,0 +1,38 @@
+The app will be created with three different types of user in mind. The administrator, the
+instructors, and the gym members. The administrator manages all possible types of classes
+that can be offered to members at the fitness centre. The administrator also manages
+instructor and gym member accounts. Instructor users are able to select the type of class
+they would like to teach and then specify the class day, class time, class difficulty, and class
+capacity. The gym members are able to search for a drop-in class by class name and day of
+the week. They are then able to enroll and unenroll from classes.
+
+The features that must be available for each user are outlined below. Note that these are
+the minimum required features. You are free to add more features to enrich your app.
+
+The administrator can:
+  1. Login to an administrator account. The developer should pre-create such an
+     account with these credentials:
+     a. Username: admin
+     b. Password: admin123
+  2. Create, edit, and delete types of classes to be offered by the fitness centre.
+     a. To create a type of class, the administrator specifies the name of the class
+        and a brief description of the class. No other course information is specified
+        by the admin.
+        i. Ex. The admin adds a yoga class, a cycling class, and a kickboxing class.
+           Each class would have its own description.
+     b. The administrator can edit the class name and description.
+     c. The administrator can delete a type of class entirely.
+  3. Delete accounts of instructors and gym members.
+
+An instructor can:
+  1. Create an instructor account and login to that account.
+  2. Choose a class to teach by selecting the type of class (pre-created by admin).
+  3. Add and edit the class day, time, difficulty, and capacity for a class they are teaching.
+     a. Ex. Cardio on Mondays from 2:00-3:00pm, beginner difficulty, capacity 12.
+  4. Cancel a class, which deletes the class details.
+
+A gym member can:
+  1. Create a member account and login to that account.
+  2. View all available classes and all classes they are enrolled in.
+  3. Search for a class by class name or by day of the week.
+  4. Enroll and unenroll from classes.
