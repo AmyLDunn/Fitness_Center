@@ -1,0 +1,20 @@
+In this deliverable, you must implement the user account management component and the
+admin functionality.
+
+The app must allow users to create user accounts via a sign up page. Once the user logs in,
+they should see a second screen with the following message:
+                   Welcome ‘firstname/username’! You are logged in as ‘role’.
+
+To simplify the development, there will be a single pre-created admin account. You can use
+the username admin and the password admin123. You should be able to create as many
+instructor and gym member accounts as desired.
+
+The admin functionality includes creating, editing, and deleting types of classes. The admin
+must be able to create a type of class by entering a class name and a description. The
+admin can also edit the class name and description of existing types. These class types can
+later be seen by instructors and gym members in later deliverables. If desired, the admin
+should be able to delete a type of class entirely. The other functionality the admin should
+have is to be able to delete both instructor and gym member user accounts.
+
+You can use Firebase or SQLite for database support. The deliverable must be uploaded by
+the date specified on Brightspace.
