@@ -1,1 +1,8 @@
-To access / update the UML class diagram file, go to "draw.io" and open an existing file with your github information. You'll be able to edit it there. 
+Group Number: 6
+
+Group members
+
+Clarke, Andrew, 300076199
+Coutts, Geordan, 300025101
+Dunn, Amy, 8093779
+Stevens, Cole, 300171413
