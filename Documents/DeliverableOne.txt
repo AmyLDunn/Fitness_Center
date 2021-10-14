@@ -18,3 +18,26 @@ have is to be able to delete both instructor and gym member user accounts.
 
 You can use Firebase or SQLite for database support. The deliverable must be uploaded by
 the date specified on Brightspace.
+
+MARKING
+
+(10 marks) Github: Each member of the group has made at least ONE commit to the repository. 
+           Repo has been shared with TA Github username: SEG2105-F2021
+(20 marks) UML class diagram for the description above, only pertaining to the functionality
+           of deliverable 1
+           (-2 for each missing class)
+           (-2 for incorrect generalization)
+           (-0.5 for each incorrect multiplicity)
+           (-0.5 for each missing attribute)
+(5 marks)  Can login as admin
+(10 marks) Can create and login as an instructor account
+(10 marks) Can create and login as a gym member account
+(5 marks)  After successful authentication:
+           - Can see a Welcome Screen (1 point)
+           - Can see the user role (2 points)
+           - Can see the username associated with the account (2 points)
+(10 marks) - Admin can create a type of class by entering a name and description
+(10 marks) - Admin can edit name and description of an existing class type
+(10 marks) - Admin can delete a class type
+(10 marks) - Admin can delete instructor and gym member accounts
+(5 marks, bonus) - OPTIONAL fields are validated on all pages. Valid error messages
