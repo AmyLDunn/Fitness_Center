@@ -55,7 +55,7 @@ public class DBHelper extends SQLiteOpenHelper {
             @SuppressLint("Range") int id = res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_ID));
             @SuppressLint("Range") String username = res.getString(res.getColumnIndex(ACCOUNTS_COLUMN_USERNAME));
             @SuppressLint("Range") String password = res.getString(res.getColumnIndex(ACCOUNTS_COLUMN_PASSWORD));
-            @SuppressLint("Range") int accountType = res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_TYPE));
+            @SuppressLint("Range") AccountType accountType = AccountType.valueOf(res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_TYPE)));
             accounts.add(new Account(id, username, password, accountType));
         }
         if (!res.isClosed()){
@@ -69,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT * FROM accounts WHERE username = "+username+" AND password = "+password+"", null);
         res.moveToFirst();
         @SuppressLint("Range") int id = res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_ID));
-        @SuppressLint("Range") int accountType = res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_TYPE));
+        @SuppressLint("Range") AccountType accountType = AccountType.valueOf(res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_TYPE)));
         if (!res.isClosed()){
             res.close();
         }

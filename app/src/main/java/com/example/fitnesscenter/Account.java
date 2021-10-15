@@ -5,9 +5,9 @@ public class Account {
     int id;
     String username;
     String password;
-    int accountType;
+    AccountType accountType;
 
-    Account(int id, String username, String password, int accountType){
+    Account(int id, String username, String password, AccountType accountType){
         this.id = id;
         this.username = username;
         this.password = password;
