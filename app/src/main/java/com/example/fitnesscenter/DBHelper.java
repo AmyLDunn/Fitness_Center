@@ -38,6 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE accounts (id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, accountType INTEGER NOT NULL DEFAULT 2)");
+        db.execSQL("INSERT INTO accounts (username, password, accountType) VALUES (admin, admin123, 2)");
     }
 
     @Override
