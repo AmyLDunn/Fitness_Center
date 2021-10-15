@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-10-15T17:00:29.738Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.47" etag="SnACcn4j0WxmNwad-RVT" version="15.5.4" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-15T17:05:45.628Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.47" etag="If6Oab7dAveRNVkEbBRX" version="15.5.4" type="github">
   <diagram id="r9LukguNuFY0iW474rzD" name="Page-1">
-    <mxGraphModel dx="1038" dy="579" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1038" dy="1679" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -169,7 +169,8 @@
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="230" y="100" as="sourcePoint" />
             <Array as="points">
-              <mxPoint x="250" y="69" />
+              <mxPoint x="230" y="13" />
+              <mxPoint x="230" y="69" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -188,7 +189,8 @@
             <mxPoint x="510" y="130" as="sourcePoint" />
             <mxPoint x="620" y="9" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="520" y="69" />
+              <mxPoint x="560" y="13" />
+              <mxPoint x="560" y="69" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -203,7 +205,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="o8Nzl6iw8NaL7pZO_aFK-4" value="DBHelper" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-          <mxGeometry x="250" width="270" height="242" as="geometry" />
+          <mxGeometry x="250" y="-60" width="270" height="294" as="geometry" />
         </mxCell>
         <mxCell id="o8Nzl6iw8NaL7pZO_aFK-5" value="+ field: type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
           <mxGeometry y="26" width="270" height="26" as="geometry" />
@@ -217,20 +219,26 @@
         <mxCell id="o8Nzl6iw8NaL7pZO_aFK-8" value="+ getAccount(String, String): Account" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
           <mxGeometry y="86" width="270" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-9" value="+ deleteAccount(int): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
+        <mxCell id="gc_yiq8LThhwNCrNtD84-1" value="+ accountExists(String): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="o8Nzl6iw8NaL7pZO_aFK-4">
           <mxGeometry y="112" width="270" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-10" value="+ getAllClassTypes(): ArrayList&lt;ClassType&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
+        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-9" value="+ deleteAccount(int): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
           <mxGeometry y="138" width="270" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-11" value="+ addClassType(String, String): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
+        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-10" value="+ getAllClassTypes(): ArrayList&lt;ClassType&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
           <mxGeometry y="164" width="270" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-12" value="+ updateClassType(int, String, String): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
+        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-11" value="+ addClassType(String, String): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
           <mxGeometry y="190" width="270" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-13" value="+ deleteClassType(int): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
+        <mxCell id="gc_yiq8LThhwNCrNtD84-2" value="+ classTypeExists(String): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="o8Nzl6iw8NaL7pZO_aFK-4">
           <mxGeometry y="216" width="270" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-12" value="+ updateClassType(int, String, String): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
+          <mxGeometry y="242" width="270" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="o8Nzl6iw8NaL7pZO_aFK-13" value="+ deleteClassType(int): boolean" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
+          <mxGeometry y="268" width="270" height="26" as="geometry" />
         </mxCell>
         <mxCell id="o8Nzl6iw8NaL7pZO_aFK-15" value="ViewClassTypesActivity" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="640" y="30" width="160" height="138" as="geometry" />
@@ -270,6 +278,9 @@
         </mxCell>
         <mxCell id="o8Nzl6iw8NaL7pZO_aFK-26" value="+ method(type): type" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-23" vertex="1">
           <mxGeometry y="112" width="130" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="gc_yiq8LThhwNCrNtD84-3" value="Note: accountExists and classTypeExists are&lt;br&gt;used to check if the username or class type name&lt;br&gt;are already taken when trying to create a new&amp;nbsp;&lt;br&gt;account or class type" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="360" y="-120" width="280" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
