@@ -41,12 +41,20 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This is called upon pressing the login button
+     * @param username the username that the user put in
+     * @param password the password that the user put in
+     */
     private void login(String username, String password) {
 
-        //Verifying that account exists
-        if (database.accountExists(username)) {
-            //Opening WelcomeActivity
+        // Verifying that account exists
+        Account myAccount = database.getAccount(username, password);
+        if (myAccount != null) {
+            // Opening WelcomeActivity
             Intent intent = new Intent(this, WelcomeActivity.class);
+            // Passing the Account object containing the user's account to the welcome screen
+            intent.putExtra("USER_ACCOUNT", myAccount);
             startActivity(intent);
         }
 

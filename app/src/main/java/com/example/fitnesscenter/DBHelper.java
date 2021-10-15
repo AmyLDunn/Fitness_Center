@@ -50,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE accounts (id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, accountType INTEGER NOT NULL DEFAULT 2)");
-        db.execSQL("INSERT INTO accounts (username, password, accountType) VALUES (admin, admin123, 2)");
+        db.execSQL("INSERT INTO accounts (username, password, accountType) VALUES ('admin', 'admin123', 2)");
         db.execSQL("CREATE TABLE classtypes (id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL UNIQUE, description TEXT)");
     }
 
@@ -98,14 +98,17 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public Account getAccount(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM accounts WHERE username = "+username+" AND password = "+password+"", null);
-        res.moveToFirst();
-        @SuppressLint("Range") int id = res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_ID));
-        @SuppressLint("Range") AccountType accountType = AccountType.valueOf(res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_TYPE)));
+        Cursor res = db.rawQuery("SELECT * FROM accounts WHERE username = ? AND password = ?", new String[]{username, password});
+        Account thisAccount = null;
+        if ( res.getCount() > 0 ) {
+            res.moveToFirst();
+            @SuppressLint("Range") int id = res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_ID));
+            @SuppressLint("Range") AccountType accountType = AccountType.valueOf(res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_TYPE)));
+            thisAccount = new Account(id, username, password, accountType);
+        }
         if (!res.isClosed()){
             res.close();
         }
-        Account thisAccount = new Account(id, username, password, accountType);
         return thisAccount;
     }
 

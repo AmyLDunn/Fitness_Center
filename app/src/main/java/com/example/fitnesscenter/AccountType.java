@@ -22,7 +22,20 @@ public enum AccountType {
         }
     }
 
+    /**
+     * Converts an integer into an AccountType
+     * @param accountType the integer value to be converted
+     * @return the AccountType corresponding to that integer
+     */
     public static AccountType valueOf(int accountType){
         return (AccountType) map.get(accountType);
+    }
+
+    /**
+     * Converts an AccountType into an integer
+     * @return the integer value of the AccountType object
+     */
+    public int getValue(){
+        return value;
     }
 }
