@@ -18,8 +18,9 @@ import java.util.ArrayList;
  * pass the activity itself to the helper as well.
  *
  * Ex.
- * mydb = new DBHelper(this);
+ * DBHelper mydb = new DBHelper(this);
  * Account myAccount = mydb.getAccount("Username", "Password");
+ * ArrayList<Account> allAccounts = mydb.getAllAccounts();
  *
  */
 
