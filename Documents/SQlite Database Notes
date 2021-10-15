@@ -1,10 +1,10 @@
 Table: Accounts
-Column: accountID UNIQUE PRIMARY KEY AUTOINCREMENT
-Column: username NOT NULL UNIQUE
-Column: password NOT NULL
-Column: accountType NOT NULL DEFAULT gymMember
+Column: accountID INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT
+Column: username TEXT NOT NULL UNIQUE
+Column: password TEXT NOT NULL
+Column: accountType TEXT NOT NULL DEFAULT gymMember
 
 Table: ClassTypes
-Column: classTypeID UNIQUE PRIMARY KEY AUTOINCREMENT
-Column: name NOT NULL UNIQUE
-Column: description
+Column: classTypeID INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT
+Column: name TEXT NOT NULL UNIQUE
+Column: description TEXT
