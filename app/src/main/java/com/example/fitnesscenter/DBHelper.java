@@ -90,6 +90,23 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * This adds an account entry to the database and returns the account object associated with it
+     */
+    public Account addAccount(AccountType accountType, String username, String password){
+        if ( accountExists(username) ) {
+            return null;
+        }
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ACCOUNTS_COLUMN_TYPE, accountType.getValue());
+        contentValues.put(ACCOUNTS_COLUMN_USERNAME, username);
+        contentValues.put(ACCOUNTS_COLUMN_PASSWORD, password);
+        int id = (int) db.insert(ACCOUNTS_TABLE_NAME, null, contentValues);
+        Account userAccount = new Account(id, username, password, accountType);
+        return userAccount;
+    }
+
+    /**
      * This gets a specific account from the database
      * @param username is the username of the account
      * @param password is the password of the account
@@ -119,7 +136,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public boolean accountExists(String username){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("SELECT * FROM accounts WHERE username = "+username+"", null);
+        Cursor res = db.rawQuery("SELECT * FROM accounts WHERE username = ?", new String[]{username});
         if ( res.getCount() > 0 ) {
             if (!res.isClosed()){
                 res.close();
