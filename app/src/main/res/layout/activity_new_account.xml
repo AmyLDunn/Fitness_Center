@@ -4,36 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".NewAccountActivity">
 
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="220dp"
-        android:layout_height="87dp"
-        android:layout_marginBottom="50dp"
-        android:text="login"
-        app:layout_constraintBottom_toTopOf="@id/createNewAccountButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/passwordTextView"
+    <TextView
+        android:id="@+id/accountTypeLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginBottom="50dp"
+        android:text="Account type: "
+        app:layout_constraintBottom_toTopOf="@+id/newUsernameTextView"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Spinner
+        android:id="@+id/accountTypeSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="50dp"
         android:ems="10"
-        android:hint="password..."
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintBottom_toTopOf="@+id/newUsernameTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/accountTypeLabel" />
 
     <EditText
-        android:id="@+id/usernameTextView"
+        android:id="@+id/newUsernameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -41,21 +37,31 @@
         android:layout_marginBottom="50dp"
         android:ems="10"
         android:hint="username..."
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/passwordTextView"
+        app:layout_constraintBottom_toTopOf="@+id/newPasswordTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/newPasswordTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="100dp"
+        android:ems="10"
+        android:hint="password..."
+        app:layout_constraintBottom_toTopOf="@+id/create_account_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/createNewAccountButton"
+        android:id="@+id/create_account_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create new account"
+        android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="70dp"/>
-
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Create account"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Fitness Center</string>
+    <string-array name="accountTypeChoices">
+        <item>Gym member</item>
+        <item>Instructor</item>
+    </string-array>
 </resources>

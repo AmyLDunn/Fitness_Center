@@ -13,7 +13,7 @@ public class LoginActivity extends AppCompatActivity {
 
     DBHelper database;
 
-    Button login;
+    Button login, createAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         database = new DBHelper(this);
 
         login = findViewById(R.id.login_button);
+        createAccount = findViewById(R.id.createNewAccountButton);
 
         login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -39,6 +40,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToCreateAccount();
+            }
+        });
+
+    }
+
+    /**
+     * This brings the user to the newAccountActivity page
+     */
+    private void goToCreateAccount(){
+        Intent intent = new Intent(this, NewAccountActivity.class);
+        startActivity(intent);
     }
 
     /**
@@ -59,11 +75,5 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-
-    /*
-
-    Need to add a createAccount button as well!
-
-     */
 
 }
