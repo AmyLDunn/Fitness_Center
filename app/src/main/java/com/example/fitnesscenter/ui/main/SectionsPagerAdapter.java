@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.fitnesscenter.Account;
 import com.example.fitnesscenter.R;
 
 /**
@@ -20,16 +21,19 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_welcome, R.string.tab_text_class_types, R.string.tab_text_accounts};
     private final Context mContext;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    private Account userAccount;
+
+    public SectionsPagerAdapter(Context context, FragmentManager fm, Account userAccount) {
         super(fm);
         mContext = context;
+        this.userAccount = userAccount;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return WelcomeFragment.newInstance(1);
+                return WelcomeFragment.newInstance(1, userAccount);
             case 1:
                 return ClassTypesListFragment.newInstance(2);
             case 2:

@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.fitnesscenter.Account;
+import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.databinding.FragmentWelcomeBinding;
 
 /**
@@ -24,10 +26,13 @@ public class WelcomeFragment extends Fragment {
     private PageViewModel pageViewModel;
     private FragmentWelcomeBinding binding;
 
-    public static WelcomeFragment newInstance(int index) {
+    private Account userAccount;
+
+    public static WelcomeFragment newInstance(int index, Account user) {
         WelcomeFragment fragment = new WelcomeFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
+        bundle.putParcelable("USER_ACCOUNT", user);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -50,8 +55,15 @@ public class WelcomeFragment extends Fragment {
 
         binding = FragmentWelcomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        userAccount = (Account) getArguments().getParcelable("USER_ACCOUNT");
 
         return root;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        TextView usernameDisplay = (TextView) getView().findViewById(R.id.welcome_fragment_username_label);
+        usernameDisplay.setText("Username: "+userAccount.getUsername());
     }
 
     @Override
