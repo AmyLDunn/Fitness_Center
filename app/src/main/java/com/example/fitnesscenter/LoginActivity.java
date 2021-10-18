@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         Account myAccount = database.getAccount(username, password);
         if (myAccount != null) {
             // Opening WelcomeActivity
-            Intent intent = new Intent(this, WelcomeActivity.class);
+            Intent intent = new Intent(this, AdminActivity.class);
             // Passing the Account object containing the user's account to the welcome screen
             intent.putExtra("USER_ACCOUNT", myAccount);
             startActivity(intent);

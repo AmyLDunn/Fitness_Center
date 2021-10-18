@@ -10,11 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessCenter">
         <activity
+            android:name=".AdminActivity"
+            android:exported="false"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.FitnessCenter.NoActionBar" />
+        <activity
             android:name=".NewAccountActivity"
             android:exported="false" />
-        <activity
-            android:name=".WelcomeActivity"
-            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">

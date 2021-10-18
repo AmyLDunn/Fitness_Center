@@ -66,7 +66,7 @@ public class NewAccountActivity extends AppCompatActivity {
             String username = newUsername.getText().toString();
             String password = newPassword.getText().toString();
             Account userAccount = database.addAccount(accountType, username, password);
-            Intent intent = new Intent(this, WelcomeActivity.class);
+            Intent intent = new Intent(this, AdminActivity.class);
             intent.putExtra("USER_ACCOUNT", userAccount);
             startActivity(intent);
             finish();
