@@ -67,4 +67,12 @@ public class Account implements Parcelable {
         parcel.writeString(password);
         parcel.writeInt(accountType.getValue());
     }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 }
