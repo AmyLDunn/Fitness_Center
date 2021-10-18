@@ -17,7 +17,7 @@ import com.example.fitnesscenter.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_welcome, R.string.tab_text_class_types};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_welcome, R.string.tab_text_class_types, R.string.tab_text_accounts};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -32,6 +32,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 return WelcomeFragment.newInstance(1);
             case 1:
                 return ClassTypesListFragment.newInstance(2);
+            case 2:
+                return AccountsListFragment.newInstance(3);
             default:
                 return null;
         }
