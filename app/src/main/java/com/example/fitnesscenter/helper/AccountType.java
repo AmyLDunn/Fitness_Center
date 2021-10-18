@@ -1,4 +1,4 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.helper;
 
 import java.util.HashMap;
 import java.util.Map;

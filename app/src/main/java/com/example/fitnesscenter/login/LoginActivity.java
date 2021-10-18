@@ -1,6 +1,5 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.login;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -8,6 +7,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
 import android.content.Intent;
+
+import com.example.fitnesscenter.mainapp.AdminActivity;
+import com.example.fitnesscenter.newaccount.NewAccountActivity;
+import com.example.fitnesscenter.R;
+import com.example.fitnesscenter.helper.Account;
+import com.example.fitnesscenter.helper.DBHelper;
 
 public class LoginActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.helper;
 
 import android.os.Parcel;
 import android.os.Parcelable;

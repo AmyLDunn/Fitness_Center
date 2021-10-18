@@ -1,4 +1,4 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.helper;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
@@ -6,6 +6,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.fitnesscenter.helper.Account;
+import com.example.fitnesscenter.helper.AccountType;
+import com.example.fitnesscenter.helper.ClassType;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.helper;
 
 public class ClassType {
 

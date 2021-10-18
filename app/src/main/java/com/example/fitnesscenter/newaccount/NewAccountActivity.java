@@ -1,4 +1,4 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.newaccount;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.example.fitnesscenter.mainapp.AdminActivity;
+import com.example.fitnesscenter.R;
+import com.example.fitnesscenter.helper.Account;
+import com.example.fitnesscenter.helper.AccountType;
+import com.example.fitnesscenter.helper.DBHelper;
 
 public class NewAccountActivity extends AppCompatActivity {
 

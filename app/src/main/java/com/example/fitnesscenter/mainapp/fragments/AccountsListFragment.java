@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.ui.main;
+package com.example.fitnesscenter.mainapp.fragments;
 
 import android.os.Bundle;
 
@@ -10,22 +10,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.fitnesscenter.databinding.FragmentClassTypesListBinding;
+import com.example.fitnesscenter.databinding.FragmentAccountsListBinding;
+import com.example.fitnesscenter.helper.PageViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ClassTypesListFragment#newInstance} factory method to
+ * Use the {@link AccountsListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ClassTypesListFragment extends Fragment {
+public class AccountsListFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
-    private FragmentClassTypesListBinding binding;
+    private FragmentAccountsListBinding binding;
 
-    public static ClassTypesListFragment newInstance(int index) {
-        ClassTypesListFragment fragment = new ClassTypesListFragment();
+    public static AccountsListFragment newInstance(int index) {
+        AccountsListFragment fragment = new AccountsListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
@@ -48,7 +49,7 @@ public class ClassTypesListFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        binding = FragmentClassTypesListBinding.inflate(inflater, container, false);
+        binding = FragmentAccountsListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;

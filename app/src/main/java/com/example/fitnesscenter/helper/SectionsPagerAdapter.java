@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.ui.main;
+package com.example.fitnesscenter.helper;
 
 import android.content.Context;
 
@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.fitnesscenter.Account;
 import com.example.fitnesscenter.R;
+import com.example.fitnesscenter.mainapp.fragments.AccountsListFragment;
+import com.example.fitnesscenter.mainapp.fragments.ClassTypesListFragment;
+import com.example.fitnesscenter.mainapp.fragments.WelcomeFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

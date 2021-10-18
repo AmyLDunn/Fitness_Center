@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.ui.main;
+package com.example.fitnesscenter.helper;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
