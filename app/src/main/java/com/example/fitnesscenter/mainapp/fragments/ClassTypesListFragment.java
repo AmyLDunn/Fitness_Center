@@ -6,12 +6,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.content.Intent;
 
+import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.databinding.FragmentClassTypesBinding;
 import com.example.fitnesscenter.helper.PageViewModel;
+import com.example.fitnesscenter.mainapp.NewClassActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +29,7 @@ public class ClassTypesListFragment extends Fragment {
 
     private PageViewModel pageViewModel;
     private FragmentClassTypesBinding binding;
+    ImageView addClass;
 
     public static ClassTypesListFragment newInstance(int index) {
         ClassTypesListFragment fragment = new ClassTypesListFragment();
@@ -42,6 +48,15 @@ public class ClassTypesListFragment extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
+
+        addClass = addClass.findViewById(R.id.addClassIcon);
+
+        addClass.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               ;
+           }
+        });
     }
 
     @Override
