@@ -12,11 +12,12 @@
         android:layout_height="match_parent"
         android:text="Class types list screen" />
 
-    <ImageView
-        android:id="@+id/addClassIcon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="50dp"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
         android:src="@drawable/addClass" />
 
 </FrameLayout>

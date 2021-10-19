@@ -17,6 +17,7 @@ import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.databinding.FragmentClassTypesBinding;
 import com.example.fitnesscenter.helper.PageViewModel;
 import com.example.fitnesscenter.mainapp.NewClassActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +30,7 @@ public class ClassTypesListFragment extends Fragment {
 
     private PageViewModel pageViewModel;
     private FragmentClassTypesBinding binding;
-    ImageView addClass;
+    FloatingActionButton fab;
 
     public static ClassTypesListFragment newInstance(int index) {
         ClassTypesListFragment fragment = new ClassTypesListFragment();
@@ -48,15 +49,16 @@ public class ClassTypesListFragment extends Fragment {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
         }
         pageViewModel.setIndex(index);
+        fab = fab.findViewById(R.id.fab);
 
-        addClass = addClass.findViewById(R.id.addClassIcon);
-
-        addClass.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               ;
-           }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), NewClassActivity.class);
+                startActivity(intent);
+            }
         });
+
     }
 
     @Override
