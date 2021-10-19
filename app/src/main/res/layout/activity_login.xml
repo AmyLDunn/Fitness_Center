@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".login.LoginActivity">
 
+    <TextView
+        android:id="@+id/accountErrorMessage"
+        android:layout_width="258dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginBottom="340dp"
+        app:layout_constraintBottom_toTopOf="@+id/createNewAccountButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
         android:id="@+id/login_button"
         android:layout_width="220dp"

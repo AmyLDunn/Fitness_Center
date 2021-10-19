@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/accountTypeLabel"
+        android:id="@+id/accountErrorMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -26,7 +26,7 @@
         android:ems="10"
         app:layout_constraintBottom_toTopOf="@+id/newUsernameTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/accountTypeLabel" />
+        app:layout_constraintStart_toEndOf="@+id/accountErrorMessage" />
 
     <EditText
         android:id="@+id/newUsernameTextView"

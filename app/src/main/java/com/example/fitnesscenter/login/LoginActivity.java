@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.view.View;
 import android.content.Intent;
 
@@ -19,6 +20,8 @@ public class LoginActivity extends AppCompatActivity {
     DBHelper database;
 
     Button login, createAccount;
+
+    TextView errorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
+                errorMessage = (TextView) findViewById((R.id.accountErrorMessage));
                 EditText usernameEntry = (EditText) findViewById(R.id.usernameTextView);
                 EditText passwordEntry = (EditText) findViewById(R.id.passwordTextView);
                 String username = usernameEntry.getText().toString();
@@ -72,11 +76,15 @@ public class LoginActivity extends AppCompatActivity {
         // Verifying that account exists
         Account myAccount = database.getAccount(username, password);
         if (myAccount != null) {
+            //Clearing errorMessage
+            errorMessage.setText("");
             // Opening WelcomeActivity
             Intent intent = new Intent(this, AdminActivity.class);
             // Passing the Account object containing the user's account to the welcome screen
             intent.putExtra("USER_ACCOUNT", myAccount);
             startActivity(intent);
+        } else {
+            errorMessage.setText("The username or password is incorrect!");
         }
 
     }
