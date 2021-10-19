@@ -84,6 +84,9 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("USER_ACCOUNT", myAccount);
             startActivity(intent);
         } else {
+            if (!database.accountExists(username)) {
+                errorMessage.setText("The account doesn't exist!");
+            }
             errorMessage.setText("The username or password is incorrect!");
         }
 

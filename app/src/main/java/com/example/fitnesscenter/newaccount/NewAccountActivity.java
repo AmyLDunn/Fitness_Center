@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.fitnesscenter.mainapp.AdminActivity;
 import com.example.fitnesscenter.R;
@@ -24,6 +25,8 @@ public class NewAccountActivity extends AppCompatActivity {
     Spinner accountTypeSpinner;
     int spinnerPosition;
 
+    TextView createErrorMessage;
+
     Button createNewAccountBtn;
 
     @Override
@@ -32,6 +35,8 @@ public class NewAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_account);
 
         database = new DBHelper(this);
+
+        createErrorMessage = (TextView) findViewById(R.id.errorMessage);
 
         accountTypeSpinner = (Spinner) findViewById(R.id.accountTypeSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.accountTypeChoices, android.R.layout.simple_spinner_item);
@@ -67,7 +72,9 @@ public class NewAccountActivity extends AppCompatActivity {
         EditText newPassword = (EditText) findViewById(R.id.newPasswordTextView);
         if ( database.accountExists(newUsername.getText().toString()) ) {
             // The account already exists. We cannot create a new one
+            createErrorMessage.setText("An account with that name already exists!");
         } else {
+            createErrorMessage.setText("");
             AccountType accountType = AccountType.valueOf(spinnerPosition);
             String username = newUsername.getText().toString();
             String password = newPassword.getText().toString();
