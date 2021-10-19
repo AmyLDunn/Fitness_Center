@@ -86,6 +86,7 @@ public class DBHelper extends SQLiteOpenHelper {
             @SuppressLint("Range") String password = res.getString(res.getColumnIndex(ACCOUNTS_COLUMN_PASSWORD));
             @SuppressLint("Range") AccountType accountType = AccountType.valueOf(res.getInt(res.getColumnIndex(ACCOUNTS_COLUMN_TYPE)));
             accounts.add(new Account(id, username, password, accountType));
+            res.moveToNext();
         }
         if (!res.isClosed()){
             res.close();

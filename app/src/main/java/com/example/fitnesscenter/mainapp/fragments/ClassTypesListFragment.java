@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.fitnesscenter.databinding.FragmentClassTypesListBinding;
+import com.example.fitnesscenter.databinding.FragmentClassTypesBinding;
 import com.example.fitnesscenter.helper.PageViewModel;
 
 /**
@@ -23,7 +23,7 @@ public class ClassTypesListFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
-    private FragmentClassTypesListBinding binding;
+    private FragmentClassTypesBinding binding;
 
     public static ClassTypesListFragment newInstance(int index) {
         ClassTypesListFragment fragment = new ClassTypesListFragment();
@@ -49,7 +49,7 @@ public class ClassTypesListFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        binding = FragmentClassTypesListBinding.inflate(inflater, container, false);
+        binding = FragmentClassTypesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;

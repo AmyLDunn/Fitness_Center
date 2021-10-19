@@ -9,9 +9,16 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import com.example.fitnesscenter.databinding.FragmentAccountsListBinding;
+import com.example.fitnesscenter.R;
+import com.example.fitnesscenter.databinding.FragmentAccountsBinding;
+import com.example.fitnesscenter.helper.Account;
+import com.example.fitnesscenter.helper.DBHelper;
 import com.example.fitnesscenter.helper.PageViewModel;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,36 +30,36 @@ public class AccountsListFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     private PageViewModel pageViewModel;
-    private FragmentAccountsListBinding binding;
+    private FragmentAccountsBinding binding;
+
+    private DBHelper database;
 
     public static AccountsListFragment newInstance(int index) {
         AccountsListFragment fragment = new AccountsListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
-        int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        pageViewModel.setIndex(index);
+        database = new DBHelper(getActivity());
     }
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-
-        binding = FragmentAccountsListBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        return root;
+        View view = inflater.inflate(R.layout.fragment_accounts, container, false);
+        ArrayList<Account> allAccounts = database.getAllAccounts();
+        String[] accounts = new String[allAccounts.size()];
+        for ( int i = 0; i < allAccounts.size(); i++ ) {
+            accounts[i] = allAccounts.get(i).getUsername();
+        }
+        ListView listView = (ListView) view.findViewById(R.id.AccountsListView);
+        ArrayAdapter<String> accountsListAdapter = new ArrayAdapter<String>(
+                getActivity(), android.R.layout.simple_list_item_1, accounts);
+        listView.setAdapter(accountsListAdapter);
+        return view;
     }
 
     @Override
