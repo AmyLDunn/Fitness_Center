@@ -63,7 +63,8 @@ public class WelcomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         TextView usernameDisplay = (TextView) getView().findViewById(R.id.welcome_fragment_username_label);
-        usernameDisplay.setText("Username: "+userAccount.getUsername());
+        usernameDisplay.setText("Welcome "+userAccount.getUsername() + "! You are logged in as " +
+                                userAccount.getRole() + "!");
     }
 
     @Override

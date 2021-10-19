@@ -75,4 +75,14 @@ public class Account implements Parcelable {
     public String getUsername() {
         return username;
     }
+
+    public String getRole() {
+        if (accountType == AccountType.MEMBER) {
+            return "member";
+        } else if (accountType == AccountType.INSTRUCTOR) {
+            return "instructor";
+        } else {
+            return "admin";
+        }
+    }
 }
