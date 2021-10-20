@@ -25,6 +25,11 @@ public class AccountsCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         TextView usernameDisplay = view.findViewById(R.id.account_list_item_username);
         String username = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.ACCOUNTS_COLUMN_USERNAME));
-        usernameDisplay.setText(username);
+        int type = cursor.getInt(cursor.getColumnIndexOrThrow(DBHelper.ACCOUNTS_COLUMN_TYPE));
+        if ( type == 0 ) {
+            usernameDisplay.setText(username + " - Gym member");
+        } else {
+            usernameDisplay.setText(username + " - Instructor");
+        }
     }
 }
