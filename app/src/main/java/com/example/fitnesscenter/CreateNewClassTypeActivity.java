@@ -54,7 +54,7 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
         EditText classDescDisplay = findViewById(R.id.create_new_class_description);
         String className = classNameDisplay.getText().toString();
         String classDesc = classDescDisplay.getText().toString();
-        if (database.classTypeExists(className)) {
+        if (!database.classTypeExists(className)) {
             database.addClassType(className, classDesc);
         }
     }
