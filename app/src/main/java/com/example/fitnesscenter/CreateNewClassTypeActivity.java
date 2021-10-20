@@ -42,23 +42,20 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveNewClassDetails();
-                Intent returnIntent = new Intent();
-                setResult(RESULT_OK, returnIntent);
-                finish();
+                EditText classNameDisplay = findViewById(R.id.create_new_class_name);
+                EditText classDescDisplay = findViewById(R.id.create_new_class_description);
+                String className = classNameDisplay.getText().toString();
+                String classDesc = classDescDisplay.getText().toString();
+                if (!database.classTypeExists(className)) {
+                    database.addClassType(className, classDesc);
+                    Intent returnIntent = new Intent();
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
+                } else {
+                    Snackbar.make(findViewById(R.id.create_new_class_type_screen), "This class already exists!", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    public void saveNewClassDetails() {
-        EditText classNameDisplay = findViewById(R.id.create_new_class_name);
-        EditText classDescDisplay = findViewById(R.id.create_new_class_description);
-        String className = classNameDisplay.getText().toString();
-        String classDesc = classDescDisplay.getText().toString();
-        if (!database.classTypeExists(className)) {
-            database.addClassType(className, classDesc);
-        } else {
-            Snackbar.make(findViewById(R.id.create_new_account_screen), "This class already exists!", Snackbar.LENGTH_SHORT).show();
-        }
-    }
 }
