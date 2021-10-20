@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.newaccount;
+package com.example.fitnesscenter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,35 +10,23 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.example.fitnesscenter.mainapp.AdminActivity;
-import com.example.fitnesscenter.R;
+import com.example.fitnesscenter.database.DBHelper;
 import com.example.fitnesscenter.helper.Account;
-import com.example.fitnesscenter.helper.AccountType;
-import com.example.fitnesscenter.helper.DBHelper;
+import com.google.android.material.snackbar.Snackbar;
 
-public class NewAccountActivity extends AppCompatActivity {
+public class CreateNewAccountActivity extends AppCompatActivity {
 
     DBHelper database;
-
-    Spinner accountTypeSpinner;
     int spinnerPosition;
-
-    TextView createErrorMessage;
-
-    Button createNewAccountBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_account);
+        setContentView(R.layout.activity_create_new_account);
 
         database = new DBHelper(this);
-
-        createErrorMessage = (TextView) findViewById(R.id.errorMessage);
-
-        accountTypeSpinner = (Spinner) findViewById(R.id.accountTypeSpinner);
+        Spinner accountTypeSpinner = (Spinner) findViewById(R.id.create_new_account_type_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.accountTypeChoices, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         accountTypeSpinner.setAdapter(adapter);
@@ -56,30 +44,33 @@ public class NewAccountActivity extends AppCompatActivity {
             }
         });
 
-        createNewAccountBtn = findViewById(R.id.create_account_button);
-
-        createNewAccountBtn.setOnClickListener(new View.OnClickListener() {
+        Button createNewAccountButton = findViewById(R.id.create_new_account_button);
+        createNewAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveNewAccountDetails();
             }
         });
-
     }
 
     private void saveNewAccountDetails(){
-        EditText newUsername = (EditText) findViewById(R.id.newUsernameTextView);
-        EditText newPassword = (EditText) findViewById(R.id.newPasswordTextView);
-        if ( database.accountExists(newUsername.getText().toString()) ) {
-            // The account already exists. We cannot create a new one
-            createErrorMessage.setText("An account with that name already exists!");
+        EditText usernameDisplay = findViewById(R.id.create_new_account_username);
+        EditText passwordDisplay = findViewById(R.id.create_new_account_password);
+        String username = usernameDisplay.getText().toString();
+        String password = passwordDisplay.getText().toString();
+        if ( database.accountExists(username) ){
+            Snackbar.make(findViewById(R.id.create_new_account_screen), "That username is already in use.", Snackbar.LENGTH_SHORT).show();
         } else {
-            createErrorMessage.setText("");
-            AccountType accountType = AccountType.valueOf(spinnerPosition);
-            String username = newUsername.getText().toString();
-            String password = newPassword.getText().toString();
-            Account userAccount = database.addAccount(accountType, username, password);
-            Intent intent = new Intent(this, AdminActivity.class);
+            database.addAccount(username, password, spinnerPosition);
+            Account userAccount = new Account(username, spinnerPosition);
+            Intent intent;
+            if (userAccount.getType() == 0){
+                intent = new Intent(this, MemberActivity.class);
+            } else if (userAccount.getType() == 1){
+                intent = new Intent(this, InstructorActivity.class);
+            } else {
+                intent = new Intent(this, AdminActivity.class);
+            }
             intent.putExtra("USER_ACCOUNT", userAccount);
             startActivity(intent);
             finish();

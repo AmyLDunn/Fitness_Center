@@ -4,40 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newaccount.NewAccountActivity">
+    android:id="@+id/create_new_account_screen"
+    tools:context=".CreateNewAccountActivity">
 
     <TextView
-        android:id="@+id/errorMessage"
-        android:layout_width="336dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginBottom="88dp"
-        app:layout_constraintBottom_toTopOf="@+id/newUsernameTextView"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/accountErrorMessage"
+        android:id="@+id/create_new_account_spinner_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="50dp"
         android:text="Account type: "
-        app:layout_constraintBottom_toTopOf="@+id/newUsernameTextView"
+        app:layout_constraintBottom_toTopOf="@+id/create_new_account_username"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <Spinner
-        android:id="@+id/accountTypeSpinner"
+        android:id="@+id/create_new_account_type_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="50dp"
         android:ems="10"
-        app:layout_constraintBottom_toTopOf="@+id/newUsernameTextView"
+        app:layout_constraintBottom_toTopOf="@+id/create_new_account_username"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/accountErrorMessage" />
+        app:layout_constraintStart_toEndOf="@+id/create_new_account_spinner_label" />
 
     <EditText
-        android:id="@+id/newUsernameTextView"
+        android:id="@+id/create_new_account_username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -45,12 +37,12 @@
         android:layout_marginBottom="50dp"
         android:ems="10"
         android:hint="username..."
-        app:layout_constraintBottom_toTopOf="@+id/newPasswordTextView"
+        app:layout_constraintBottom_toTopOf="@+id/create_new_account_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/newPasswordTextView"
+        android:id="@+id/create_new_account_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -58,12 +50,12 @@
         android:layout_marginBottom="100dp"
         android:ems="10"
         android:hint="password..."
-        app:layout_constraintBottom_toTopOf="@+id/create_account_button"
+        app:layout_constraintBottom_toTopOf="@+id/create_new_account_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/create_account_button"
+        android:id="@+id/create_new_account_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"

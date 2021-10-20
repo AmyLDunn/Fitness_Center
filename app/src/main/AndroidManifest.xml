@@ -10,15 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessCenter">
         <activity
-            android:name=".mainapp.AdminActivity"
+            android:name=".MemberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminActivity"
             android:exported="false"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.FitnessCenter.NoActionBar" />
         <activity
-            android:name=".newaccount.NewAccountActivity"
+            android:name=".CreateNewAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
