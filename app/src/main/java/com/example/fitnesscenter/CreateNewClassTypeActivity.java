@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.fitnesscenter.database.DBHelper;
+import com.google.android.material.snackbar.Snackbar;
 
 public class CreateNewClassTypeActivity extends AppCompatActivity {
 
@@ -56,6 +57,8 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
         String classDesc = classDescDisplay.getText().toString();
         if (!database.classTypeExists(className)) {
             database.addClassType(className, classDesc);
+        } else {
+            Snackbar.make(findViewById(R.id.create_new_account_screen), "This class already exists!", Snackbar.LENGTH_SHORT).show();
         }
     }
 }
