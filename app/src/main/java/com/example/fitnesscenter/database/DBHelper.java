@@ -105,6 +105,16 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM "+CLASS_TYPES_TABLE_NAME+"", null);
     }
 
+    public void addClassType(String name, String description){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("INSERT INTO "+CLASS_TYPES_TABLE_NAME+" ("+CLASS_TYPES_COLUMN_NAME+", "+CLASS_TYPES_COLUMN_DESCRIPTION+") VALUES (?, ?)", new String[]{name, description});
+    }
+
+    public void updateClassType(int id, String name, String description){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE "+CLASS_TYPES_TABLE_NAME+" SET "+CLASS_TYPES_COLUMN_NAME+" = ?, "+CLASS_TYPES_COLUMN_DESCRIPTION+" = ? WHERE "+CLASS_TYPES_COLUMN_ID+" = ?", new String[]{name, description, String.valueOf(id)});
+    }
+
     public void deleteClassType(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+CLASS_TYPES_TABLE_NAME+" WHERE "+ACCOUNTS_COLUMN_ID+"="+id+"");

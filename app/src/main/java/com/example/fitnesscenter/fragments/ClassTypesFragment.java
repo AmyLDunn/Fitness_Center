@@ -1,5 +1,7 @@
 package com.example.fitnesscenter.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -11,10 +13,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.fitnesscenter.CreateNewClassTypeActivity;
 import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.ClassTypesCursorAdapter;
 import com.example.fitnesscenter.database.DBHelper;
@@ -52,7 +59,11 @@ public class ClassTypesFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Intent intent = new Intent(getActivity(), CreateNewClassTypeActivity.class);
+                intent.putExtra("CLASS_TYPE_ID", -1);
+                intent.putExtra("CLASS_TYPE_NAME", "");
+                intent.putExtra("CLASS_TYPE_DESCRIPTION", "");
+                createNewClassTypeLauncher.launch(intent);
             }
         });
     }
@@ -66,11 +77,16 @@ public class ClassTypesFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item){
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int index = info.position;
+        classTypeCursor.moveToPosition(index);
         switch (item.getItemId()){
             case R.id.class_type_option_edit:
+                Intent intent = new Intent(getActivity(), CreateNewClassTypeActivity.class);
+                intent.putExtra("CLASS_TYPE_ID", classTypeCursor.getInt(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_ID)));
+                intent.putExtra("CLASS_TYPE_NAME", classTypeCursor.getString(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_NAME)));
+                intent.putExtra("CLASS_TYPE_DESCRIPTION", classTypeCursor.getString(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_DESCRIPTION)));
+                createNewClassTypeLauncher.launch(intent);
                 return true;
             case R.id.class_type_option_delete:
-                classTypeCursor.moveToPosition(index);
                 int id_to_delete = classTypeCursor.getInt(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_ID));
                 database.deleteClassType(id_to_delete);
                 classTypeCursor = database.getAllClassTypes();
@@ -80,6 +96,16 @@ public class ClassTypesFragment extends Fragment {
                 return super.onContextItemSelected(item);
         }
     }
+
+    ActivityResultLauncher<Intent> createNewClassTypeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK ) {
+                classTypeCursor = database.getAllClassTypes();
+                cursorAdapter.changeCursor(classTypeCursor);
+            }
+        }
+    });
 
     public void onDestroyView(){
         super.onDestroyView();
