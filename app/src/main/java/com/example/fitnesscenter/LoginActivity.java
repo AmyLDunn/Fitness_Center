@@ -41,8 +41,11 @@ public class LoginActivity extends AppCompatActivity {
                         Snackbar.make(findViewById(R.id.login_screen), "That is the wrong password.", Snackbar.LENGTH_SHORT).show();
                     }
                 } else {
-                    // Todo: Clear the username and password textviews when logging in
-                    //       This will ensure a clean login screen when the user hits "back" to logout
+                    //Resetting text inputs of username and password
+                    usernameInput.setText("");
+                    passwordInput.setText("");
+
+                    //Logging in
                     login(myAccount);
                 }
             }
