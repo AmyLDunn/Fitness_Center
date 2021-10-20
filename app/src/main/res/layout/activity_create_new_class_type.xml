@@ -14,12 +14,12 @@
         android:layout_marginBottom="50dp"
         android:fontFamily="monospace"
         android:text="Create a new class!"
-        app:layout_constraintBottom_toTopOf="@+id/create_new_class_name"
+        app:layout_constraintBottom_toTopOf="@+id/create_new_class_type_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/create_new_class_name"
+        android:id="@+id/create_new_class_type_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -27,12 +27,12 @@
         android:layout_marginBottom="50dp"
         android:ems="10"
         android:hint="class name..."
-        app:layout_constraintBottom_toTopOf="@+id/create_new_class_description"
+        app:layout_constraintBottom_toTopOf="@+id/create_new_class_type_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/create_new_class_description"
+        android:id="@+id/create_new_class_type_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"

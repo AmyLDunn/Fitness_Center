@@ -27,6 +27,10 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
         int class_type_id = bundle.getInt("CLASS_TYPE_ID");
         String class_type_name = bundle.getString("CLASS_TYPE_NAME");
         String class_type_description = bundle.getString("CLASS_TYPE_DESCRIPTION");
+        EditText classTypeNameDisplay = (EditText) findViewById(R.id.create_new_class_type_name);
+        EditText classTypeDescDisplay = (EditText) findViewById(R.id.create_new_class_type_description);
+        classTypeNameDisplay.setText(class_type_name);
+        classTypeDescDisplay.setText(class_type_description);
 
         // Todo: Add the appropriate entries for the class type name and description to activity_create_new_class_type.xml
         // Todo: Fill the entries of the xml using the two strings above (class_type_name and class_type_description)
@@ -42,12 +46,14 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText classNameDisplay = findViewById(R.id.create_new_class_name);
-                EditText classDescDisplay = findViewById(R.id.create_new_class_description);
-                String className = classNameDisplay.getText().toString();
-                String classDesc = classDescDisplay.getText().toString();
+                String className = classTypeNameDisplay.getText().toString();
+                String classDesc = classTypeDescDisplay.getText().toString();
                 if (!database.classTypeExists(className)) {
-                    database.addClassType(className, classDesc);
+                    if ( class_type_id == -1 ) {
+                        database.addClassType(className, classDesc);
+                    } else {
+                        database.updateClassType(class_type_id, className, classDesc);
+                    }
                     Intent returnIntent = new Intent();
                     setResult(RESULT_OK, returnIntent);
                     finish();
