@@ -63,14 +63,7 @@ public class CreateNewAccountActivity extends AppCompatActivity {
         } else {
             database.addAccount(username, password, spinnerPosition);
             Account userAccount = new Account(username, spinnerPosition);
-            Intent intent;
-            if (userAccount.getType() == 0){
-                intent = new Intent(this, MemberActivity.class);
-            } else if (userAccount.getType() == 1){
-                intent = new Intent(this, InstructorActivity.class);
-            } else {
-                intent = new Intent(this, AdminActivity.class);
-            }
+            Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("USER_ACCOUNT", userAccount);
             startActivity(intent);
             finish();

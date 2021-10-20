@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -58,14 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(Account myAccount){
-        Intent intent;
-        if ( myAccount.getType() == 0 ) {
-            intent = new Intent(this, MemberActivity.class);
-        } else if ( myAccount.getType() == 1 ) {
-            intent = new Intent(this, InstructorActivity.class);
-        } else {
-            intent = new Intent(this, AdminActivity.class);
-        }
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("USER_ACCOUNT", myAccount);
         startActivity(intent);
     }

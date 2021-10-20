@@ -25,17 +25,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AdminActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.FitnessCenter.NoActionBar" />
-        <activity
-            android:name=".InstructorActivity"
-            android:exported="false"
-            android:theme="@style/Theme.FitnessCenter.NoActionBar" />
-        <activity
-            android:name=".MemberActivity"
-            android:exported="false"
             android:theme="@style/Theme.FitnessCenter.NoActionBar" />
     </application>
 
