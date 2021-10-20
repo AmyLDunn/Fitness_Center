@@ -8,14 +8,10 @@
 
     <TextView
         android:id="@+id/create_new_account_spinner_label"
-        android:layout_width="169dp"
-        android:layout_height="26dp"
-        android:layout_marginStart="120dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="monospace"
-        android:text="Create a new class!"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="242dp" />
+        android:text="Create a new class!" />
 
     <EditText
         android:id="@+id/create_new_class_name"
@@ -23,14 +19,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="50dp"
         android:ems="10"
         android:hint="class name..."
-        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/create_new_class_description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="341dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/create_new_class_description"
@@ -38,23 +32,22 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="100dp"
         android:ems="10"
         android:hint="class description..."
+        app:layout_constraintBottom_toTopOf="@+id/create_new_class_type_save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="434dp" />
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/create_new_class_type_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="100dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
