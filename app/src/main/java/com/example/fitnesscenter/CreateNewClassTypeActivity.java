@@ -6,13 +6,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.example.fitnesscenter.database.DBHelper;
 
 public class CreateNewClassTypeActivity extends AppCompatActivity {
 
+    DBHelper database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_class_type);
+
+        database = new DBHelper(this);
 
         Bundle bundle = getIntent().getExtras();
         int class_type_id = bundle.getInt("CLASS_TYPE_ID");
@@ -23,7 +31,7 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
         // Todo: Fill the entries of the xml using the two strings above (class_type_name and class_type_description)
         // Todo: Complete the saveButton listener by:
         //       - adding a new class type to the database (if id == -1, which can't exist)
-        //         Remember to ask the database if the class type already exists and, if it does,
+        //        //         Remember to ask the database if the class type already exists and, if it does,
         //         print a message saying so (take a look at the Snackbars in LoginActivity.java)
         //       - updating the class type with the given id (if id >= 0)
         //       NOTE: Both of those options should go before making the intent that's already there.
@@ -33,10 +41,21 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                saveNewClassDetails();
                 Intent returnIntent = new Intent();
                 setResult(RESULT_OK, returnIntent);
                 finish();
             }
         });
+    }
+
+    public void saveNewClassDetails() {
+        EditText classNameDisplay = findViewById(R.id.create_new_class_name);
+        EditText classDescDisplay = findViewById(R.id.create_new_class_description);
+        String className = classNameDisplay.getText().toString();
+        String classDesc = classDescDisplay.getText().toString();
+        if (database.classTypeExists(className)) {
+            database.addClassType(className, classDesc);
+        }
     }
 }
