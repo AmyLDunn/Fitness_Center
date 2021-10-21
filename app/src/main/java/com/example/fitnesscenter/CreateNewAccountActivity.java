@@ -58,8 +58,12 @@ public class CreateNewAccountActivity extends AppCompatActivity {
         EditText passwordDisplay = findViewById(R.id.create_new_account_password);
         String username = usernameDisplay.getText().toString();
         String password = passwordDisplay.getText().toString();
-        if ( database.accountExists(username) ){
+        if ( database.accountExists(username) ) {
             Snackbar.make(findViewById(R.id.create_new_account_screen), "That username is already in use.", Snackbar.LENGTH_SHORT).show();
+        } else if ( username.equals("") ) {
+            Snackbar.make(findViewById(R.id.create_new_account_screen), "Please enter a username.", Snackbar.LENGTH_SHORT).show();
+        } else if ( password.equals("") ) {
+            Snackbar.make(findViewById(R.id.create_new_account_screen), "Please enter a password.", Snackbar.LENGTH_SHORT).show();
         } else {
             database.addAccount(username, password, spinnerPosition);
             Account userAccount = new Account(username, spinnerPosition);
