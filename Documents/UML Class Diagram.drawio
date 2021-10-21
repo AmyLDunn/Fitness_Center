@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-10-21T19:01:42.090Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50" etag="JWe_QzaoZXnn4fGAtiB1" version="15.5.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-21T19:14:13.978Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50" etag="opQjC7MriY12TV8DGSJy" version="15.5.8" type="github">
   <diagram id="r9LukguNuFY0iW474rzD" name="Page-1">
-    <mxGraphModel dx="2278" dy="579" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2038" dy="579" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -134,12 +134,6 @@
           <mxGeometry x="1" relative="1" as="geometry">
             <mxPoint x="-5" as="offset" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="MXoC95rCuHimYG4XVn9t-17" value="ClassTypesCursorAdapter" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-          <mxGeometry x="475" y="670" width="160" height="34" as="geometry" />
-        </mxCell>
-        <mxCell id="MXoC95rCuHimYG4XVn9t-19" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="MXoC95rCuHimYG4XVn9t-17" vertex="1">
-          <mxGeometry y="26" width="160" height="8" as="geometry" />
         </mxCell>
         <mxCell id="MXoC95rCuHimYG4XVn9t-25" value="ClassTypesFragment" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="240" y="670" width="160" height="34" as="geometry" />
@@ -444,13 +438,12 @@
             <mxPoint x="-10" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Gf0Fsg8DRA6msvO1KWD5-13" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;entryX=0.009;entryY=0.575;entryDx=0;entryDy=0;exitX=0.998;exitY=0.975;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="MXoC95rCuHimYG4XVn9t-27" target="MXoC95rCuHimYG4XVn9t-19" edge="1">
+        <mxCell id="Gf0Fsg8DRA6msvO1KWD5-13" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;entryX=0.009;entryY=0.575;entryDx=0;entryDy=0;exitX=0.998;exitY=0.975;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;" parent="1" source="MXoC95rCuHimYG4XVn9t-27" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="400" y="709" as="sourcePoint" />
-            <mxPoint x="475" y="709" as="targetPoint" />
+            <mxPoint x="476.44000000000005" y="700.5999999999999" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="400" y="709" />
-              <mxPoint x="476" y="709" />
+              <mxPoint x="400" y="701" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -480,9 +473,9 @@
             <mxPoint x="-10" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Gf0Fsg8DRA6msvO1KWD5-19" value="" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.676;entryY=1.038;entryDx=0;entryDy=0;entryPerimeter=0;endFill=1;" parent="1" source="MXoC95rCuHimYG4XVn9t-17" target="o8Nzl6iw8NaL7pZO_aFK-13" edge="1">
+        <mxCell id="Gf0Fsg8DRA6msvO1KWD5-19" value="" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.676;entryY=1.038;entryDx=0;entryDy=0;entryPerimeter=0;endFill=1;" parent="1" target="o8Nzl6iw8NaL7pZO_aFK-13" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="90" y="700" as="sourcePoint" />
+            <mxPoint x="555" y="670" as="sourcePoint" />
             <mxPoint x="555" y="460" as="targetPoint" />
           </mxGeometry>
         </mxCell>
@@ -622,23 +615,29 @@
         <mxCell id="jova-Fqs79gIKPKZ-IRa-12" value="+ bindView(View, Context, Cursor): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-8" vertex="1">
           <mxGeometry y="60" width="260" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-13" value="AccountsCursorAdapter" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
-          <mxGeometry x="250" y="832" width="260" height="86" as="geometry" />
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-13" value="CreateNewClassTypeActivity" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
+          <mxGeometry x="250" y="832" width="260" height="34" as="geometry" />
         </mxCell>
         <mxCell id="jova-Fqs79gIKPKZ-IRa-14" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-13" vertex="1">
           <mxGeometry y="26" width="260" height="8" as="geometry" />
-        </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-15" value="+ newView(Context, Cursor, ViewGroup): View" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-13" vertex="1">
-          <mxGeometry y="34" width="260" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-16" value="+ bindView(View, Context, Cursor): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-13" vertex="1">
-          <mxGeometry y="60" width="260" height="26" as="geometry" />
         </mxCell>
         <mxCell id="jova-Fqs79gIKPKZ-IRa-19" value="AccountsFragment" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="-60" y="700" width="160" height="34" as="geometry" />
         </mxCell>
         <mxCell id="jova-Fqs79gIKPKZ-IRa-21" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-19" vertex="1">
           <mxGeometry y="26" width="160" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="UFXzCBSw8fj9-jDLgMnG-1" value="ClassTypesCursorAdapter" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+          <mxGeometry x="480" y="670" width="260" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="UFXzCBSw8fj9-jDLgMnG-2" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="UFXzCBSw8fj9-jDLgMnG-1">
+          <mxGeometry y="26" width="260" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="UFXzCBSw8fj9-jDLgMnG-3" value="+ newView(Context, Cursor, ViewGroup): View" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="UFXzCBSw8fj9-jDLgMnG-1">
+          <mxGeometry y="34" width="260" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UFXzCBSw8fj9-jDLgMnG-4" value="+ bindView(View, Context, Cursor): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="UFXzCBSw8fj9-jDLgMnG-1">
+          <mxGeometry y="60" width="260" height="26" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
