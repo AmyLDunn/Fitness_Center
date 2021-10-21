@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-10-21T18:30:21.136Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50" etag="UIv_oUMqj4ORI9VCoxjO" version="15.5.8" type="github">
+<mxfile host="app.diagrams.net" modified="2021-10-21T19:01:42.090Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.50" etag="JWe_QzaoZXnn4fGAtiB1" version="15.5.8" type="github">
   <diagram id="r9LukguNuFY0iW474rzD" name="Page-1">
     <mxGraphModel dx="2278" dy="579" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -47,10 +47,10 @@
         <mxCell id="o8Nzl6iw8NaL7pZO_aFK-6" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
           <mxGeometry y="52" width="270" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-17" value="+ onCreate(SQLiteDatabase): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="o8Nzl6iw8NaL7pZO_aFK-4">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-17" value="+ onCreate(SQLiteDatabase): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
           <mxGeometry y="60" width="270" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-18" value="+ onUpgrade(SQLiteDatabase, int, int): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="o8Nzl6iw8NaL7pZO_aFK-4">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-18" value="+ onUpgrade(SQLiteDatabase, int, int): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
           <mxGeometry y="86" width="270" height="26" as="geometry" />
         </mxCell>
         <mxCell id="o8Nzl6iw8NaL7pZO_aFK-7" value="+ getAllAccounts(): Cursor" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="o8Nzl6iw8NaL7pZO_aFK-4" vertex="1">
@@ -575,7 +575,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-1" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1.005;exitY=-0.085;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="lI-yOhaj4ElNUUaDZ0P4-1" target="MXoC95rCuHimYG4XVn9t-45">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-1" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1.005;exitY=-0.085;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;startArrow=classic;startFill=1;" parent="1" source="lI-yOhaj4ElNUUaDZ0P4-1" target="MXoC95rCuHimYG4XVn9t-45" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-180" y="520" as="sourcePoint" />
             <mxPoint x="-20" y="520" as="targetPoint" />
@@ -584,60 +584,60 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-2" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-1">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-2" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" parent="jova-Fqs79gIKPKZ-IRa-1" connectable="0" vertex="1">
           <mxGeometry x="-1" relative="1" as="geometry">
             <mxPoint x="8" y="-3" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-3" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" connectable="0" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-1">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-3" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" parent="jova-Fqs79gIKPKZ-IRa-1" connectable="0" vertex="1">
           <mxGeometry x="1" relative="1" as="geometry">
             <mxPoint x="-7" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-4" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=1.025;exitY=0.208;exitDx=0;exitDy=0;exitPerimeter=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="MXoC95rCuHimYG4XVn9t-34" target="MXoC95rCuHimYG4XVn9t-37">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-4" value="" style="endArrow=none;html=1;edgeStyle=orthogonalEdgeStyle;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=0;exitX=1.025;exitY=0.208;exitDx=0;exitDy=0;exitPerimeter=0;startArrow=classic;startFill=1;" parent="1" source="MXoC95rCuHimYG4XVn9t-34" target="MXoC95rCuHimYG4XVn9t-37" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-180" y="520" as="sourcePoint" />
             <mxPoint x="-20" y="520" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-5" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" connectable="0" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-4">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-5" value="1" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=bottom;" parent="jova-Fqs79gIKPKZ-IRa-4" connectable="0" vertex="1">
           <mxGeometry x="-1" relative="1" as="geometry">
             <mxPoint x="16" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-6" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" connectable="0" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-4">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-6" value="1" style="edgeLabel;resizable=0;html=1;align=right;verticalAlign=bottom;" parent="jova-Fqs79gIKPKZ-IRa-4" connectable="0" vertex="1">
           <mxGeometry x="1" relative="1" as="geometry">
             <mxPoint x="10" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-8" value="AccountsCursorAdapter" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-8" value="AccountsCursorAdapter" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="-60" y="830" width="260" height="86" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-10" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-8">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-10" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-8" vertex="1">
           <mxGeometry y="26" width="260" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-11" value="+ newView(Context, Cursor, ViewGroup): View" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-8">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-11" value="+ newView(Context, Cursor, ViewGroup): View" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-8" vertex="1">
           <mxGeometry y="34" width="260" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-12" value="+ bindView(View, Context, Cursor): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-8">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-12" value="+ bindView(View, Context, Cursor): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-8" vertex="1">
           <mxGeometry y="60" width="260" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-13" value="AccountsCursorAdapter" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-13" value="AccountsCursorAdapter" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="250" y="832" width="260" height="86" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-14" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-13">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-14" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-13" vertex="1">
           <mxGeometry y="26" width="260" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-15" value="+ newView(Context, Cursor, ViewGroup): View" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-13">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-15" value="+ newView(Context, Cursor, ViewGroup): View" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-13" vertex="1">
           <mxGeometry y="34" width="260" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-16" value="+ bindView(View, Context, Cursor): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-13">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-16" value="+ bindView(View, Context, Cursor): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-13" vertex="1">
           <mxGeometry y="60" width="260" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-19" value="AccountsFragment" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-19" value="AccountsFragment" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="1" vertex="1">
           <mxGeometry x="-60" y="700" width="160" height="34" as="geometry" />
         </mxCell>
-        <mxCell id="jova-Fqs79gIKPKZ-IRa-21" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="jova-Fqs79gIKPKZ-IRa-19">
+        <mxCell id="jova-Fqs79gIKPKZ-IRa-21" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="jova-Fqs79gIKPKZ-IRa-19" vertex="1">
           <mxGeometry y="26" width="160" height="8" as="geometry" />
         </mxCell>
       </root>
