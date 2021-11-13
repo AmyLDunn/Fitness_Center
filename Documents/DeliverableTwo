@@ -18,3 +18,32 @@ An instructor cannot schedule a class that is already scheduled by another instr
 the same day. (Ex. instructor cannot schedule a HIIT class on Thursday if there already
 exists a HIIT class on Thursday). Either include a valid error message upon saving, or
 change the UI to reflect this case.
+
+MARKING
+
+(10 marks) Updated UML class diagram based on deliverable 2 description. (adding onto the UML
+           diagram from deliverable 1)
+           (-2 for each missing class)
+           (-2 for incorrect generalization)
+           (-0.5 for each incorrect multiplicity)
+           (-0.5 for each missing attribute)
+(20 marks) 5 Unit test cases related to deliverable 1 or 2
+(5 marks)  Instructor can view all scheduled classes
+(10 marks) Instructor can search for a class by:
+           - Class name (5 points)
+           - Instructor name (5 points)
+(10 marks) Instructor can create a class by selecting the type of class (ex. yoga) and then
+           choosing the class day, hours, difficulty level, and capacity limit
+(10 marks) Instructor can edit the class day, hours, difficulty level, and capacity for classes
+           they are instructing
+(10 marks) Instructor can cancel a class. This deletes the existing class details (day, hours,
+           difficulty, capacity)
+(15 marks) Instructor cannot schedule a class that is already scheduled by another instructor
+           on the same day. (Ex. instructor cannot schedule a HIIT class on Thursday if there
+           already exists a HIIT class on Thursday). Either include a valid error message upon
+           saving, or change the UI to reflect this case.
+(10 marks) All fields are validated along with a valid error message. For instance, users should
+           not be able to enter an invalid number for class capacity. (-1 for each field related
+           to deliverable 2 where the user input is not validated)
+(5 marks, bonus) OPTIONAL Instructor sees the name of the other instructor when prevented from
+                 scheduling the same class on the same day.
