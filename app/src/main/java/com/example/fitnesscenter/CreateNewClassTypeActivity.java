@@ -45,11 +45,11 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String className = classTypeNameDisplay.getText().toString();
                 String classDesc = classTypeDescDisplay.getText().toString();
-                if ( database.classTypeExists(className) ) {
+                if ( database.classTypeExists(className) && !className.equals(class_type_name) ) {
                     Snackbar.make(findViewById(R.id.create_new_class_type_screen), "This class already exists!", Snackbar.LENGTH_SHORT).show();
                 } else if ( className.equals("") ) {
                     Snackbar.make(findViewById(R.id.create_new_class_type_screen), "Please enter a name for the class type.", Snackbar.LENGTH_SHORT).show();
-                } else if (!database.classTypeExists(className)) {
+                } else if (!database.classTypeExists(className) || className.equals(class_type_name)) {
                     if (class_type_id == -1) {
                         database.addClassType(className, classDesc);
                     } else {
