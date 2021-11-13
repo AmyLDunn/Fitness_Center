@@ -1,0 +1,20 @@
+In this deliverable, you must implement the instructor functionality. This includes viewing
+all scheduled fitness classes, scheduling a class that the instructor will teach, and editing
+their existing classes.
+
+The instructor is able to view a list of all scheduled classes. They are also able to search by
+class name (ex. “Karate” or “Tai Chi”) and instructor names (including their own name).
+
+An instructor user can choose to teach a class. To do so, the instructor selects the type of
+fitness they will teach (from the options that the admin created). Then the instructor
+selects the difficulty level (beginner, intermediate, or advanced), the day of the week, and
+the time interval that the class will be scheduled for. Finally, the instructor enters a
+maximum capacity for the class.
+
+The instructor user can also cancel a class. This removes the class and all specified details
+(day, hours, difficulty level, and class capacity).
+
+An instructor cannot schedule a class that is already scheduled by another instructor on
+the same day. (Ex. instructor cannot schedule a HIIT class on Thursday if there already
+exists a HIIT class on Thursday). Either include a valid error message upon saving, or
+change the UI to reflect this case.
