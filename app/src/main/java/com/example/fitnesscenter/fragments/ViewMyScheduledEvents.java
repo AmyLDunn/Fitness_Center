@@ -54,6 +54,7 @@ public class ViewMyScheduledEvents extends Fragment {
         //       get variables for the listview and floating action button here
         // Initializing the listview to contain all of the scheduled classes
         database = new DBHelper(getActivity());
+
         classesCursor = database.getMyClasses(myAccount.getUsername());
         ListView classesList = getActivity().findViewById(R.id.list_of_all_scheduled_classes);
         cursorAdapter = new ClassesCursorAdapter(getActivity(), classesCursor);

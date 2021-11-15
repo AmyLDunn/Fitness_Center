@@ -50,11 +50,13 @@ public class ClassTypesFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState){
         database = new DBHelper(getActivity());
+
         classTypeCursor = database.getAllClassTypes();
         ListView classTypeList = (ListView) getActivity().findViewById(R.id.class_types_list);
         cursorAdapter = new ClassTypesCursorAdapter(getActivity(), classTypeCursor);
         classTypeList.setAdapter(cursorAdapter);
         registerForContextMenu(classTypeList);
+
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener(){
             @Override

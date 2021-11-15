@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.fitnesscenter.helper.Account;
+import com.example.fitnesscenter.helper.ScheduledClass;
 
 /**
  * This is the database helper class to update the information in the
@@ -171,6 +172,11 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = "+id, null);
     }
+
+    /*public ScheduledClass getClass(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = "+id, null);
+    }*/
 
     public Cursor getAllClasses(String searchKey){
         SQLiteDatabase db = this.getWritableDatabase();
