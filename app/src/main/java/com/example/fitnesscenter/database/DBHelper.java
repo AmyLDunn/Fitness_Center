@@ -53,6 +53,11 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, 1);
     }
 
+    /**
+     * This is called automatically the first time that the app is opened.
+     * It creates all of the databases and populates the accounts database with the admin account
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+ACCOUNTS_TABLE_NAME+
@@ -75,6 +80,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 ACCOUNTS_COLUMN_TYPE+") VALUES (?, ?, ?)", new String[]{"admin", "admin123", "2"});
     }
 
+    /**
+     * This is called automatically when the version numbers of the database don't match
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+ACCOUNTS_TABLE_NAME);
@@ -83,11 +94,21 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * This searches the accounts list for all accounts
+     * @return The cursor that can access all accounts and their information
+     */
     public Cursor getAllAccounts(){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+ACCOUNTS_COLUMN_TYPE+" IN (0, 1)", null);
     }
 
+    /**
+     * This searches for a specific account in the accounts table
+     * @param username The username to search for
+     * @param password The password to search for
+     * @return An Account object with the account data required
+     */
     public Account getAccount(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("SELECT * FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+ACCOUNTS_COLUMN_USERNAME+" = ? AND "+ACCOUNTS_COLUMN_PASSWORD+" = ?",new String[]{username, password});
@@ -100,6 +121,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return thisAccount;
     }
 
+    /**
+     * This checks if an account already exists
+     * @param username The username to check for
+     * @return True if the username is taken and false otherwise
+     */
     public boolean accountExists(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("SELECT * FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+ACCOUNTS_COLUMN_USERNAME+" = ?", new String[]{username});
@@ -109,22 +135,41 @@ public class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    /**
+     * This adds a new row to the accounts table
+     * @param username The username of the new account
+     * @param password The password of the new account
+     * @param type The type of the new account (0 = member, 1 = instructor, 2 = admin)
+     */
     public void addAccount(String username, String password, int type){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO "+ACCOUNTS_TABLE_NAME+"("+ACCOUNTS_COLUMN_USERNAME+", "+ACCOUNTS_COLUMN_PASSWORD+", "+
                 ACCOUNTS_COLUMN_TYPE+") VALUES (?, ?, ?)", new String[]{username, password, String.valueOf(type)});
     }
 
+    /**
+     * This deletes an account
+     * @param id Id of the account to be deleted
+     */
     public void deleteAccount(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+ACCOUNTS_COLUMN_ID+"="+id+"");
     }
 
+    /**
+     * This gets all of the class types (not scheduled classes) in the classTypes table
+     * @return A cursor with access to all class types
+     */
     public Cursor getAllClassTypes(){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * FROM "+CLASS_TYPES_TABLE_NAME+"", null);
     }
 
+    /**
+     * Checks to see if a class type exists in the database
+     * @param name The class type name to search for
+     * @return True if the class type is already there, false otherwise
+     */
     public boolean classTypeExists(String name){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor result = db.rawQuery("SELECT * FROM "+CLASS_TYPES_TABLE_NAME+" WHERE "+CLASS_TYPES_COLUMN_NAME+" = ?", new String[]{name});
@@ -134,21 +179,44 @@ public class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    /**
+     * Adds a new class type to the database
+     * @param name The name of the new class type
+     * @param description The description of the new class type
+     */
     public void addClassType(String name, String description){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO "+CLASS_TYPES_TABLE_NAME+" ("+CLASS_TYPES_COLUMN_NAME+", "+CLASS_TYPES_COLUMN_DESCRIPTION+") VALUES (?, ?)", new String[]{name, description});
     }
 
+    /**
+     * Updates a class type in the database
+     * @param id The id of the class type to be updated
+     * @param name The new name of the class type
+     * @param description The new description of the class type
+     */
     public void updateClassType(int id, String name, String description){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE "+CLASS_TYPES_TABLE_NAME+" SET "+CLASS_TYPES_COLUMN_NAME+" = ?, "+CLASS_TYPES_COLUMN_DESCRIPTION+" = ? WHERE "+CLASS_TYPES_COLUMN_ID+" = ?", new String[]{name, description, String.valueOf(id)});
     }
 
+    /**
+     * Deletes a class type from the database
+     * @param id The id of the class type to be deleted
+     */
     public void deleteClassType(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+CLASS_TYPES_TABLE_NAME+" WHERE "+CLASS_TYPES_COLUMN_ID+"="+id+"");
     }
 
+    /**
+     * This adds a specific scheduled class to the database
+     * @param type The type of class taken from the class_types table
+     * @param instructor The instructor's name
+     * @param capacity The max capacity
+     * @param startTime The start date and time
+     * @param endTime The end date and time
+     */
     public void addClass(String type, String instructor, int capacity, long startTime, long endTime){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO "+CLASSES_TABLE_NAME+" ("+
@@ -160,6 +228,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{type, instructor, String.valueOf(capacity), String.valueOf(startTime), String.valueOf(endTime)});
     }
 
+    /**
+     * This updates an existing scheduled class in the database
+     * @param id The id of the class to be updated
+     * @param type The new type of the class taken from the class_types table
+     * @param instructor The name of the new instructor
+     * @param capacity The new capacity
+     * @param startTime The new start date and time
+     * @param endTime The new end date and time
+     */
     public void updateClass(int id, String type, String instructor, int capacity, long startTime, long endTime){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE "+CLASSES_TABLE_NAME+" SET "+
@@ -171,11 +248,22 @@ public class DBHelper extends SQLiteOpenHelper {
                 CLASSES_COLUMN_ID+" = "+id, new String[]{type, instructor});
     }
 
+    /**
+     * This deletes a scheduled class
+     * @param id The id of the class to be deleted
+     */
     public void deleteClass(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = "+id, null);
     }
 
+    /**
+     * This checks to see if a class of a particular type is scheduled on a particule day
+     * @param type The type of the class
+     * @param startTime The day to check
+     * @return A String with the name of the instructor that is teaching that class or null if
+     *         no class is scheduled
+     */
     public String classExists(String type, long startTime){
         Calendar day = Calendar.getInstance();
         day.setTime(new Date(startTime));
@@ -196,6 +284,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    /**
+     * This gets all the information for one particular scheduled class
+     * @param id The id of the scheduled class
+     * @return A ScheduledClass object that holds all of the database information on it
+     */
     public ScheduledClass getClass(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = "+id, null);
@@ -208,6 +301,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return new ScheduledClass(classId, type, capacity, startTime, endTime);
     }
 
+    /**
+     * This searches for all of the classes that match the searchKey
+     * @param searchKey This is the string to filter the classes by
+     * @return A cursor that can iterate over all relevant classes
+     */
     public Cursor getAllClasses(String searchKey){
         SQLiteDatabase db = this.getWritableDatabase();
         if ( searchKey == null ){
@@ -216,6 +314,11 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_TYPE+" LIKE ? OR "+CLASSES_COLUMN_INSTRUCTOR+" LIKE ?", new String[]{searchKey, searchKey});
     }
 
+    /**
+     * Gets all the classes that a particular instructor is teaching
+     * @param username The username of the instructor
+     * @return A cursor that can iterate over all of that instructor's scheduled classes
+     */
     public Cursor getMyClasses(String username){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_INSTRUCTOR+" = ?", new String[]{username});
