@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessCenter">
         <activity
+            android:name=".CreateNewClassActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateNewClassTypeActivity"
             android:exported="false" />
         <activity

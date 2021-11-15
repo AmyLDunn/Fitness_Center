@@ -33,8 +33,10 @@ public class ViewAllScheduledEvents extends Fragment {
         //       This fragment should have some way to search (probably a search bar at the top
         //       with a button to start the search) and a listview taking up the rest of the screen
         //       to show all of the classes.
-        //       After completing the xml file, use getActivity().findViewById(R.id._________) to
-        //       get variables for the search bar, search button, and listview here
+
+        // TODO: After completing the xml file, use getActivity().findViewById(R.id._________) to
+        //       get variables for the search bar, search button, and listview here.
+
     }
 
 }

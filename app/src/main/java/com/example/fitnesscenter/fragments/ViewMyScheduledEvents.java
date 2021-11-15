@@ -31,9 +31,13 @@ public class ViewMyScheduledEvents extends Fragment {
         // TODO: Figure out the format of this tab in fragment_view_my_scheduled_events.xml.
         //       This fragment should have a listview that takes the entire screen to show all
         //       of the classes that the instructor is teaching. It should also have a floating
-        //       action button for the instructor to schedule new classes
-        //       After completing the xml file, use getActivity().findViewById(R.id._________) to
+        //       action button for the instructor to schedule new classes.
+
+        // TODO: After completing the xml file, use getActivity().findViewById(R.id._________) to
         //       get variables for the listview and floating action button here
+
+        // TODO: The floating action button should have an onClickListener that will open
+        //       CreateNewClassActivity
     }
 
 }
