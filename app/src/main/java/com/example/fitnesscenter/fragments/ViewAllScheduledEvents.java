@@ -2,10 +2,13 @@ package com.example.fitnesscenter.fragments;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Layout;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +25,8 @@ public class ViewAllScheduledEvents extends Fragment {
     Cursor classesCursor;
     ClassesCursorAdapter cursorAdapter;
 
+    EditText searchBar;
+
     public static ViewAllScheduledEvents newInstance() {
         return new ViewAllScheduledEvents();
     }
@@ -37,13 +42,6 @@ public class ViewAllScheduledEvents extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
-        // TODO: Figure out the format of this tab in fragment_view_all_scheduled_events.xml.
-        //       This fragment should have some way to search (probably a search bar at the top
-        //       with a button to start the search) and a listview taking up the rest of the screen
-        //       to show all of the classes.
-
-        // TODO: After completing the xml file, use getActivity().findViewById(R.id._________) to
-        //       get variables for the search bar, search button, and listview here.
 
         // Initializing the listview to contain all of the scheduled classes
         database = new DBHelper(getActivity());
@@ -51,6 +49,23 @@ public class ViewAllScheduledEvents extends Fragment {
         ListView classesList = getActivity().findViewById(R.id.list_of_all_scheduled_classes);
         cursorAdapter = new ClassesCursorAdapter(getActivity(), classesCursor);
         classesList.setAdapter(cursorAdapter);
+
+        searchBar = getActivity().findViewById(R.id.search_bar);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                classesCursor = database.getAllClasses(searchBar.getText().toString());
+                cursorAdapter.changeCursor(classesCursor);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
     }
 

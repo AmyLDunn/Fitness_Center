@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.fitnesscenter.helper.Account;
 import com.example.fitnesscenter.helper.ScheduledClass;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -173,6 +174,26 @@ public class DBHelper extends SQLiteOpenHelper {
     public void deleteClass(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = "+id, null);
+    }
+
+    public String classExists(String type, long startTime){
+        Calendar day = Calendar.getInstance();
+        day.setTime(new Date(startTime));
+        day.set(Calendar.HOUR_OF_DAY, 0);
+        day.set(Calendar.MINUTE, 0);
+        startTime = day.getTimeInMillis();
+        day.add(Calendar.DATE, 1);
+        long endTime = day.getTimeInMillis();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+                CLASSES_COLUMN_TYPE+" = ? AND ("+CLASSES_COLUMN_START+" >= "+startTime+" OR "+
+                CLASSES_COLUMN_END+" < "+endTime+")", new String[]{type});
+        cursor.moveToFirst();
+        if ( cursor.getCount() > 0){
+            return cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
+        }
+        return null;
     }
 
     public ScheduledClass getClass(int id){
