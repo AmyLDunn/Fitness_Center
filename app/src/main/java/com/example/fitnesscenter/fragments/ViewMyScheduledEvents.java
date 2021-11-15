@@ -1,20 +1,33 @@
 package com.example.fitnesscenter.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.fitnesscenter.CreateNewClassActivity;
+import com.example.fitnesscenter.CreateNewClassTypeActivity;
 import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.ClassesCursorAdapter;
 import com.example.fitnesscenter.database.DBHelper;
 import com.example.fitnesscenter.helper.Account;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ViewMyScheduledEvents extends Fragment {
 
@@ -45,23 +58,62 @@ public class ViewMyScheduledEvents extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
-        // TODO: Figure out the format of this tab in fragment_view_my_scheduled_events.xml.
-        //       This fragment should have a listview that takes the entire screen to show all
-        //       of the classes that the instructor is teaching. It should also have a floating
-        //       action button for the instructor to schedule new classes.
 
-        // TODO: After completing the xml file, use getActivity().findViewById(R.id._________) to
-        //       get variables for the listview and floating action button here
         // Initializing the listview to contain all of the scheduled classes
         database = new DBHelper(getActivity());
 
         classesCursor = database.getMyClasses(myAccount.getUsername());
-        ListView classesList = getActivity().findViewById(R.id.list_of_all_scheduled_classes);
+        ListView classesList = getActivity().findViewById(R.id.list_of_my_scheduled_classes);
         cursorAdapter = new ClassesCursorAdapter(getActivity(), classesCursor);
         classesList.setAdapter(cursorAdapter);
+        registerForContextMenu(classesList);
 
-        // TODO: The floating action button should have an onClickListener that will open
-        //       CreateNewClassActivity
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(getActivity(), CreateNewClassActivity.class);
+                intent.putExtra("CLASS_ID", -1);
+                createNewClassLauncher.launch(intent);
+            }
+        });
     }
+
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.class_context_menu, menu);
+    }
+
+    public boolean onContextItemSelected(MenuItem item){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int index = info.position;
+        classesCursor.moveToPosition(index);
+        switch (item.getItemId()){
+            case R.id.class_type_option_edit:
+                Intent intent = new Intent(getActivity(), CreateNewClassActivity.class);
+                intent.putExtra("CLASS_ID", classesCursor.getInt(classesCursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_ID)));
+                createNewClassLauncher.launch(intent);
+                return true;
+            case R.id.class_type_option_delete:
+                int id_to_delete = classesCursor.getInt(classesCursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_ID));
+                database.deleteClassType(id_to_delete);
+                classesCursor = database.getAllClassTypes();
+                cursorAdapter.changeCursor(classesCursor);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    ActivityResultLauncher<Intent> createNewClassLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK ) {
+                classesCursor = database.getMyClasses(myAccount.getUsername());
+                cursorAdapter.changeCursor(classesCursor);
+            }
+        }
+    });
 
 }
