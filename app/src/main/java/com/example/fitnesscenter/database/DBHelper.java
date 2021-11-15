@@ -174,7 +174,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getAllClasses(String searchKey){
         SQLiteDatabase db = this.getWritableDatabase();
-        if ( searchKey != null ){
+        if ( searchKey == null ){
             return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME, null);
         }
         return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_TYPE+" LIKE ? OR "+CLASSES_COLUMN_INSTRUCTOR+" LIKE ?", new String[]{searchKey, searchKey});

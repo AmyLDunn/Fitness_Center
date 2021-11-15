@@ -39,7 +39,7 @@ public class InstructorSectionsPagerAdapter extends FragmentPagerAdapter {
                 fragment = WelcomeFragment.newInstance(myAccount);
                 break;
             case 1:
-                fragment = ViewMyScheduledEvents.newInstance();
+                fragment = ViewMyScheduledEvents.newInstance(myAccount);
                 break;
             case 2:
                 fragment = ViewAllScheduledEvents.newInstance();
