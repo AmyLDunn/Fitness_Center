@@ -28,6 +28,7 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
         int class_type_id = bundle.getInt("CLASS_TYPE_ID");
         String class_type_name = bundle.getString("CLASS_TYPE_NAME");
         String class_type_description = bundle.getString("CLASS_TYPE_DESCRIPTION");
+
         EditText classTypeNameDisplay = (EditText) findViewById(R.id.create_new_class_type_name);
         EditText classTypeDescDisplay = (EditText) findViewById(R.id.create_new_class_type_description);
         classTypeNameDisplay.setText(class_type_name);

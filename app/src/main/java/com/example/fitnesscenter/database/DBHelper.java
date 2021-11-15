@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.fitnesscenter.helper.Account;
 import com.example.fitnesscenter.helper.ScheduledClass;
 
+import java.util.Date;
+
 /**
  * This is the database helper class to update the information in the
  * Fitness center database.
@@ -173,10 +175,17 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = "+id, null);
     }
 
-    /*public ScheduledClass getClass(int id){
+    public ScheduledClass getClass(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = "+id, null);
-    }*/
+        cursor.moveToFirst();
+        int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
+        String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
+        int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
+        long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
+        long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+        return new ScheduledClass(classId, type, capacity, startTime, endTime);
+    }
 
     public Cursor getAllClasses(String searchKey){
         SQLiteDatabase db = this.getWritableDatabase();
