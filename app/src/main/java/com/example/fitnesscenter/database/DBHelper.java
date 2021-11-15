@@ -37,6 +37,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CLASS_TYPES_COLUMN_NAME = "name";
     public static final String CLASS_TYPES_COLUMN_DESCRIPTION = "description";
 
+    public static final String CLASSES_TABLE_NAME = "scheduled_classes";
+    public static final String CLASSES_COLUMN_ID = "_id";
+    public static final String CLASSES_COLUMN_TYPE = "type";
+    public static final String CLASSES_COLUMN_INSTRUCTOR = "instructor";
+    public static final String CLASSES_COLUMN_CAPACITY = "capacity";
+    public static final String CLASSES_COLUMN_START = "startTime";
+    public static final String CLASSES_COLUMN_END = "endTime";
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
@@ -52,6 +60,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 "("+CLASS_TYPES_COLUMN_ID+" INTEGER PRIMARY KEY, "+
                 CLASS_TYPES_COLUMN_NAME+" TEXT, "+
                 CLASS_TYPES_COLUMN_DESCRIPTION+" TEXT)");
+        db.execSQL("CREATE TABLE "+CLASSES_TABLE_NAME+"("+
+                CLASSES_COLUMN_ID+" INTEGER PRIMARY KEY, "+
+                CLASSES_COLUMN_TYPE+" TEXT, "+
+                CLASSES_COLUMN_INSTRUCTOR+" TEXT, "+
+                CLASSES_COLUMN_CAPACITY+" INTEGER, "+
+                CLASSES_COLUMN_START+" INTEGER, "+
+                CLASSES_COLUMN_END+"INTEGER)");
         db.execSQL("INSERT INTO "+ACCOUNTS_TABLE_NAME+"("+ACCOUNTS_COLUMN_USERNAME+", "+ACCOUNTS_COLUMN_PASSWORD+", "+
                 ACCOUNTS_COLUMN_TYPE+") VALUES (?, ?, ?)", new String[]{"admin", "admin123", "2"});
     }
@@ -60,6 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+ACCOUNTS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+CLASS_TYPES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+CLASSES_TABLE_NAME);
         onCreate(db);
     }
 
@@ -126,7 +142,47 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void deleteClassType(int id){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM "+CLASS_TYPES_TABLE_NAME+" WHERE "+ACCOUNTS_COLUMN_ID+"="+id+"");
+        db.execSQL("DELETE FROM "+CLASS_TYPES_TABLE_NAME+" WHERE "+CLASS_TYPES_COLUMN_ID+"="+id+"");
+    }
+
+    public void addClass(String type, String instructor, int capacity, long startTime, long endTime){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("INSERT INTO "+CLASSES_TABLE_NAME+" ("+
+                CLASSES_COLUMN_TYPE+", "+
+                CLASSES_COLUMN_INSTRUCTOR+", "+
+                CLASSES_COLUMN_CAPACITY+", "+
+                CLASSES_COLUMN_START+", "+
+                CLASSES_COLUMN_END+") VALUES (?, ?, ?, ?, ?)",
+                new String[]{type, instructor, String.valueOf(capacity), String.valueOf(startTime), String.valueOf(endTime)});
+    }
+
+    public void updateClass(int id, String type, String instructor, int capacity, long startTime, long endTime){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE "+CLASSES_TABLE_NAME+" SET "+
+                CLASSES_COLUMN_TYPE+" = ?, "+
+                CLASSES_COLUMN_INSTRUCTOR+" = ?, "+
+                CLASSES_COLUMN_CAPACITY+" = "+capacity+", "+
+                CLASSES_COLUMN_START+" = "+startTime+", "+
+                CLASSES_COLUMN_END+" = "+endTime+" WHERE "+
+                CLASSES_COLUMN_ID+" = "+id, new String[]{type, instructor});
+    }
+
+    public void deleteClass(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = "+id, null);
+    }
+
+    public Cursor getAllClasses(String searchKey){
+        SQLiteDatabase db = this.getWritableDatabase();
+        if ( searchKey != null ){
+            return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME, null);
+        }
+        return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_TYPE+" LIKE ? OR "+CLASSES_COLUMN_INSTRUCTOR+" LIKE ?", new String[]{searchKey, searchKey});
+    }
+
+    public Cursor getMyClasses(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_INSTRUCTOR+" = ?", new String[]{username});
     }
 
 }
