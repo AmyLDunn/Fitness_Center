@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.fitnesscenter.helper.Account;
 import com.example.fitnesscenter.helper.ScheduledClass;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -163,6 +164,22 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getAllClassTypes(){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery("SELECT * FROM "+CLASS_TYPES_TABLE_NAME+"", null);
+    }
+
+    /**
+     * This gets all of the class type names as Strings
+     * @return An arraylist of all the class type names
+     */
+    public ArrayList<String> getAllClassTypeNames(){
+        ArrayList<String> myList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASS_TYPES_TABLE_NAME, null);
+        if ( cursor.moveToFirst() ){
+            do {
+                myList.add(cursor.getString(cursor.getColumnIndexOrThrow(CLASS_TYPES_COLUMN_NAME)));
+            } while ( cursor.moveToNext());
+        }
+        return myList;
     }
 
     /**
