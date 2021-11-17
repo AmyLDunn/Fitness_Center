@@ -1,12 +1,14 @@
 package com.example.fitnesscenter;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +27,14 @@ public class CreateNewClassActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_class);
+
+        //FOr input android.focusable=false
+        database = new DBHelper(this);
+
+        Bundle bundle = getIntent().getExtras();
+        int id = bundle.getInt("CLASS_ID");
+        String class_type_name = bundle.getString("CLASS_TYPE_NAME");
+        String class_type_description = bundle.getString("CLASS_TYPE_DESCRIPTION");
 
         //Drop-down list displaying all the class types
         Spinner spin = (Spinner) findViewById(R.id.select_class_type);
@@ -58,6 +68,40 @@ public class CreateNewClassActivity extends AppCompatActivity {
             }
         });
 
+        EditText startTimeDisplay = findViewById(R.id.edit_class_start_time);
+        startTimeDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                        timePicker = null;
+                        hour = 12;
+                        minute = 0;
+
+                    }
+                }, 12, 0, false);
+                timePickerDialog.show();
+            }
+        });
+
+        EditText endTimeDisplay = findViewById(R.id.edit_class_finish_time);
+        startTimeDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                        timePicker = null;
+                        hour = 12;
+                        minute = 0;
+
+                    }
+                }, 12, 0, false);
+                timePickerDialog.show();
+            }
+        });
+
         // TODO: Edit the activity_create_new_class.xml to include all of the needed input fields.
         //       The class type (as a Spinner) <- this is a form of a dropdown list
         //       The date (as an EditText) <- set android:focusable="false"
@@ -78,14 +122,6 @@ public class CreateNewClassActivity extends AppCompatActivity {
         //       Studio). The default time should be noon and upon choosing a time, it prints the
         //       chosen time to the appropriate EditText startTimeDisplay or endTimeDisplay.
 
-
-        //FOr input android.focusable=false
-        database = new DBHelper(this);
-
-        Bundle bundle = getIntent().getExtras();
-        int id = bundle.getInt("CLASS_ID");
-        String class_type_name = bundle.getString("CLASS_TYPE_NAME");
-        String class_type_description = bundle.getString("CLASS_TYPE_DESCRIPTION");
     }
 
 }

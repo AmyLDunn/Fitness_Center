@@ -54,8 +54,7 @@
         tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/edit_class_finish
-        _time"
+        android:id="@+id/edit_class_finish_time"
         android:layout_width="172dp"
         android:layout_height="43dp"
         android:layout_marginStart="20dp"
