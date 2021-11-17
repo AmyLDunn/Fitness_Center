@@ -1,12 +1,14 @@
 package com.example.fitnesscenter;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -77,6 +79,60 @@ public class CreateNewClassActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
+
+        EditText startTimeDisplay = findViewById(R.id.edit_class_start_time);
+        startTimeDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                        timePicker = null;
+                        hour = 12;
+                        minute = 0;
+
+                    }
+                }, 12, 0, false);
+                timePickerDialog.show();
+            }
+        });
+
+        EditText endTimeDisplay = findViewById(R.id.edit_class_finish_time);
+        startTimeDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                        timePicker = null;
+                        hour = 12;
+                        minute = 0;
+
+                    }
+                }, 12, 0, false);
+                timePickerDialog.show();
+            }
+        });
+
+        // TODO: Edit the activity_create_new_class.xml to include all of the needed input fields.
+        //       The class type (as a Spinner) <- this is a form of a dropdown list
+        //       The date (as an EditText) <- set android:focusable="false"
+        //       The start time (as an EditText) <- set android:focusable="false"
+        //       The end time (as an EditText) <- set android:focusable="false"
+        //       The capacity (as a NumberPicker)
+
+        // TODO: Connect all the required entry fields to this java file with findViewById() and
+        //       add Calendar variables to hold the date, startTime, and endTime values
+
+        // TODO: The EditText dateDisplay variable should have an onClickListener that opens a
+        //       DatePickerDialog (already a thing in Android Studio). The default date should be
+        //       today (aka the current date) and upon choosing a date, it prints the chosen date
+        //       into the EditText dateDisplay.
+
+        // TODO: The EditText startTimeDisplay and EditText endTimeDisplau should both have
+        //       separate onClickListeners that open TimePickerDialogs (already a thing in Android
+        //       Studio). The default time should be noon and upon choosing a time, it prints the
+        //       chosen time to the appropriate EditText startTimeDisplay or endTimeDisplay.
 
     }
 
