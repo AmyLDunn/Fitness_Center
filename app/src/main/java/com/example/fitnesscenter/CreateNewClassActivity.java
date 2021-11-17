@@ -11,20 +11,39 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fitnesscenter.database.DBHelper;
+import com.example.fitnesscenter.helper.ScheduledClass;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class CreateNewClassActivity extends AppCompatActivity {
 
     DBHelper database;
+    Calendar date;
+    Calendar startTime;
+    Calendar endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_class);
+
+        database = new DBHelper(this);
+
+        Bundle bundle = getIntent().getExtras();
+        int id = bundle.getInt("CLASS_ID");
+        if ( id == -1 ){ // Making a new scheduled class
+            date = new GregorianCalendar();
+            startTime = new GregorianCalendar();
+            startTime.set(Calendar.HOUR, 12);
+            endTime = new GregorianCalendar();
+            endTime.set(Calendar.HOUR, 12);
+        }
 
         //Drop-down list displaying all the class types
         Spinner spin = (Spinner) findViewById(R.id.select_class_type);
@@ -42,50 +61,23 @@ public class CreateNewClassActivity extends AppCompatActivity {
         startDateDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar cal = new GregorianCalendar();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
+                int year = date.get(Calendar.YEAR);
+                int month = date.get(Calendar.MONTH);
+                int day = date.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        i = year;
-                        i1 = month;
-                        i2 = day;
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        date.set(Calendar.YEAR, year);
+                        date.set(Calendar.MONTH, month);
+                        date.set(Calendar.DAY_OF_MONTH, day);
+                        Date thisDate = date.getTime();
+                        startDateDisplay.setText(new SimpleDateFormat("MMMM d, yyyy").format(thisDate));
                     }
                 }, year, month, day);
                 datePickerDialog.show();
             }
         });
 
-        // TODO: Edit the activity_create_new_class.xml to include all of the needed input fields.
-        //       The class type (as a Spinner) <- this is a form of a dropdown list
-        //       The date (as an EditText) <- set android:focusable="false"
-        //       The start time (as an EditText) <- set android:focusable="false"
-        //       The end time (as an EditText) <- set android:focusable="false"
-        //       The capacity (as a NumberPicker)
-
-        // TODO: Connect all the required entry fields to this java file with findViewById() and
-        //       add Calendar variables to hold the date, startTime, and endTime values
-
-        // TODO: The EditText dateDisplay variable should have an onClickListener that opens a
-        //       DatePickerDialog (already a thing in Android Studio). The default date should be
-        //       today (aka the current date) and upon choosing a date, it prints the chosen date
-        //       into the EditText dateDisplay.
-
-        // TODO: The EditText startTimeDisplay and EditText endTimeDisplau should both have
-        //       separate onClickListeners that open TimePickerDialogs (already a thing in Android
-        //       Studio). The default time should be noon and upon choosing a time, it prints the
-        //       chosen time to the appropriate EditText startTimeDisplay or endTimeDisplay.
-
-
-        //FOr input android.focusable=false
-        database = new DBHelper(this);
-
-        Bundle bundle = getIntent().getExtras();
-        int id = bundle.getInt("CLASS_ID");
-        String class_type_name = bundle.getString("CLASS_TYPE_NAME");
-        String class_type_description = bundle.getString("CLASS_TYPE_DESCRIPTION");
     }
 
 }
