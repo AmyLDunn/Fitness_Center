@@ -8,17 +8,17 @@
     tools:context=".CreateNewClassTypeActivity">
 
     <TextView
-        android:id="@+id/create_new_class_type_label"
+        android:id="@+id/edit_class_type_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:fontFamily="monospace"
-        app:layout_constraintBottom_toTopOf="@+id/create_new_class_type_name"
+        app:layout_constraintBottom_toTopOf="@+id/edit_class_type_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/create_new_class_type_name"
+        android:id="@+id/edit_class_type_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -26,12 +26,12 @@
         android:layout_marginBottom="50dp"
         android:ems="10"
         android:hint="class name..."
-        app:layout_constraintBottom_toTopOf="@+id/create_new_class_type_description"
+        app:layout_constraintBottom_toTopOf="@+id/edit_class_type_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/create_new_class_type_description"
+        android:id="@+id/edit_class_type_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -39,13 +39,13 @@
         android:layout_marginBottom="100dp"
         android:ems="10"
         android:hint="class description..."
-        app:layout_constraintBottom_toTopOf="@+id/create_new_class_type_save"
+        app:layout_constraintBottom_toTopOf="@+id/edit_class_type_save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/create_new_class_type_save"
+        android:id="@+id/edit_class_type_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"

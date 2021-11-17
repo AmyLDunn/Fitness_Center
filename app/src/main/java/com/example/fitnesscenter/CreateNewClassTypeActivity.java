@@ -29,18 +29,19 @@ public class CreateNewClassTypeActivity extends AppCompatActivity {
         String class_type_name = bundle.getString("CLASS_TYPE_NAME");
         String class_type_description = bundle.getString("CLASS_TYPE_DESCRIPTION");
 
-        EditText classTypeNameDisplay = (EditText) findViewById(R.id.create_new_class_type_name);
-        EditText classTypeDescDisplay = (EditText) findViewById(R.id.create_new_class_type_description);
+
+        EditText classTypeNameDisplay = (EditText) findViewById(R.id.edit_class_type_name);
+        EditText classTypeDescDisplay = (EditText) findViewById(R.id.edit_class_type_description);
         classTypeNameDisplay.setText(class_type_name);
         classTypeDescDisplay.setText(class_type_description);
-        TextView title = findViewById(R.id.create_new_class_type_label);
+        TextView title = findViewById(R.id.edit_class_type_label);
         if ( class_type_id == -1 ){
             title.setText("Create a new class!");
         } else {
             title.setText("Edit the class!");
         }
 
-        Button saveButton = findViewById(R.id.create_new_class_type_save);
+        Button saveButton = findViewById(R.id.edit_class_type_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
