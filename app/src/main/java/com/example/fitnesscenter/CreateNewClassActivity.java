@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
@@ -28,6 +29,8 @@ public class CreateNewClassActivity extends AppCompatActivity {
     Calendar date;
     Calendar startTime;
     Calendar endTime;
+    NumberPicker picker;
+    int capacity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,11 @@ public class CreateNewClassActivity extends AppCompatActivity {
             startTime.set(Calendar.HOUR, 12);
             endTime = new GregorianCalendar();
             endTime.set(Calendar.HOUR, 12);
+            capacity = 0;
+            picker = findViewById(R.id.capacity_picker);
+        } else {
+            ScheduledClass scheduledClass = database.getClass(id);
+            capacity = scheduledClass.getCapacity();
         }
 
         //Drop-down list displaying all the class types
@@ -87,10 +95,10 @@ public class CreateNewClassActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                        timePicker = null;
-                        hour = 12;
-                        minute = 0;
-
+                        startTime.set(Calendar.HOUR_OF_DAY, hour);
+                        startTime.set(Calendar.MINUTE, minute);
+                        Date thisDate = date.getTime();
+                        startTimeDisplay.setText(new SimpleDateFormat("h:mm a").format(thisDate));
                     }
                 }, 12, 0, false);
                 timePickerDialog.show();
@@ -98,41 +106,37 @@ public class CreateNewClassActivity extends AppCompatActivity {
         });
 
         EditText endTimeDisplay = findViewById(R.id.edit_class_finish_time);
-        startTimeDisplay.setOnClickListener(new View.OnClickListener() {
+        endTimeDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                        timePicker = null;
-                        hour = 12;
-                        minute = 0;
-
+                        endTime.set(Calendar.HOUR_OF_DAY, hour);
+                        endTime.set(Calendar.MINUTE, minute);
+                        Date thisDate = date.getTime();
+                        endTimeDisplay.setText(new SimpleDateFormat("h:mm a").format(thisDate));
                     }
                 }, 12, 0, false);
                 timePickerDialog.show();
             }
         });
 
-        // TODO: Edit the activity_create_new_class.xml to include all of the needed input fields.
-        //       The class type (as a Spinner) <- this is a form of a dropdown list
-        //       The date (as an EditText) <- set android:focusable="false"
-        //       The start time (as an EditText) <- set android:focusable="false"
-        //       The end time (as an EditText) <- set android:focusable="false"
-        //       The capacity (as a NumberPicker)
+        picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener(){
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                int capacity = picker.getValue();
+                picker.getDisplay();
+            }
+        });
 
-        // TODO: Connect all the required entry fields to this java file with findViewById() and
-        //       add Calendar variables to hold the date, startTime, and endTime values
+        //TODO: The values when selecting the start & end times display as whatever time
+        //      is presently.
 
-        // TODO: The EditText dateDisplay variable should have an onClickListener that opens a
-        //       DatePickerDialog (already a thing in Android Studio). The default date should be
-        //       today (aka the current date) and upon choosing a date, it prints the chosen date
-        //       into the EditText dateDisplay.
+        //TODO: The NumberPicker isn't a "scrolling" type of input, it requires the user
+        //      to type in the number. It also doesn't display the input.
 
-        // TODO: The EditText startTimeDisplay and EditText endTimeDisplau should both have
-        //       separate onClickListeners that open TimePickerDialogs (already a thing in Android
-        //       Studio). The default time should be noon and upon choosing a time, it prints the
-        //       chosen time to the appropriate EditText startTimeDisplay or endTimeDisplay.
+
 
     }
 
