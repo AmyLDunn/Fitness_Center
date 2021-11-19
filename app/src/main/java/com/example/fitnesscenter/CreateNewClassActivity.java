@@ -61,7 +61,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
             startTime.set(Calendar.MINUTE, 0);
             endTime.set(Calendar.HOUR, 12);
             endTime.set(Calendar.MINUTE, 0);
-            capacity = 1;
+            capacity = 10;
         } else {
             ScheduledClass scheduledClass = database.getClass(id);
             type = scheduledClass.getType();
@@ -156,7 +156,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
         picker.setMinValue(0);
         picker.setMaxValue(39);
         picker.setDisplayedValues(nums);
-        picker.setValue(9);
+        picker.setValue(capacity-1);
 
         Button save = (Button) findViewById(R.id.edit_class_type_save);
         save.setOnClickListener(new Button.OnClickListener(){
