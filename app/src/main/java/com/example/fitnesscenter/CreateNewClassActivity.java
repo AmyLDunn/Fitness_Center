@@ -149,14 +149,14 @@ public class CreateNewClassActivity extends AppCompatActivity {
         });
 
         picker = (NumberPicker) findViewById(R.id.capacity_picker);
-        String[] nums = new String[100];
+        String[] nums = new String[40];
         for (int i = 0; i < nums.length; i++) {
             nums[i] = Integer.toString(i+1);
         }
         picker.setMinValue(0);
-        picker.setMaxValue(99);
+        picker.setMaxValue(39);
         picker.setDisplayedValues(nums);
-        picker.setValue(capacity-1);
+        picker.setValue(9);
 
         Button save = (Button) findViewById(R.id.edit_class_type_save);
         save.setOnClickListener(new Button.OnClickListener(){
