@@ -91,16 +91,16 @@ public class ViewMyScheduledEvents extends Fragment {
         int index = info.position;
         classesCursor.moveToPosition(index);
         switch (item.getItemId()){
-            case R.id.class_type_option_edit:
+            case R.id.class_option_edit:
                 Intent intent = new Intent(getActivity(), CreateNewClassActivity.class);
                 intent.putExtra("CLASS_ID", classesCursor.getInt(classesCursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_ID)));
                 intent.putExtra("USER_ACCOUNT", myAccount);
                 createNewClassLauncher.launch(intent);
                 return true;
-            case R.id.class_type_option_delete:
+            case R.id.class_option_delete:
                 int id_to_delete = classesCursor.getInt(classesCursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_ID));
-                database.deleteClassType(id_to_delete);
-                classesCursor = database.getAllClassTypes();
+                database.deleteClass(id_to_delete);
+                classesCursor = database.getMyClasses(myAccount.getUsername());
                 cursorAdapter.changeCursor(classesCursor);
                 return true;
             default:

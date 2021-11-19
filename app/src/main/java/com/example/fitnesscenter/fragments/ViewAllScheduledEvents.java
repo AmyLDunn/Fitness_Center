@@ -58,7 +58,11 @@ public class ViewAllScheduledEvents extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                classesCursor = database.getAllClasses(searchBar.getText().toString());
+                if ( searchBar.getText().toString().equals("") ){
+                    classesCursor = database.getAllClasses(null);
+                } else {
+                    classesCursor = database.getAllClasses(searchBar.getText().toString());
+                }
                 cursorAdapter.changeCursor(classesCursor);
             }
 

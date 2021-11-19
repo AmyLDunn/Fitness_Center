@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.fitnesscenter.helper.Account;
 import com.example.fitnesscenter.helper.ScheduledClass;
@@ -76,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 CLASSES_COLUMN_INSTRUCTOR+" TEXT, "+
                 CLASSES_COLUMN_CAPACITY+" INTEGER, "+
                 CLASSES_COLUMN_START+" INTEGER, "+
-                CLASSES_COLUMN_END+"INTEGER)");
+                CLASSES_COLUMN_END+" INTEGER)");
         db.execSQL("INSERT INTO "+ACCOUNTS_TABLE_NAME+"("+ACCOUNTS_COLUMN_USERNAME+", "+ACCOUNTS_COLUMN_PASSWORD+", "+
                 ACCOUNTS_COLUMN_TYPE+") VALUES (?, ?, ?)", new String[]{"admin", "admin123", "2"});
     }
@@ -214,7 +215,12 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void updateClassType(int id, String name, String description){
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT FROM "+CLASS_TYPES_TABLE_NAME+" WHERE "+CLASS_TYPES_COLUMN_ID+" = "+id, null);
+        cursor.moveToFirst();
+        String oldName = cursor.getString(cursor.getColumnIndexOrThrow(CLASS_TYPES_COLUMN_NAME));
+        cursor.close();
         db.execSQL("UPDATE "+CLASS_TYPES_TABLE_NAME+" SET "+CLASS_TYPES_COLUMN_NAME+" = ?, "+CLASS_TYPES_COLUMN_DESCRIPTION+" = ? WHERE "+CLASS_TYPES_COLUMN_ID+" = ?", new String[]{name, description, String.valueOf(id)});
+        db.execSQL("UPDATE "+CLASSES_TABLE_NAME+" SET "+CLASSES_COLUMN_TYPE+" = ? WHERE "+CLASSES_COLUMN_TYPE+" = ?", new String[]{name, oldName});
     }
 
     /**
@@ -223,7 +229,12 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void deleteClassType(int id){
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT FROM "+CLASS_TYPES_TABLE_NAME+" WHERE "+CLASS_TYPES_COLUMN_ID+" = "+id, null);
+        cursor.moveToFirst();
+        String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASS_TYPES_COLUMN_NAME));
+        cursor.close();
         db.execSQL("DELETE FROM "+CLASS_TYPES_TABLE_NAME+" WHERE "+CLASS_TYPES_COLUMN_ID+"="+id+"");
+        db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_TYPE+" = ?", new String[]{type});
     }
 
     /**
@@ -271,7 +282,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void deleteClass(int id){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = "+id, null);
+        db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = ?", new String[]{String.valueOf(id)});
     }
 
     /**
@@ -292,8 +303,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
-                CLASSES_COLUMN_TYPE+" = ? AND ("+CLASSES_COLUMN_START+" >= "+startTime+" OR "+
-                CLASSES_COLUMN_END+" < "+endTime+")", new String[]{type});
+                CLASSES_COLUMN_TYPE+" = ? AND "+CLASSES_COLUMN_START+" >= ? AND "+
+                CLASSES_COLUMN_END+" < ?", new String[]{type, String.valueOf(startTime), String.valueOf(endTime)});
         cursor.moveToFirst();
         if ( cursor.getCount() > 0){
             return cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
@@ -328,7 +339,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if ( searchKey == null ){
             return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME, null);
         }
-        return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_TYPE+" LIKE ? OR "+CLASSES_COLUMN_INSTRUCTOR+" LIKE ?", new String[]{searchKey, searchKey});
+        return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_TYPE+" LIKE ? OR "+CLASSES_COLUMN_INSTRUCTOR+" LIKE ?", new String[]{"%"+searchKey+"%", "%"+searchKey+"%"});
     }
 
     /**

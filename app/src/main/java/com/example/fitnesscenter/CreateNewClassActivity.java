@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,6 +34,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
 
     Account userAccount;
 
+    String type;
     Calendar date;
     Calendar startTime;
     Calendar endTime;
@@ -56,10 +58,13 @@ public class CreateNewClassActivity extends AppCompatActivity {
             startTime = new GregorianCalendar();
             endTime = new GregorianCalendar();
             startTime.set(Calendar.HOUR, 12);
+            startTime.set(Calendar.MINUTE, 0);
             endTime.set(Calendar.HOUR, 12);
-            capacity = 0;
+            endTime.set(Calendar.MINUTE, 0);
+            capacity = 1;
         } else {
             ScheduledClass scheduledClass = database.getClass(id);
+            type = scheduledClass.getType();
             capacity = scheduledClass.getCapacity();
             date = scheduledClass.getStartTime();
             startTime = scheduledClass.getStartTime();
@@ -76,9 +81,13 @@ public class CreateNewClassActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Assign the adapter to the spinner (use whatever Spinner variable you made)
         spin.setAdapter(spinnerArrayAdapter);
+        if ( id != -1 ) {
+            spin.setSelection(spinnerArrayAdapter.getPosition(type));
+        }
 
 
         EditText startDateDisplay = findViewById(R.id.edit_class_date);
+        startDateDisplay.setText(new SimpleDateFormat("MMMM d, yyyy").format(date.getTime()));
         startDateDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,9 +109,12 @@ public class CreateNewClassActivity extends AppCompatActivity {
         });
 
         EditText startTimeDisplay = findViewById(R.id.edit_class_start_time);
+        startTimeDisplay.setText(new SimpleDateFormat("h:mm a").format(startTime.getTime()));
         startTimeDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int startHour = startTime.get(Calendar.HOUR);
+                int startMinute = startTime.get(Calendar.MINUTE);
                 TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
@@ -111,15 +123,18 @@ public class CreateNewClassActivity extends AppCompatActivity {
                         Date thisDate = startTime.getTime();
                         startTimeDisplay.setText(new SimpleDateFormat("h:mm a").format(thisDate));
                     }
-                }, 12, 0, false);
+                }, startHour, startMinute, false);
                 timePickerDialog.show();
             }
         });
 
         EditText endTimeDisplay = findViewById(R.id.edit_class_finish_time);
+        endTimeDisplay.setText(new SimpleDateFormat("h:mm a").format(endTime.getTime()));
         endTimeDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int endHour = endTime.get(Calendar.HOUR);
+                int endMinute = endTime.get(Calendar.MINUTE);
                 TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
@@ -128,7 +143,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
                         Date thisDate = endTime.getTime();
                         endTimeDisplay.setText(new SimpleDateFormat("h:mm a").format(thisDate));
                     }
-                }, 12, 0, false);
+                }, endHour, endMinute, false);
                 timePickerDialog.show();
             }
         });
@@ -136,20 +151,12 @@ public class CreateNewClassActivity extends AppCompatActivity {
         picker = (NumberPicker) findViewById(R.id.capacity_picker);
         String[] nums = new String[100];
         for (int i = 0; i < nums.length; i++) {
-            nums[i] = Integer.toString(i);
+            nums[i] = Integer.toString(i+1);
         }
-        picker.setMinValue(1);
-        picker.setMaxValue(100);
-        picker.setWrapSelectorWheel(false);
+        picker.setMinValue(0);
+        picker.setMaxValue(99);
         picker.setDisplayedValues(nums);
-        picker.setValue(1);
-        picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener(){
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                int capacity = picker.getValue();
-                picker.getDisplay();
-            }
-        });
+        picker.setValue(capacity-1);
 
         Button save = (Button) findViewById(R.id.edit_class_type_save);
         save.setOnClickListener(new Button.OnClickListener(){
@@ -157,14 +164,14 @@ public class CreateNewClassActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String typeOfClass = spin.getSelectedItem().toString();
                 String instructorName = userAccount.getUsername();
-                int classCapacity = capacity;
+                int classCapacity = picker.getValue()+1;
                 long startTimeTime = startTime.getTime().getTime();
                 long endTimeTime = endTime.getTime().getTime();
 
                 //Verifying if the class already exists
                 String otherInstructor = database.classExists(typeOfClass, startTimeTime);
 
-                if (otherInstructor != null) {
+                if (otherInstructor != null && !otherInstructor.equals(userAccount.getUsername())) {
                     Snackbar.make(findViewById(R.id.create_new_class_type_screen), "Time slot is reserved by " + otherInstructor, Snackbar.LENGTH_SHORT).show();
                 } else {
                     if (id == -1) {
@@ -178,10 +185,6 @@ public class CreateNewClassActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //TODO: Instructor classes don't show up in classes fragment
-
-        //TODO: App crashes when trying to schedule overlapping classes
 
     }
 
