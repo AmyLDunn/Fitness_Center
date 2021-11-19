@@ -97,7 +97,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                         startTime.set(Calendar.HOUR_OF_DAY, hour);
                         startTime.set(Calendar.MINUTE, minute);
-                        Date thisDate = date.getTime();
+                        Date thisDate = startTime.getTime();
                         startTimeDisplay.setText(new SimpleDateFormat("h:mm a").format(thisDate));
                     }
                 }, 12, 0, false);
@@ -114,7 +114,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                         endTime.set(Calendar.HOUR_OF_DAY, hour);
                         endTime.set(Calendar.MINUTE, minute);
-                        Date thisDate = date.getTime();
+                        Date thisDate = endTime.getTime();
                         endTimeDisplay.setText(new SimpleDateFormat("h:mm a").format(thisDate));
                     }
                 }, 12, 0, false);
@@ -129,9 +129,6 @@ public class CreateNewClassActivity extends AppCompatActivity {
                 picker.getDisplay();
             }
         });
-
-        //TODO: The values when selecting the start & end times display as whatever time
-        //      is presently.
 
         //TODO: The NumberPicker isn't a "scrolling" type of input, it requires the user
         //      to type in the number. It also doesn't display the input.
