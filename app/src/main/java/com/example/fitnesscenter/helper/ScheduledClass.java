@@ -10,14 +10,16 @@ public class ScheduledClass {
 
     int id, capacity;
     String classType;
-    Date startTime, endTime;
+    Calendar startTime, endTime;
 
     public ScheduledClass(int id, String classType, int capacity, long startTime, long endTime){
         this.id = id;
         this.classType = classType;
         this.capacity = capacity;
-        this.startTime = new Date(startTime);
-        this.endTime = new Date(endTime);
+        this.startTime = Calendar.getInstance();
+        this.startTime.setTime(new Date(startTime));
+        this.endTime = Calendar.getInstance();
+        this.endTime.setTime(new Date(endTime));
     }
 
     public int getCapacity(){
@@ -28,11 +30,11 @@ public class ScheduledClass {
         return classType;
     }
 
-    public Date getStartTime(){
+    public Calendar getStartTime(){
         return startTime;
     }
 
-    public Date getEndTime(){
+    public Calendar getEndTime(){
         return endTime;
     }
 

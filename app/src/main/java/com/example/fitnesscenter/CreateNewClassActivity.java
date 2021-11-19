@@ -14,6 +14,7 @@ import android.widget.TimePicker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fitnesscenter.database.DBHelper;
+import com.example.fitnesscenter.helper.Account;
 import com.example.fitnesscenter.helper.ScheduledClass;
 
 import java.text.DateFormat;
@@ -26,6 +27,9 @@ import java.util.GregorianCalendar;
 public class CreateNewClassActivity extends AppCompatActivity {
 
     DBHelper database;
+
+    Account userAccount;
+
     Calendar date;
     Calendar startTime;
     Calendar endTime;
@@ -42,6 +46,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         int id = bundle.getInt("CLASS_ID");
+        userAccount = bundle.getParcelable("USER_ACCOUNT");
         if ( id == -1 ){ // Making a new scheduled class
             date = new GregorianCalendar();
             startTime = new GregorianCalendar();
@@ -49,7 +54,6 @@ public class CreateNewClassActivity extends AppCompatActivity {
             endTime = new GregorianCalendar();
             endTime.set(Calendar.HOUR, 12);
             capacity = 0;
-            picker = findViewById(R.id.capacity_picker);
         } else {
             ScheduledClass scheduledClass = database.getClass(id);
             capacity = scheduledClass.getCapacity();
@@ -122,6 +126,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
             }
         });
 
+        picker = findViewById(R.id.capacity_picker);
         picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener(){
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
@@ -133,6 +138,31 @@ public class CreateNewClassActivity extends AppCompatActivity {
         //TODO: The NumberPicker isn't a "scrolling" type of input, it requires the user
         //      to type in the number. It also doesn't display the input.
 
+
+        // TODO: Get the save button by using findViewById()
+
+        // TODO: Add an onClickListener to the save button
+        //       Collect all the data:
+        //            String typeOfClass
+        //            String instructorName (you can get this from userAccount.getUsername() )
+        //            int capacity
+        //            long startTime ( startTime.getTime().getTime() -> The first getTime turns it into
+        //                             a Date object and the second getTime turns it into a long. SQLite
+        //                             cannot store dates, so we have to do this)
+        //            long endTime (same as startTime)
+        //       Check if the class exists using
+        //       String otherInstructor = database.classExists(String type, long startTime)
+        //       If the class exists, this method will return the name of the instructor that is teaching it
+        //            Make a Snackbar that displays the name of the instructor
+        //       If the class does not exist:
+        //            If the id (from the top) is -1, call
+        //                 database.addClass(String type, String instructor, int capacity, long startTime, long endTime)
+        //            If the id if not -1, call
+        //                 database.updateClass(int id, String type, String instructor, int capacity, long startTime, long endTime)
+        //            Regardless of the above, tell the original page that a class was added/updated
+        //                 Intent returnIntent = new Intent();
+        //                 setResult(RESULT_OK, returnIntent);
+        //                 finish();
 
 
     }

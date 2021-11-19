@@ -74,6 +74,7 @@ public class ViewMyScheduledEvents extends Fragment {
             public void onClick(View view){
                 Intent intent = new Intent(getActivity(), CreateNewClassActivity.class);
                 intent.putExtra("CLASS_ID", -1);
+                intent.putExtra("USER_ACCOUNT", myAccount);
                 createNewClassLauncher.launch(intent);
             }
         });
@@ -93,6 +94,7 @@ public class ViewMyScheduledEvents extends Fragment {
             case R.id.class_type_option_edit:
                 Intent intent = new Intent(getActivity(), CreateNewClassActivity.class);
                 intent.putExtra("CLASS_ID", classesCursor.getInt(classesCursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_ID)));
+                intent.putExtra("USER_ACCOUNT", myAccount);
                 createNewClassLauncher.launch(intent);
                 return true;
             case R.id.class_type_option_delete:
