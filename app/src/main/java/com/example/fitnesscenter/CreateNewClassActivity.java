@@ -2,9 +2,11 @@ package com.example.fitnesscenter;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.fitnesscenter.database.DBHelper;
 import com.example.fitnesscenter.helper.Account;
 import com.example.fitnesscenter.helper.ScheduledClass;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,16 +50,20 @@ public class CreateNewClassActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         int id = bundle.getInt("CLASS_ID");
         userAccount = bundle.getParcelable("USER_ACCOUNT");
+
         if ( id == -1 ){ // Making a new scheduled class
             date = new GregorianCalendar();
             startTime = new GregorianCalendar();
-            startTime.set(Calendar.HOUR, 12);
             endTime = new GregorianCalendar();
+            startTime.set(Calendar.HOUR, 12);
             endTime.set(Calendar.HOUR, 12);
             capacity = 0;
         } else {
             ScheduledClass scheduledClass = database.getClass(id);
             capacity = scheduledClass.getCapacity();
+            date = scheduledClass.getStartTime();
+            startTime = scheduledClass.getStartTime();
+            endTime = scheduledClass.getEndTime();
         }
 
         //Drop-down list displaying all the class types
@@ -126,7 +133,16 @@ public class CreateNewClassActivity extends AppCompatActivity {
             }
         });
 
-        picker = findViewById(R.id.capacity_picker);
+        picker = (NumberPicker) findViewById(R.id.capacity_picker);
+        String[] nums = new String[100];
+        for (int i = 0; i < nums.length; i++) {
+            nums[i] = Integer.toString(i);
+        }
+        picker.setMinValue(1);
+        picker.setMaxValue(100);
+        picker.setWrapSelectorWheel(false);
+        picker.setDisplayedValues(nums);
+        picker.setValue(1);
         picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener(){
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
@@ -135,35 +151,37 @@ public class CreateNewClassActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: The NumberPicker isn't a "scrolling" type of input, it requires the user
-        //      to type in the number. It also doesn't display the input.
+        Button save = (Button) findViewById(R.id.edit_class_type_save);
+        save.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                String typeOfClass = spin.getSelectedItem().toString();
+                String instructorName = userAccount.getUsername();
+                int classCapacity = capacity;
+                long startTimeTime = startTime.getTime().getTime();
+                long endTimeTime = endTime.getTime().getTime();
 
+                //Verifying if the class already exists
+                String otherInstructor = database.classExists(typeOfClass, startTimeTime);
 
-        // TODO: Get the save button by using findViewById()
+                if (otherInstructor != null) {
+                    Snackbar.make(findViewById(R.id.create_new_class_type_screen), "Time slot is reserved by " + otherInstructor, Snackbar.LENGTH_SHORT).show();
+                } else {
+                    if (id == -1) {
+                        database.addClass(typeOfClass, instructorName, classCapacity, startTimeTime, endTimeTime);
+                    } else {
+                        database.updateClass(id, typeOfClass, instructorName, classCapacity, startTimeTime, endTimeTime);
+                    }
+                    Intent returnIntent = new Intent();
+                    setResult(RESULT_OK, returnIntent);
+                    finish();
+                }
+            }
+        });
 
-        // TODO: Add an onClickListener to the save button
-        //       Collect all the data:
-        //            String typeOfClass
-        //            String instructorName (you can get this from userAccount.getUsername() )
-        //            int capacity
-        //            long startTime ( startTime.getTime().getTime() -> The first getTime turns it into
-        //                             a Date object and the second getTime turns it into a long. SQLite
-        //                             cannot store dates, so we have to do this)
-        //            long endTime (same as startTime)
-        //       Check if the class exists using
-        //       String otherInstructor = database.classExists(String type, long startTime)
-        //       If the class exists, this method will return the name of the instructor that is teaching it
-        //            Make a Snackbar that displays the name of the instructor
-        //       If the class does not exist:
-        //            If the id (from the top) is -1, call
-        //                 database.addClass(String type, String instructor, int capacity, long startTime, long endTime)
-        //            If the id if not -1, call
-        //                 database.updateClass(int id, String type, String instructor, int capacity, long startTime, long endTime)
-        //            Regardless of the above, tell the original page that a class was added/updated
-        //                 Intent returnIntent = new Intent();
-        //                 setResult(RESULT_OK, returnIntent);
-        //                 finish();
+        //TODO: Instructor classes don't show up in classes fragment
 
+        //TODO: App crashes when trying to schedule overlapping classes
 
     }
 
