@@ -35,6 +35,22 @@ public class ScheduledClass {
         return startTime;
     }
 
+    public String getDateString(){
+        return new SimpleDateFormat("MMMM d, yyyy").format(startTime.getTime());
+    }
+
+    public String getStartTimeString(){
+        return new SimpleDateFormat("h:mm a").format(startTime.getTime());
+    }
+
+    public String getEndTimeString(){
+        return new SimpleDateFormat("h:mm a").format(endTime.getTime());
+    }
+
+    public String getClassScheduleString(){
+        return getDateString()+", "+getStartTimeString()+" to "+getEndTimeString();
+    }
+
     public Calendar getEndTime(){
         return endTime;
     }
