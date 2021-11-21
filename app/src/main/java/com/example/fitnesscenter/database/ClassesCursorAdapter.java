@@ -46,6 +46,11 @@ public class ClassesCursorAdapter extends CursorAdapter {
         String username = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_TYPE));
         nameDisplay.setText(username);
 
+        // This is setting the difficulty of the class into the item
+        TextView difficultyDisplay = view.findViewById(R.id.class_list_item_difficulty);
+        String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_DIFFICULTY));
+        difficultyDisplay.setText("Difficulty: "+difficulty);
+
         // Setting the instructor name into the second TextView
         TextView instructorDisplay = view.findViewById(R.id.class_list_item_instructor);
         String instructor = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_INSTRUCTOR));

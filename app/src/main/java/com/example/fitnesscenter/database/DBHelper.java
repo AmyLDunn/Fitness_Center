@@ -50,6 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CLASSES_COLUMN_CAPACITY = "capacity";
     public static final String CLASSES_COLUMN_START = "startTime";
     public static final String CLASSES_COLUMN_END = "endTime";
+    public static final String CLASSES_COLUMN_DIFFICULTY = "difficulty";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -77,7 +78,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 CLASSES_COLUMN_INSTRUCTOR+" TEXT, "+
                 CLASSES_COLUMN_CAPACITY+" INTEGER, "+
                 CLASSES_COLUMN_START+" INTEGER, "+
-                CLASSES_COLUMN_END+" INTEGER)");
+                CLASSES_COLUMN_END+" INTEGER, "+
+                CLASSES_COLUMN_DIFFICULTY+" TEXT)");
         db.execSQL("INSERT INTO "+ACCOUNTS_TABLE_NAME+"("+ACCOUNTS_COLUMN_USERNAME+", "+ACCOUNTS_COLUMN_PASSWORD+", "+
                 ACCOUNTS_COLUMN_TYPE+") VALUES (?, ?, ?)", new String[]{"admin", "admin123", "2"});
     }
@@ -155,7 +157,12 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void deleteAccount(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+ACCOUNTS_COLUMN_ID+" = "+id, null);
+        cursor.moveToFirst();
+        String username = cursor.getString(cursor.getColumnIndexOrThrow(ACCOUNTS_COLUMN_USERNAME));
+        cursor.close();
         db.execSQL("DELETE FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+ACCOUNTS_COLUMN_ID+"="+id+"");
+        db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_INSTRUCTOR+" = ?", new String[]{username});
     }
 
     /**
@@ -245,15 +252,16 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param startTime The start date and time
      * @param endTime The end date and time
      */
-    public void addClass(String type, String instructor, int capacity, long startTime, long endTime){
+    public void addClass(String type, String instructor, int capacity, long startTime, long endTime, String difficulty){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO "+CLASSES_TABLE_NAME+" ("+
                 CLASSES_COLUMN_TYPE+", "+
                 CLASSES_COLUMN_INSTRUCTOR+", "+
                 CLASSES_COLUMN_CAPACITY+", "+
                 CLASSES_COLUMN_START+", "+
-                CLASSES_COLUMN_END+") VALUES (?, ?, ?, ?, ?)",
-                new String[]{type, instructor, String.valueOf(capacity), String.valueOf(startTime), String.valueOf(endTime)});
+                CLASSES_COLUMN_END+", "+
+                CLASSES_COLUMN_DIFFICULTY+") VALUES (?, ?, ?, ?, ?, ?)",
+                new String[]{type, instructor, String.valueOf(capacity), String.valueOf(startTime), String.valueOf(endTime), difficulty});
     }
 
     /**
@@ -265,15 +273,16 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param startTime The new start date and time
      * @param endTime The new end date and time
      */
-    public void updateClass(int id, String type, String instructor, int capacity, long startTime, long endTime){
+    public void updateClass(int id, String type, String instructor, int capacity, long startTime, long endTime, String difficulty){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE "+CLASSES_TABLE_NAME+" SET "+
                 CLASSES_COLUMN_TYPE+" = ?, "+
                 CLASSES_COLUMN_INSTRUCTOR+" = ?, "+
                 CLASSES_COLUMN_CAPACITY+" = "+capacity+", "+
                 CLASSES_COLUMN_START+" = "+startTime+", "+
-                CLASSES_COLUMN_END+" = "+endTime+" WHERE "+
-                CLASSES_COLUMN_ID+" = "+id, new String[]{type, instructor});
+                CLASSES_COLUMN_END+" = "+endTime+", "+
+                CLASSES_COLUMN_DIFFICULTY+" = ? WHERE "+
+                CLASSES_COLUMN_ID+" = "+id, new String[]{type, instructor, difficulty});
     }
 
     /**
@@ -297,14 +306,14 @@ public class DBHelper extends SQLiteOpenHelper {
         day.setTime(new Date(startTime));
         day.set(Calendar.HOUR_OF_DAY, 0);
         day.set(Calendar.MINUTE, 0);
-        startTime = day.getTimeInMillis();
+        startTime = day.getTime().getTime();
         day.add(Calendar.DATE, 1);
-        long endTime = day.getTimeInMillis();
+        long endTime = day.getTime().getTime();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
-                CLASSES_COLUMN_TYPE+" = ? AND "+CLASSES_COLUMN_START+" >= ? AND "+
-                CLASSES_COLUMN_END+" < ?", new String[]{type, String.valueOf(startTime), String.valueOf(endTime)});
+                CLASSES_COLUMN_TYPE+" = ? AND "+CLASSES_COLUMN_START+" >= "+startTime+" AND "+
+                CLASSES_COLUMN_END+" < "+endTime, new String[]{type});
         cursor.moveToFirst();
         if ( cursor.getCount() > 0){
             return cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
@@ -326,7 +335,8 @@ public class DBHelper extends SQLiteOpenHelper {
         int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
         long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
         long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
-        return new ScheduledClass(classId, type, capacity, startTime, endTime);
+        String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
+        return new ScheduledClass(classId, type, capacity, startTime, endTime, difficulty);
     }
 
     /**

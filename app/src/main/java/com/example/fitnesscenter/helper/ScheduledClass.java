@@ -9,10 +9,10 @@ import java.util.Date;
 public class ScheduledClass {
 
     int id, capacity;
-    String classType;
+    String classType, difficulty;
     Calendar startTime, endTime;
 
-    public ScheduledClass(int id, String classType, int capacity, long startTime, long endTime){
+    public ScheduledClass(int id, String classType, int capacity, long startTime, long endTime, String difficulty){
         this.id = id;
         this.classType = classType;
         this.capacity = capacity;
@@ -20,6 +20,7 @@ public class ScheduledClass {
         this.startTime.setTime(new Date(startTime));
         this.endTime = Calendar.getInstance();
         this.endTime.setTime(new Date(endTime));
+        this.difficulty = difficulty;
     }
 
     public int getCapacity(){
@@ -37,5 +38,7 @@ public class ScheduledClass {
     public Calendar getEndTime(){
         return endTime;
     }
+
+    public String getDifficulty() { return difficulty; }
 
 }

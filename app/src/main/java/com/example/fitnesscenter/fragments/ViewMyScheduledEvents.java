@@ -102,6 +102,7 @@ public class ViewMyScheduledEvents extends Fragment {
                 database.deleteClass(id_to_delete);
                 classesCursor = database.getMyClasses(myAccount.getUsername());
                 cursorAdapter.changeCursor(classesCursor);
+                getActivity().recreate();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -114,6 +115,7 @@ public class ViewMyScheduledEvents extends Fragment {
             if (result.getResultCode() == Activity.RESULT_OK ) {
                 classesCursor = database.getMyClasses(myAccount.getUsername());
                 cursorAdapter.changeCursor(classesCursor);
+                getActivity().recreate();
             }
         }
     });

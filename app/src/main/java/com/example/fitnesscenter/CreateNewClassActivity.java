@@ -35,11 +35,11 @@ public class CreateNewClassActivity extends AppCompatActivity {
     Account userAccount;
 
     String type;
-    Calendar date;
     Calendar startTime;
     Calendar endTime;
     NumberPicker picker;
     int capacity;
+    String difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,21 +54,21 @@ public class CreateNewClassActivity extends AppCompatActivity {
         userAccount = bundle.getParcelable("USER_ACCOUNT");
 
         if ( id == -1 ){ // Making a new scheduled class
-            date = new GregorianCalendar();
-            startTime = new GregorianCalendar();
-            endTime = new GregorianCalendar();
+            startTime = Calendar.getInstance();
+            endTime = Calendar.getInstance();
             startTime.set(Calendar.HOUR, 12);
             startTime.set(Calendar.MINUTE, 0);
             endTime.set(Calendar.HOUR, 12);
             endTime.set(Calendar.MINUTE, 0);
             capacity = 10;
+            difficulty = "Beginner";
         } else {
             ScheduledClass scheduledClass = database.getClass(id);
             type = scheduledClass.getType();
             capacity = scheduledClass.getCapacity();
-            date = scheduledClass.getStartTime();
             startTime = scheduledClass.getStartTime();
             endTime = scheduledClass.getEndTime();
+            difficulty = scheduledClass.getDifficulty();
         }
 
         //Drop-down list displaying all the class types
@@ -81,26 +81,29 @@ public class CreateNewClassActivity extends AppCompatActivity {
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Assign the adapter to the spinner (use whatever Spinner variable you made)
         spin.setAdapter(spinnerArrayAdapter);
-        if ( id != -1 ) {
+        if (id != -1) {
             spin.setSelection(spinnerArrayAdapter.getPosition(type));
         }
 
 
         EditText startDateDisplay = findViewById(R.id.edit_class_date);
-        startDateDisplay.setText(new SimpleDateFormat("MMMM d, yyyy").format(date.getTime()));
+        startDateDisplay.setText(new SimpleDateFormat("MMMM d, yyyy").format(startTime.getTime()));
         startDateDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int year = date.get(Calendar.YEAR);
-                int month = date.get(Calendar.MONTH);
-                int day = date.get(Calendar.DAY_OF_MONTH);
+                int year = startTime.get(Calendar.YEAR);
+                int month = startTime.get(Calendar.MONTH);
+                int day = startTime.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        date.set(Calendar.YEAR, year);
-                        date.set(Calendar.MONTH, month);
-                        date.set(Calendar.DAY_OF_MONTH, day);
-                        Date thisDate = date.getTime();
+                        startTime.set(Calendar.YEAR, year);
+                        startTime.set(Calendar.MONTH, month);
+                        startTime.set(Calendar.DAY_OF_MONTH, day);
+                        endTime.set(Calendar.YEAR, year);
+                        endTime.set(Calendar.MONTH, month);
+                        endTime.set(Calendar.DAY_OF_MONTH, day);
+                        Date thisDate = startTime.getTime();
                         startDateDisplay.setText(new SimpleDateFormat("MMMM d, yyyy").format(thisDate));
                     }
                 }, year, month, day);
@@ -148,6 +151,16 @@ public class CreateNewClassActivity extends AppCompatActivity {
             }
         });
 
+        Spinner difficultyPicker = (Spinner) findViewById(R.id.select_class_difficulty);
+        ArrayList<String> classDifficulties = new ArrayList<>();
+        classDifficulties.add("Beginner");
+        classDifficulties.add("Intermediate");
+        classDifficulties.add("Advanced");
+        ArrayAdapter<String> difficultyArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, classDifficulties);
+        difficultyArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        difficultyPicker.setAdapter(difficultyArrayAdapter);
+        difficultyPicker.setSelection(spinnerArrayAdapter.getPosition(difficulty));
+
         picker = (NumberPicker) findViewById(R.id.capacity_picker);
         String[] nums = new String[40];
         for (int i = 0; i < nums.length; i++) {
@@ -167,17 +180,22 @@ public class CreateNewClassActivity extends AppCompatActivity {
                 int classCapacity = picker.getValue()+1;
                 long startTimeTime = startTime.getTime().getTime();
                 long endTimeTime = endTime.getTime().getTime();
+                if ( startTimeTime >= endTimeTime ){
+                    Snackbar.make(view, "The start time must be before the end time", Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                difficulty = difficultyPicker.getSelectedItem().toString();
 
                 //Verifying if the class already exists
                 String otherInstructor = database.classExists(typeOfClass, startTimeTime);
 
                 if (otherInstructor != null && !otherInstructor.equals(userAccount.getUsername())) {
-                    Snackbar.make(findViewById(R.id.create_new_class_type_screen), "Time slot is reserved by " + otherInstructor, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.create_new_class_type_screen), "Class type already scheduled by " + otherInstructor, Snackbar.LENGTH_SHORT).show();
                 } else {
                     if (id == -1) {
-                        database.addClass(typeOfClass, instructorName, classCapacity, startTimeTime, endTimeTime);
+                        database.addClass(typeOfClass, instructorName, classCapacity, startTimeTime, endTimeTime, difficulty);
                     } else {
-                        database.updateClass(id, typeOfClass, instructorName, classCapacity, startTimeTime, endTimeTime);
+                        database.updateClass(id, typeOfClass, instructorName, classCapacity, startTimeTime, endTimeTime, difficulty);
                     }
                     Intent returnIntent = new Intent();
                     setResult(RESULT_OK, returnIntent);
