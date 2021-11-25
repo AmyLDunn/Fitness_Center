@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.fitnesscenter.R;
-import com.example.fitnesscenter.fragments.ViewAllScheduledEvents;
-import com.example.fitnesscenter.fragments.ViewMyScheduledEvents;
+import com.example.fitnesscenter.fragments.ViewAllScheduledEventsFragment;
+import com.example.fitnesscenter.fragments.ViewMyScheduledEventsFragment;
 import com.example.fitnesscenter.fragments.WelcomeFragment;
 import com.example.fitnesscenter.helper.Account;
 
@@ -39,10 +39,10 @@ public class InstructorSectionsPagerAdapter extends FragmentPagerAdapter {
                 fragment = WelcomeFragment.newInstance(myAccount);
                 break;
             case 1:
-                fragment = ViewMyScheduledEvents.newInstance(myAccount);
+                fragment = ViewMyScheduledEventsFragment.newInstance(myAccount);
                 break;
             case 2:
-                fragment = ViewAllScheduledEvents.newInstance();
+                fragment = ViewAllScheduledEventsFragment.newInstance();
                 break;
         }
         return fragment;

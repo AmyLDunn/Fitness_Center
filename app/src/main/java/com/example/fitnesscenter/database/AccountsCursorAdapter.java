@@ -19,10 +19,10 @@ public class AccountsCursorAdapter extends CursorAdapter {
     /**
      * This method simply inflates (expands and adds) the list_item_account.xml format
      * and adds a single item to a ListView
-     * @param context
-     * @param cursor
-     * @param parent
-     * @return
+     * @param context is a link to the overall application
+     * @param cursor is the cursor linked to the database
+     * @param parent is the parent viewgroup that the new layout can be attached to
+     * @return the view that contains one item from the database
      */
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -33,7 +33,7 @@ public class AccountsCursorAdapter extends CursorAdapter {
      * This takes the inflated view from newView above and fills in any data of the list item
      * according the to information in the cursor row
      * @param view This is the list_item_account.xml that was added
-     * @param context
+     * @param context is a link to the overall application
      * @param cursor This is the cursor link to the database
      */
     @Override

@@ -31,8 +31,8 @@ import com.google.android.material.snackbar.Snackbar;
 public class ClassTypesFragment extends Fragment {
 
     private DBHelper database;
-    Cursor classTypeCursor;
-    ClassTypesCursorAdapter cursorAdapter;
+    private Cursor classTypeCursor;
+    private ClassTypesCursorAdapter cursorAdapter;
 
     public static ClassTypesFragment newInstance(){
         return new ClassTypesFragment();
@@ -49,15 +49,20 @@ public class ClassTypesFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
+        // Initializes the database
         database = new DBHelper(getActivity());
 
-        classTypeCursor = database.getAllClassTypes();
+        // Finds all views
         ListView classTypeList = (ListView) getActivity().findViewById(R.id.class_types_list);
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+
+        // Fills the listview and registers its context menu
+        classTypeCursor = database.getAllClassTypes();
         cursorAdapter = new ClassTypesCursorAdapter(getActivity(), classTypeCursor);
         classTypeList.setAdapter(cursorAdapter);
         registerForContextMenu(classTypeList);
 
-        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        // Sets the onClick for the floating action button
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -78,19 +83,25 @@ public class ClassTypesFragment extends Fragment {
 
     public boolean onContextItemSelected(MenuItem item){
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        // Moves cursor to relevant item
         int index = info.position;
         classTypeCursor.moveToPosition(index);
         switch (item.getItemId()){
             case R.id.class_type_option_edit:
+                // Builds the intent to open the edit page
                 Intent intent = new Intent(getActivity(), CreateNewClassTypeActivity.class);
+                // Adds the info about the class to the intent
                 intent.putExtra("CLASS_TYPE_ID", classTypeCursor.getInt(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_ID)));
                 intent.putExtra("CLASS_TYPE_NAME", classTypeCursor.getString(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_NAME)));
                 intent.putExtra("CLASS_TYPE_DESCRIPTION", classTypeCursor.getString(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_DESCRIPTION)));
+                // Launches the intent with a result listener
                 createNewClassTypeLauncher.launch(intent);
                 return true;
             case R.id.class_type_option_delete:
+                // deletes the class type from the database
                 int id_to_delete = classTypeCursor.getInt(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_ID));
                 database.deleteClassType(id_to_delete);
+                // Refreshes the listview
                 classTypeCursor = database.getAllClassTypes();
                 cursorAdapter.changeCursor(classTypeCursor);
                 return true;
@@ -103,13 +114,10 @@ public class ClassTypesFragment extends Fragment {
         @Override
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == Activity.RESULT_OK ) {
+                // Refreshes the listview
                 classTypeCursor = database.getAllClassTypes();
                 cursorAdapter.changeCursor(classTypeCursor);
             }
         }
     });
-
-    public void onDestroyView(){
-        super.onDestroyView();
-    }
 }

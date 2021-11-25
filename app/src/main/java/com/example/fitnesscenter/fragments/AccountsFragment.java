@@ -22,8 +22,8 @@ import com.example.fitnesscenter.database.DBHelper;
 public class AccountsFragment extends Fragment {
 
     private DBHelper database;
-    Cursor accountCursor;
-    AccountsCursorAdapter cursorAdapter;
+    private Cursor accountCursor;
+    private AccountsCursorAdapter cursorAdapter;
 
     public static AccountsFragment newInstance(){
         return new AccountsFragment();
@@ -35,14 +35,20 @@ public class AccountsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_accounts, container, false);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
+        // Initialize the database link
         database = new DBHelper(getActivity());
-        accountCursor = database.getAllAccounts();
+
+        // Find all associated views
         ListView accountList = (ListView) getActivity().findViewById(R.id.accounts_list);
+
+        // Filling the listview and activating its context menu
+        accountCursor = database.getAllAccounts();
         cursorAdapter = new AccountsCursorAdapter(getActivity(), accountCursor);
         accountList.setAdapter(cursorAdapter);
         registerForContextMenu(accountList);
@@ -59,20 +65,18 @@ public class AccountsFragment extends Fragment {
         int index = info.position;
         switch (item.getItemId()){
             case R.id.account_option_delete:
+                // Move to the item selected
                 accountCursor.moveToPosition(index);
+                // Delete the account
                 int id_to_delete = accountCursor.getInt(accountCursor.getColumnIndexOrThrow(DBHelper.ACCOUNTS_COLUMN_ID));
                 database.deleteAccount(id_to_delete);
+                // Refresh the list
                 accountCursor = database.getAllAccounts();
                 cursorAdapter.changeCursor(accountCursor);
                 return true;
             default:
                 return super.onContextItemSelected(item);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
 
 }

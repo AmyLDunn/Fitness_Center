@@ -22,14 +22,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscenter.CreateNewClassActivity;
-import com.example.fitnesscenter.CreateNewClassTypeActivity;
 import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.ClassesCursorAdapter;
 import com.example.fitnesscenter.database.DBHelper;
 import com.example.fitnesscenter.helper.Account;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ViewMyScheduledEvents extends Fragment {
+public class ViewMyScheduledEventsFragment extends Fragment {
 
     DBHelper database;
     Cursor classesCursor;
@@ -37,8 +36,8 @@ public class ViewMyScheduledEvents extends Fragment {
 
     Account myAccount;
 
-    public static ViewMyScheduledEvents newInstance(Account myAccount) {
-        ViewMyScheduledEvents fragment = new ViewMyScheduledEvents();
+    public static ViewMyScheduledEventsFragment newInstance(Account myAccount) {
+        ViewMyScheduledEventsFragment fragment = new ViewMyScheduledEventsFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER_ACCOUNT", myAccount);
         fragment.setArguments(bundle);
