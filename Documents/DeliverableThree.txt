@@ -1,0 +1,53 @@
+In this deliverable, you must implement the gym member functionality as well as finalize
+the entire application.
+
+The gym member user functionality includes viewing all fitness classes and searching for
+specific ones. The member must be able to view all classes that are offered as well as search
+using a class name and day of the week. For example: A member user wants to see all
+classes offered on Friday. Additionally, member users can view all the details of a class
+(description, day, hours, difficulty level, capacity).
+
+Another functionality is that member users can enroll into a class. If a member user
+attempts to enroll into a class that has conflicting hours with an already enrolled class,
+then the app must show a valid error message. For example: A member user has already
+enrolled into aqua fitness on Tuesday at 10:00-11:30am. Then, when they try to enroll into
+weightlifting, which is on Tuesday at 11:00am-12:00pm, the app will display an error.
+Additionally, a gym member must not be able to enroll into a class that is at max. capacity.
+Member users are able to see a list of all classes that they have enrolled in. Finally, they are
+able to unenroll from a class.
+
+For the bonus, instructor users should be able to see a list of all member users who have
+enrolled into a class that they are instructing.
+
+The final report is included with this deliverable and must be submitted on Brightspace.
+
+MARKING
+
+(10 marks) Updated UML class diagram based on deliverable 3 description. (adding onto the UML
+           diagram from deliverable 2)
+           (-2 for each missing class)
+           (-2 for incorrect generalization)
+           (-0.5 for each incorrect multiplicity)
+           (-0.5 for each missing attribute)
+(30 marks) Final report including:
+           - Title page (1 point)
+           - Short introduction about the project (4 points)
+           - Updated UML class diagram
+           - Table with the roles in the team and contributions of each team member for each
+             deliverable (10 points)
+           - All screenshots of your app (10 points)
+           - Lessons learned / challenges overcome (5 points)
+(10 marks) 5 Unit test cases related to deliverable 3
+(5 marks)  Member can view all scheduled fitness classes
+(10 marks) Member can search for a fitness class by:
+           - Class name (5 points)
+           - Day of the week (5 points)
+(5 marks)  Member can enroll into a fitness class
+(5 marks)  Member can unenroll from a fitness class
+(10 marks) Member can see a list of all fitness classes they are enrolled for
+(10 marks) Member recieves an error message when trying to enroll for a fitness class that conflicts
+           with the time of a class they have already enrolled for
+(5 marks)  Member cannot enroll into a class that has reached its maximum capacity. Either display
+           an error or update the UI.
+(5 marks, bonus) OPTIONAL Instructor should be able to see a list of all enrolled gym members (Only
+           for a class they are instructing)
