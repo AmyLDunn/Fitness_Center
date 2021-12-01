@@ -5,6 +5,7 @@
     <string name="tab_text_3">Accounts</string>
     <string name="tab_text_4">All classes</string>
     <string name="tab_text_5">My classes</string>
+    <string name="tab_text_6">Available classes</string>
     <string name="welcome_screen">Welcome screen</string>
     <string name="class_types_screen">Class types screen</string>
     <string name="accounts_screen">Accounts screen</string>

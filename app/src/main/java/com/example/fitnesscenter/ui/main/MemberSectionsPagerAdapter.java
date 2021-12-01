@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.fitnesscenter.R;
+import com.example.fitnesscenter.fragments.ViewAllAvailableEventsFragment;
+import com.example.fitnesscenter.fragments.ViewMyRegisteredEventsFragment;
 import com.example.fitnesscenter.fragments.WelcomeFragment;
 import com.example.fitnesscenter.helper.Account;
 
@@ -19,7 +21,7 @@ import com.example.fitnesscenter.helper.Account;
 public class MemberSectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_5, R.string.tab_text_6};
     private final Context mContext;
     private Account myAccount;
 
@@ -35,6 +37,12 @@ public class MemberSectionsPagerAdapter extends FragmentPagerAdapter {
         switch (position){
             case 0:
                 fragment = WelcomeFragment.newInstance(myAccount);
+                break;
+            case 1:
+                fragment = ViewMyRegisteredEventsFragment.newInstance();
+                break;
+            case 2:
+                fragment = ViewAllAvailableEventsFragment.newInstance();
                 break;
         }
         return fragment;
