@@ -64,11 +64,7 @@ public class ViewAllClassesFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // Updates the listview based on the searchBar text
-                if ( searchBar.getText().toString().equals("") ){
-                    classes = database.getAllClasses(null);
-                } else {
-                    classes = database.getAllClasses(searchBar.getText().toString());
-                }
+                classes = database.getAllClasses(searchBar.getText().toString());
                 classesAdapter = new ClassesAdapter(getContext(), classes);
                 classesList.setAdapter(classesAdapter);
             }

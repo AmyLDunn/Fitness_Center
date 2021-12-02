@@ -31,7 +31,7 @@ public class ScheduledClassTest {
         end.set(Calendar.HOUR, 12);
         end.set(Calendar.MINUTE, 45);
 
-        classOne = new ScheduledClass(0, "Jogging", 10, start.getTimeInMillis(), end.getTimeInMillis(), "Beginner");
+        classOne = new ScheduledClass(0, "Jogging", "Bob", 10, 0, start.getTimeInMillis(), end.getTimeInMillis(), start.get(Calendar.DAY_OF_WEEK), "Beginner");
     }
 
     @Test

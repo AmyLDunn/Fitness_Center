@@ -193,9 +193,9 @@ public class CreateNewClassActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.create_new_class_type_screen), "Class type already scheduled by " + otherInstructor, Snackbar.LENGTH_SHORT).show();
                 } else {
                     if (id == -1) {
-                        database.addClass(typeOfClass, username, classCapacity, startTimeTime, endTimeTime, difficulty);
+                        database.addClass(typeOfClass, username, classCapacity, startTimeTime, endTimeTime, startTime.get(Calendar.DAY_OF_WEEK), difficulty);
                     } else {
-                        database.updateClass(id, typeOfClass, username, classCapacity, startTimeTime, endTimeTime, difficulty);
+                        database.updateClass(id, typeOfClass, username, classCapacity, startTimeTime, endTimeTime, startTime.get(Calendar.DAY_OF_WEEK), difficulty);
                     }
                     Intent returnIntent = new Intent();
                     setResult(RESULT_OK, returnIntent);

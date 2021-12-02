@@ -13,6 +13,7 @@ import com.example.fitnesscenter.helper.ScheduledClass;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TreeMap;
 
 /**
  * This is the database helper class to update the information in the
@@ -55,6 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CLASSES_COLUMN_ENROLLED = "enrolled";
     public static final String CLASSES_COLUMN_START = "startTime";
     public static final String CLASSES_COLUMN_END = "endTime";
+    public static final String CLASSES_COLUMN_WEEKDAY = "weekday";
     public static final String CLASSES_COLUMN_DIFFICULTY = "difficulty";
 
     // Table and column names to hold the enrolled classes links
@@ -96,6 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 CLASSES_COLUMN_ENROLLED+" INTEGER, "+
                 CLASSES_COLUMN_START+" INTEGER, "+
                 CLASSES_COLUMN_END+" INTEGER, "+
+                CLASSES_COLUMN_WEEKDAY+" INTEGER, "+
                 CLASSES_COLUMN_DIFFICULTY+" TEXT)");
         // Make the enrolled classes table
         db.execSQL("CREATE TABLE "+ENROLLED_TABLE_NAME+" ("+
@@ -317,15 +320,16 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param endTime The end date and time
      */
     public void addClass(String type, String instructor, int capacity, long startTime, long endTime,
-                         String difficulty){
+                         int weekday, String difficulty){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO "+CLASSES_TABLE_NAME+" ("+CLASSES_COLUMN_TYPE+", "+
                 CLASSES_COLUMN_INSTRUCTOR+", "+CLASSES_COLUMN_CAPACITY+", "+
                 CLASSES_COLUMN_ENROLLED+", "+
                 CLASSES_COLUMN_START+", "+CLASSES_COLUMN_END+", "+
-                CLASSES_COLUMN_DIFFICULTY+") VALUES (?, ?, ?, 0, ?, ?, ?)",
+                CLASSES_COLUMN_WEEKDAY+", "+
+                CLASSES_COLUMN_DIFFICULTY+") VALUES (?, ?, ?, 0, ?, ?, ?, ?)",
                 new String[]{type, instructor, String.valueOf(capacity), String.valueOf(startTime),
-                        String.valueOf(endTime), difficulty});
+                        String.valueOf(endTime), String.valueOf(weekday), difficulty});
     }
 
     /**
@@ -338,11 +342,12 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param endTime The new end date and time
      */
     public void updateClass(int id, String type, String instructor, int capacity, long startTime,
-                            long endTime, String difficulty){
+                            long endTime, int weekday, String difficulty){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE "+CLASSES_TABLE_NAME+" SET "+CLASSES_COLUMN_TYPE+" = ?, "+
                 CLASSES_COLUMN_INSTRUCTOR+" = ?, "+CLASSES_COLUMN_CAPACITY+" = "+capacity+", "+
                 CLASSES_COLUMN_START+" = "+startTime+", "+CLASSES_COLUMN_END+" = "+endTime+", "+
+                CLASSES_COLUMN_WEEKDAY+" = "+weekday+", "+
                 CLASSES_COLUMN_DIFFICULTY+" = ? WHERE "+CLASSES_COLUMN_ID+" = "+id,
                 new String[]{type, instructor, difficulty});
     }
@@ -402,8 +407,9 @@ public class DBHelper extends SQLiteOpenHelper {
         int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
         long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
         long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+        int weekday = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_WEEKDAY));
         String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
-        return new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, difficulty);
+        return new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, weekday, difficulty);
     }
 
     /**
@@ -414,14 +420,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<ScheduledClass> getAllClasses(String searchKey){
         ArrayList<ScheduledClass> allClasses = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor;
-        if ( searchKey == null ){
-            cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME, null);
-        } else {
-            cursor = db.rawQuery("SELECT * FROM " + CLASSES_TABLE_NAME + " WHERE " +
-                            CLASSES_COLUMN_TYPE + " LIKE ? OR " + CLASSES_COLUMN_INSTRUCTOR + " LIKE ?",
-                            new String[]{"%" + searchKey + "%", "%" + searchKey + "%"});
-        }
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CLASSES_TABLE_NAME + " WHERE " +
+                        CLASSES_COLUMN_TYPE + " LIKE ? OR " + CLASSES_COLUMN_INSTRUCTOR + " LIKE ?",
+                new String[]{"%" + searchKey + "%", "%" + searchKey + "%"});
         if ( cursor.moveToFirst() ){
             do {
                 int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
@@ -431,8 +432,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
                 long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
                 long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+                int weekday = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_WEEKDAY));
                 String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
-                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, difficulty);
+                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, weekday, difficulty);
                 allClasses.add(thisClass);
             } while (cursor.moveToNext());
         }
@@ -458,12 +460,144 @@ public class DBHelper extends SQLiteOpenHelper {
                 int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
                 long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
                 long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+                int weekday = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_WEEKDAY));
                 String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
-                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, difficulty);
+                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, weekday, difficulty);
                 myClasses.add(thisClass);
             } while (cursor.moveToNext());
         }
         return myClasses;
+    }
+
+    /**
+     * Gets all classes that still have room and the user is not enrolled in. They are filtered
+     * by the searchbar and weekday dropdown
+     * @param username is the logged in user
+     * @param searchType is the type to search for
+     * @param searchWeekday is the weekday to filter by
+     * @return an arraylist of all available scheduled classes
+     */
+    public ArrayList<ScheduledClass> getAvailableClasses(String username, String searchType, int searchWeekday){
+        TreeMap<Integer, ScheduledClass> availableClassesTemp = new TreeMap<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+                CLASSES_COLUMN_ENROLLED+" < "+CLASSES_COLUMN_CAPACITY+" AND "+
+                CLASSES_COLUMN_TYPE+" LIKE ? AND "+CLASSES_COLUMN_WEEKDAY+" = "+searchWeekday,
+                new String[]{"%"+searchType+"%"});
+        if ( cursor.moveToFirst() ){
+            do {
+                int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
+                String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
+                String instructor = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
+                int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
+                int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
+                long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
+                long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+                int weekday = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_WEEKDAY));
+                String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
+                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, weekday, difficulty);
+                availableClassesTemp.put(classId, thisClass);
+            } while (cursor.moveToNext());
+        }
+        cursor = db.rawQuery("SELECT * FROM "+ENROLLED_TABLE_NAME+" WHERE "+
+                ENROLLED_COLUMN_USER+" = ?", new String[]{username});
+        if ( cursor.moveToFirst() ){
+            do {
+                availableClassesTemp.remove(cursor.getInt(cursor.getColumnIndexOrThrow(ENROLLED_COLUMN_CLASS)));
+            } while ( cursor.moveToNext() );
+        }
+        ArrayList<ScheduledClass> availableClasses = new ArrayList<>();
+        for ( ScheduledClass item: availableClassesTemp.values()){
+            availableClasses.add(item);
+        }
+        return availableClasses;
+    }
+
+    /**
+     * Gets all classes that the currently logged in user is registered for
+     * @param username is the username of the logged in user
+     * @return the arraylist of classes
+     */
+    public ArrayList<ScheduledClass> getMyEnrolledClasses(String username){
+        ArrayList<ScheduledClass> myClasses = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ENROLLED_TABLE_NAME+" WHERE "+
+                ENROLLED_COLUMN_USER+" = ?", new String[]{username});
+        if ( cursor.moveToFirst() ){
+            do {
+                int classId = cursor.getInt(cursor.getColumnIndexOrThrow(ENROLLED_COLUMN_CLASS));
+                Cursor cursor2 = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+                        CLASSES_COLUMN_ID+" = "+classId, null);
+                cursor2.moveToFirst();
+                myClasses.add(createClassObject(cursor2));
+            } while (cursor.moveToNext());
+        }
+        return myClasses;
+    }
+
+    public void enrollInClass(String username, int classId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("INSERT INTO "+ENROLLED_TABLE_NAME+" ("+
+                ENROLLED_COLUMN_USER+", "+
+                ENROLLED_COLUMN_CLASS+") VALUES (?, "+classId+")", new String[]{username});
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+                CLASSES_COLUMN_ID+" = "+classId, null);
+        cursor.moveToFirst();
+        int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED)) + 1;
+        db.execSQL("UPDATE "+CLASSES_TABLE_NAME+" SET "+CLASSES_COLUMN_ENROLLED+" = "+enrolled+" WHERE "+
+                CLASSES_COLUMN_ID+" = "+classId);
+    }
+
+    public int courseConflict(String username, int classId){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+                CLASSES_COLUMN_ID+" = "+classId, null);
+        cursor.moveToFirst();
+        long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
+        long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+        cursor.close();
+        cursor = db.rawQuery("SELECT * FROM "+ENROLLED_TABLE_NAME+" WHERE "+
+                ENROLLED_COLUMN_USER+" = ?", new String[]{username});
+        if ( cursor.moveToFirst() ) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(ENROLLED_COLUMN_CLASS));
+                Cursor cursor2 = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+                        CLASSES_COLUMN_ID+" = "+id, null);
+                cursor2.moveToFirst();
+                long start = cursor2.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
+                long end = cursor2.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+                if ( startTime < end && endTime > start ){
+                    return id;
+                }
+            } while ( cursor.moveToNext());
+        }
+        return -1;
+    }
+
+    public void unEnrollFromClass(String username, int classId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ENROLLED_TABLE_NAME+" WHERE "+ENROLLED_COLUMN_USER+" = ? AND "+
+                ENROLLED_COLUMN_CLASS+" = "+classId, new String[]{username});
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+                CLASSES_COLUMN_ID+" = "+classId, null);
+        cursor.moveToFirst();
+        int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED)) - 1;
+        db.execSQL("UPDATE "+CLASSES_TABLE_NAME+" SET "+CLASSES_COLUMN_ENROLLED+" = "+enrolled+" WHERE "+
+                CLASSES_COLUMN_ID+" = "+classId);
+    }
+
+    private ScheduledClass createClassObject(Cursor cursor){
+        int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
+        String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
+        String instructor = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
+        int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
+        int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
+        long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
+        long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+        int weekday = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_WEEKDAY));
+        String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
+        ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, weekday, difficulty);
+        return thisClass;
     }
 
 }
