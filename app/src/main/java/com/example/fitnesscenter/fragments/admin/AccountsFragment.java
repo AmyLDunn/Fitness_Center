@@ -34,10 +34,13 @@ public class AccountsFragment extends Fragment {
         return new AccountsFragment();
     }
 
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-    }
-
+    /**
+     * This method specifies what layout to use for the fragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view created using the specified layout
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -52,25 +55,41 @@ public class AccountsFragment extends Fragment {
         // Find all associated views
         accountList = (ListView) getActivity().findViewById(R.id.accounts_list);
 
-        // Filling the listview and activating its context menu
+        // Filling the listview
         accounts = database.getAllAccounts();
         accountAdapter = new AccountsAdapter(getActivity(), accounts);
         accountList.setAdapter(accountAdapter);
+        // This next command allows long-presses on the items in accountList. On a long-press
+        // it calls onCreateContextMenu below
         registerForContextMenu(accountList);
     }
 
+    /**
+     * Called on a long-press of an item in accountList listView. It makes the menu pop-up on screen
+     * The menu used is R.menu.accounts_context_menu. Pressing on a menu item in the pop-up calls
+     * onContextItemSelected below
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.accounts_context_menu, menu);
     }
 
+    /**
+     * Called when choosing an option in the context menu
+     * @param item
+     * @return
+     */
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)  item.getMenuInfo();
         int index = info.position;
         switch (item.getItemId()){
+            // If the delete button was pressed
             case R.id.account_option_delete:
-                // Move to the item selected
+                // Get the account that was pressed
                 Account user = accounts.get(index);
                 // Delete the account
                 int id_to_delete = user.getId();

@@ -58,10 +58,11 @@ public class ClassTypesFragment extends Fragment {
         classTypeList = (ListView) getActivity().findViewById(R.id.class_types_list);
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
 
-        // Fills the listview and registers its context menu
+        // Fills the listview
         classTypes = database.getAllClassTypes();
         classTypeAdapter = new ClassTypesAdapter(getActivity(), classTypes);
         classTypeList.setAdapter(classTypeAdapter);
+        // This calls onCreateContextMenu when a list item in classTypeList is long-pressed
         registerForContextMenu(classTypeList);
 
         // Sets the onClick for the floating action button
@@ -77,15 +78,27 @@ public class ClassTypesFragment extends Fragment {
         });
     }
 
+    /**
+     * Creates a popup-menu with the options from R.menu.class_types_context_menu after long-pressing
+     * a list item
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.class_types_context_menu, menu);
     }
 
+    /**
+     * This is called when an option is pressed from the context menu created above
+     * @param item
+     * @return
+     */
     public boolean onContextItemSelected(MenuItem item){
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        // Moves cursor to relevant item
+        // Get relevant class type
         int index = info.position;
         ClassType thisClassType = classTypes.get(index);
         switch (item.getItemId()){
@@ -113,6 +126,9 @@ public class ClassTypesFragment extends Fragment {
         }
     }
 
+    /**
+     * This listens for when the CreateNewClassType screen closes and refreshes the page in case of changes
+     */
     ActivityResultLauncher<Intent> createNewClassTypeLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {

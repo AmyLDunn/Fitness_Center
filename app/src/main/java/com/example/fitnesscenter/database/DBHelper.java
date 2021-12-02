@@ -478,34 +478,41 @@ public class DBHelper extends SQLiteOpenHelper {
      * @return an arraylist of all available scheduled classes
      */
     public ArrayList<ScheduledClass> getAvailableClasses(String username, String searchType, int searchWeekday){
+        // Make a tree map to store all available classes
         TreeMap<Integer, ScheduledClass> availableClassesTemp = new TreeMap<>();
+        // Link to the database
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
-                CLASSES_COLUMN_ENROLLED+" < "+CLASSES_COLUMN_CAPACITY+" AND "+
-                CLASSES_COLUMN_TYPE+" LIKE ? AND "+CLASSES_COLUMN_WEEKDAY+" = "+searchWeekday,
-                new String[]{"%"+searchType+"%"});
+        Cursor cursor;
+        // If a weekday is specified, include that in the search
+        if (searchWeekday != -1) {
+            cursor = db.rawQuery("SELECT * FROM " + CLASSES_TABLE_NAME + " WHERE " +
+                            CLASSES_COLUMN_ENROLLED + " < " + CLASSES_COLUMN_CAPACITY + " AND " +
+                            CLASSES_COLUMN_TYPE + " LIKE ? AND " + CLASSES_COLUMN_WEEKDAY + " = " + searchWeekday,
+                    new String[]{"%" + searchType + "%"});
+        // If the weekday is not specified, don't search for it
+        } else {
+            cursor = db.rawQuery("SELECT * FROM " + CLASSES_TABLE_NAME + " WHERE " +
+                            CLASSES_COLUMN_ENROLLED + " < " + CLASSES_COLUMN_CAPACITY + " AND " +
+                            CLASSES_COLUMN_TYPE + " LIKE ?",
+                    new String[]{"%" + searchType + "%"});
+        }
+        // Loop over all valid classes and put them in the tree
         if ( cursor.moveToFirst() ){
             do {
                 int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
-                String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
-                String instructor = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
-                int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
-                int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
-                long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
-                long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
-                int weekday = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_WEEKDAY));
-                String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
-                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, weekday, difficulty);
-                availableClassesTemp.put(classId, thisClass);
+                availableClassesTemp.put(classId, createClassObject(cursor));
             } while (cursor.moveToNext());
         }
+        // Start a new cursor query about the classIds that "username" is enrolled in
         cursor = db.rawQuery("SELECT * FROM "+ENROLLED_TABLE_NAME+" WHERE "+
                 ENROLLED_COLUMN_USER+" = ?", new String[]{username});
+        // Remove all enrolled classes from available classes
         if ( cursor.moveToFirst() ){
             do {
                 availableClassesTemp.remove(cursor.getInt(cursor.getColumnIndexOrThrow(ENROLLED_COLUMN_CLASS)));
             } while ( cursor.moveToNext() );
         }
+        // Put the treemap classes into an arraylist
         ArrayList<ScheduledClass> availableClasses = new ArrayList<>();
         for ( ScheduledClass item: availableClassesTemp.values()){
             availableClasses.add(item);

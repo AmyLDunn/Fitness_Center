@@ -58,10 +58,12 @@ public class ViewMyClassesFragment extends Fragment {
         SharedPreferencesManager SP = new SharedPreferencesManager(getContext());
         username = SP.getUsername();
 
+        // Fills the listview
         classes = database.getMyClasses(username);
         classesList = getActivity().findViewById(R.id.list_of_my_scheduled_classes);
         classesAdapter = new ClassesAdapter(getActivity(), classes);
         classesList.setAdapter(classesAdapter);
+        // This sets up the items in the classesList for long-presses
         registerForContextMenu(classesList);
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
@@ -75,25 +77,42 @@ public class ViewMyClassesFragment extends Fragment {
         });
     }
 
+    /**
+     * Creates a menu with the items in R.menu.class_context_menu when a list item is long-pressed
+     * @param menu
+     * @param v
+     * @param menuInfo
+     */
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.class_context_menu, menu);
     }
 
+    /**
+     * This is called when an option is chosen from the menu generated above
+     * @param item
+     * @return
+     */
     public boolean onContextItemSelected(MenuItem item){
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        // Get the class that was pressed
         int index = info.position;
         ScheduledClass thisClass = classes.get(index);
         switch (item.getItemId()){
             case R.id.class_option_edit:
+                // Opens an intent
                 Intent intent = new Intent(getActivity(), CreateNewClassActivity.class);
+                // Adds the class id to it
                 intent.putExtra("CLASS_ID", thisClass.getId());
+                // Launches the intent using a listener
                 createNewClassLauncher.launch(intent);
                 return true;
             case R.id.class_option_delete:
+                // Deletes the class
                 int id_to_delete = thisClass.getId();
                 database.deleteClass(id_to_delete);
+                // Refreshes the listview
                 classes = database.getMyClasses(username);
                 classesAdapter = new ClassesAdapter(getContext(), classes);
                 classesList.setAdapter(classesAdapter);
@@ -104,6 +123,9 @@ public class ViewMyClassesFragment extends Fragment {
         }
     }
 
+    /**
+     * Listens for when the CreateNewClassActivity is done and refreshes the page in case of changes
+     */
     ActivityResultLauncher<Intent> createNewClassLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
