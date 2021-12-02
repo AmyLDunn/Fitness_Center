@@ -1,4 +1,4 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.screens.instructor;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.DBHelper;
 import com.example.fitnesscenter.database.SharedPreferencesManager;
 import com.example.fitnesscenter.helper.Account;

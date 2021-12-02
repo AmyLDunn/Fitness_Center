@@ -1,8 +1,7 @@
-package com.example.fitnesscenter.fragments.instructor;
+package com.example.fitnesscenter.screens.instructor;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -21,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.fitnesscenter.CreateNewClassActivity;
 import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.ClassesAdapter;
 import com.example.fitnesscenter.database.DBHelper;
@@ -99,10 +97,16 @@ public class ViewMyClassesFragment extends Fragment {
         // Get the class that was pressed
         int index = info.position;
         ScheduledClass thisClass = classes.get(index);
+        Intent intent;
         switch (item.getItemId()){
+            case R.id.class_option_view_members:
+                intent = new Intent(getActivity(), ViewEnrolledMembersActivity.class);
+                intent.putExtra("CLASS_ID", thisClass.getId());
+                startActivity(intent);
+                return true;
             case R.id.class_option_edit:
                 // Opens an intent
-                Intent intent = new Intent(getActivity(), CreateNewClassActivity.class);
+                intent = new Intent(getActivity(), CreateNewClassActivity.class);
                 // Adds the class id to it
                 intent.putExtra("CLASS_ID", thisClass.getId());
                 // Launches the intent using a listener

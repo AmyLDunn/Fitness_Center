@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.fragments.admin;
+package com.example.fitnesscenter.screens.admin;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,7 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.fitnesscenter.CreateNewClassTypeActivity;
 import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.ClassTypesAdapter;
 import com.example.fitnesscenter.database.DBHelper;

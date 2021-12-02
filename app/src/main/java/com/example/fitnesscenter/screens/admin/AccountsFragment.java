@@ -1,6 +1,5 @@
-package com.example.fitnesscenter.fragments.admin;
+package com.example.fitnesscenter.screens.admin;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;

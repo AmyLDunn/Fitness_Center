@@ -1,4 +1,4 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.screens;
 
 import android.os.Bundle;
 

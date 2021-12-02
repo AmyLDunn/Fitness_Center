@@ -1,4 +1,4 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.DBHelper;
 import com.example.fitnesscenter.database.SharedPreferencesManager;
-import com.example.fitnesscenter.helper.Account;
 import com.google.android.material.snackbar.Snackbar;
 
 public class CreateNewAccountActivity extends AppCompatActivity {

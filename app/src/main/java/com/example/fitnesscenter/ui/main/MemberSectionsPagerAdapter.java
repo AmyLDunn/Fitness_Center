@@ -9,10 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.fitnesscenter.R;
-import com.example.fitnesscenter.fragments.member.ViewAvailableClassesFragment;
-import com.example.fitnesscenter.fragments.member.ViewEnrolledClassesFragment;
-import com.example.fitnesscenter.fragments.WelcomeFragment;
-import com.example.fitnesscenter.helper.Account;
+import com.example.fitnesscenter.screens.member.ViewAvailableClassesFragment;
+import com.example.fitnesscenter.screens.member.ViewEnrolledClassesFragment;
+import com.example.fitnesscenter.screens.WelcomeFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

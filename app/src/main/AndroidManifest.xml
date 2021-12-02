@@ -10,16 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessCenter">
         <activity
-            android:name=".CreateNewClassActivity"
+            android:name=".screens.instructor.CreateNewClassActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateNewClassTypeActivity"
+            android:name=".screens.admin.CreateNewClassTypeActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateNewAccountActivity"
+            android:name=".screens.CreateNewAccountActivity"
             android:exported="false" />
+        <activity android:name=".screens.instructor.ViewEnrolledMembersActivity"
+            android:exported="false"/>
         <activity
-            android:name=".LoginActivity"
+            android:name=".screens.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".screens.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.FitnessCenter.NoActionBar" />

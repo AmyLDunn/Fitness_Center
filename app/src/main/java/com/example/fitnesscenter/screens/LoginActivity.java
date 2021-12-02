@@ -1,4 +1,4 @@
-package com.example.fitnesscenter;
+package com.example.fitnesscenter.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.DBHelper;
 import com.example.fitnesscenter.database.SharedPreferencesManager;
 import com.example.fitnesscenter.helper.Account;

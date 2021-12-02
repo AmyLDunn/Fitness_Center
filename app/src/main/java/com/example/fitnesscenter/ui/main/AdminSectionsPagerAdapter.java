@@ -8,11 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.fitnesscenter.fragments.WelcomeFragment;
-import com.example.fitnesscenter.fragments.admin.AccountsFragment;
-import com.example.fitnesscenter.fragments.admin.ClassTypesFragment;
+import com.example.fitnesscenter.screens.WelcomeFragment;
+import com.example.fitnesscenter.screens.admin.AccountsFragment;
+import com.example.fitnesscenter.screens.admin.ClassTypesFragment;
 import com.example.fitnesscenter.R;
-import com.example.fitnesscenter.helper.Account;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

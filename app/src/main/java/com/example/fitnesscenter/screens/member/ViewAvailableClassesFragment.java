@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.fragments.member;
+package com.example.fitnesscenter.screens.member;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

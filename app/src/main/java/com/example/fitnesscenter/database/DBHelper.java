@@ -399,17 +399,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
                 CLASSES_COLUMN_ID+" = "+id, null);
         cursor.moveToFirst();
-        // Collect all data from database
-        int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
-        String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
-        String instructor = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
-        int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
-        int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
-        long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
-        long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
-        int weekday = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_WEEKDAY));
-        String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
-        return new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, weekday, difficulty);
+        return createClassObject(cursor);
     }
 
     /**
@@ -425,17 +415,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{"%" + searchKey + "%", "%" + searchKey + "%"});
         if ( cursor.moveToFirst() ){
             do {
-                int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
-                String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
-                String instructor = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
-                int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
-                int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
-                long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
-                long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
-                int weekday = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_WEEKDAY));
-                String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
-                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, weekday, difficulty);
-                allClasses.add(thisClass);
+                allClasses.add(createClassObject(cursor));
             } while (cursor.moveToNext());
         }
         return allClasses;
@@ -453,17 +433,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 CLASSES_COLUMN_INSTRUCTOR+" = ?", new String[]{username});
         if ( cursor.moveToFirst() ){
             do {
-                int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
-                String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
-                String instructor = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
-                int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
-                int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
-                long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
-                long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
-                int weekday = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_WEEKDAY));
-                String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
-                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, weekday, difficulty);
-                myClasses.add(thisClass);
+                myClasses.add(createClassObject(cursor));
             } while (cursor.moveToNext());
         }
         return myClasses;
@@ -591,6 +561,19 @@ public class DBHelper extends SQLiteOpenHelper {
         int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED)) - 1;
         db.execSQL("UPDATE "+CLASSES_TABLE_NAME+" SET "+CLASSES_COLUMN_ENROLLED+" = "+enrolled+" WHERE "+
                 CLASSES_COLUMN_ID+" = "+classId);
+    }
+
+    public ArrayList<String> getEnrolledMembersOfClass(int classId){
+        ArrayList<String> members = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ENROLLED_TABLE_NAME+" WHERE "+
+                ENROLLED_COLUMN_CLASS+" = "+classId, null);
+        if ( cursor.moveToFirst() ){
+            do {
+                members.add(cursor.getString(cursor.getColumnIndexOrThrow(ENROLLED_COLUMN_USER)));
+            } while ( cursor.moveToNext() );
+        }
+        return members;
     }
 
     private ScheduledClass createClassObject(Cursor cursor){

@@ -1,6 +1,5 @@
-package com.example.fitnesscenter.fragments.instructor;
+package com.example.fitnesscenter.screens.instructor;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
