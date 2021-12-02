@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.fitnesscenter.database.DBHelper;
+import com.example.fitnesscenter.database.SharedPreferencesManager;
 import com.example.fitnesscenter.helper.Account;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -60,8 +61,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(Account myAccount){
+        SharedPreferencesManager SP = new SharedPreferencesManager(this);
+        SP.setUsername(myAccount.getUsername());
+        SP.setUserType(myAccount.getType());
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("USER_ACCOUNT", myAccount);
         startActivity(intent);
     }
 

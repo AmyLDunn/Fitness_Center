@@ -23,12 +23,10 @@ public class AdminSectionsPagerAdapter extends FragmentPagerAdapter {
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
     private final Context mContext;
-    private Account myAccount;
 
-    public AdminSectionsPagerAdapter(Context context, FragmentManager fm, Account myAccount) {
+    public AdminSectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
-        this.myAccount = myAccount;
     }
 
     @Override
@@ -36,7 +34,7 @@ public class AdminSectionsPagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = null;
         switch (position){
             case 0:
-                fragment = WelcomeFragment.newInstance(myAccount);
+                fragment = WelcomeFragment.newInstance();
                 break;
             case 1:
                 fragment = ClassTypesFragment.newInstance();

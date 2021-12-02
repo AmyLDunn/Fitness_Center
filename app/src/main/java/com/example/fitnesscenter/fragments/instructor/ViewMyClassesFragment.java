@@ -23,31 +23,26 @@ import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscenter.CreateNewClassActivity;
 import com.example.fitnesscenter.R;
-import com.example.fitnesscenter.database.ClassesCursorAdapter;
+import com.example.fitnesscenter.database.ClassesAdapter;
 import com.example.fitnesscenter.database.DBHelper;
-import com.example.fitnesscenter.helper.Account;
+import com.example.fitnesscenter.database.SharedPreferencesManager;
+import com.example.fitnesscenter.helper.ScheduledClass;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class ViewMyClassesFragment extends Fragment {
 
     DBHelper database;
-    Cursor classesCursor;
-    ClassesCursorAdapter cursorAdapter;
+    ArrayList<ScheduledClass> classes;
+    ClassesAdapter classesAdapter;
+    ListView classesList;
 
-    Account myAccount;
+    String username;
 
-    public static ViewMyClassesFragment newInstance(Account myAccount) {
+    public static ViewMyClassesFragment newInstance() {
         ViewMyClassesFragment fragment = new ViewMyClassesFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("USER_ACCOUNT", myAccount);
-        fragment.setArguments(bundle);
         return fragment;
-    }
-
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        Bundle bundle = getActivity().getIntent().getExtras();
-        myAccount = bundle.getParcelable("USER_ACCOUNT");
     }
 
     @Nullable
@@ -60,11 +55,13 @@ public class ViewMyClassesFragment extends Fragment {
 
         // Initializing the listview to contain all of the scheduled classes
         database = new DBHelper(getActivity());
+        SharedPreferencesManager SP = new SharedPreferencesManager(getContext());
+        username = SP.getUsername();
 
-        classesCursor = database.getMyClasses(myAccount.getUsername());
-        ListView classesList = getActivity().findViewById(R.id.list_of_my_scheduled_classes);
-        cursorAdapter = new ClassesCursorAdapter(getActivity(), classesCursor);
-        classesList.setAdapter(cursorAdapter);
+        classes = database.getMyClasses(username);
+        classesList = getActivity().findViewById(R.id.list_of_my_scheduled_classes);
+        classesAdapter = new ClassesAdapter(getActivity(), classes);
+        classesList.setAdapter(classesAdapter);
         registerForContextMenu(classesList);
 
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
@@ -73,7 +70,6 @@ public class ViewMyClassesFragment extends Fragment {
             public void onClick(View view){
                 Intent intent = new Intent(getActivity(), CreateNewClassActivity.class);
                 intent.putExtra("CLASS_ID", -1);
-                intent.putExtra("USER_ACCOUNT", myAccount);
                 createNewClassLauncher.launch(intent);
             }
         });
@@ -88,19 +84,19 @@ public class ViewMyClassesFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item){
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int index = info.position;
-        classesCursor.moveToPosition(index);
+        ScheduledClass thisClass = classes.get(index);
         switch (item.getItemId()){
             case R.id.class_option_edit:
                 Intent intent = new Intent(getActivity(), CreateNewClassActivity.class);
-                intent.putExtra("CLASS_ID", classesCursor.getInt(classesCursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_ID)));
-                intent.putExtra("USER_ACCOUNT", myAccount);
+                intent.putExtra("CLASS_ID", thisClass.getId());
                 createNewClassLauncher.launch(intent);
                 return true;
             case R.id.class_option_delete:
-                int id_to_delete = classesCursor.getInt(classesCursor.getColumnIndexOrThrow(DBHelper.CLASSES_COLUMN_ID));
+                int id_to_delete = thisClass.getId();
                 database.deleteClass(id_to_delete);
-                classesCursor = database.getMyClasses(myAccount.getUsername());
-                cursorAdapter.changeCursor(classesCursor);
+                classes = database.getMyClasses(username);
+                classesAdapter = new ClassesAdapter(getContext(), classes);
+                classesList.setAdapter(classesAdapter);
                 getActivity().recreate();
                 return true;
             default:
@@ -112,8 +108,9 @@ public class ViewMyClassesFragment extends Fragment {
         @Override
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == Activity.RESULT_OK ) {
-                classesCursor = database.getMyClasses(myAccount.getUsername());
-                cursorAdapter.changeCursor(classesCursor);
+                classes = database.getMyClasses(username);
+                classesAdapter = new ClassesAdapter(getContext(), classes);
+                classesList.setAdapter(classesAdapter);
                 getActivity().recreate();
             }
         }

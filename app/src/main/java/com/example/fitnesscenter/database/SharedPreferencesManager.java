@@ -23,7 +23,7 @@ public class SharedPreferencesManager {
         SP.edit().putString("ACCOUNT_NAME", name).commit();
     }
 
-    public String getUsername(String name){
+    public String getUsername(){
         return SP.getString("ACCOUNT_NAME", "Bob");
     }
 

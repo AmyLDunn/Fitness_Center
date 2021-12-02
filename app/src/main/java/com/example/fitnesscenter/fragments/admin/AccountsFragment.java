@@ -16,14 +16,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscenter.R;
-import com.example.fitnesscenter.database.AccountsCursorAdapter;
+import com.example.fitnesscenter.database.AccountsAdapter;
 import com.example.fitnesscenter.database.DBHelper;
+import com.example.fitnesscenter.helper.Account;
+
+import java.util.ArrayList;
 
 public class AccountsFragment extends Fragment {
 
     private DBHelper database;
-    private Cursor accountCursor;
-    private AccountsCursorAdapter cursorAdapter;
+    private ArrayList<Account> accounts;
+    private AccountsAdapter accountAdapter;
+
+    ListView accountList;
 
     public static AccountsFragment newInstance(){
         return new AccountsFragment();
@@ -45,12 +50,12 @@ public class AccountsFragment extends Fragment {
         database = new DBHelper(getActivity());
 
         // Find all associated views
-        ListView accountList = (ListView) getActivity().findViewById(R.id.accounts_list);
+        accountList = (ListView) getActivity().findViewById(R.id.accounts_list);
 
         // Filling the listview and activating its context menu
-        accountCursor = database.getAllAccounts();
-        cursorAdapter = new AccountsCursorAdapter(getActivity(), accountCursor);
-        accountList.setAdapter(cursorAdapter);
+        accounts = database.getAllAccounts();
+        accountAdapter = new AccountsAdapter(getActivity(), accounts);
+        accountList.setAdapter(accountAdapter);
         registerForContextMenu(accountList);
     }
 
@@ -66,13 +71,14 @@ public class AccountsFragment extends Fragment {
         switch (item.getItemId()){
             case R.id.account_option_delete:
                 // Move to the item selected
-                accountCursor.moveToPosition(index);
+                Account user = accounts.get(index);
                 // Delete the account
-                int id_to_delete = accountCursor.getInt(accountCursor.getColumnIndexOrThrow(DBHelper.ACCOUNTS_COLUMN_ID));
+                int id_to_delete = user.getId();
                 database.deleteAccount(id_to_delete);
                 // Refresh the list
-                accountCursor = database.getAllAccounts();
-                cursorAdapter.changeCursor(accountCursor);
+                accounts = database.getAllAccounts();
+                accountAdapter = new AccountsAdapter(getActivity(), accounts);
+                accountList.setAdapter(accountAdapter);
                 return true;
             default:
                 return super.onContextItemSelected(item);

@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fitnesscenter.database.DBHelper;
+import com.example.fitnesscenter.database.SharedPreferencesManager;
 import com.example.fitnesscenter.helper.Account;
 import com.example.fitnesscenter.helper.ScheduledClass;
 import com.google.android.material.snackbar.Snackbar;
@@ -31,8 +32,7 @@ import java.util.GregorianCalendar;
 public class CreateNewClassActivity extends AppCompatActivity {
 
     DBHelper database;
-
-    Account userAccount;
+    String username;
 
     String type;
     Calendar startTime;
@@ -48,10 +48,11 @@ public class CreateNewClassActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_new_class);
 
         database = new DBHelper(this);
+        SharedPreferencesManager SP = new SharedPreferencesManager(this);
+        username = SP.getUsername();
 
         Bundle bundle = getIntent().getExtras();
         int id = bundle.getInt("CLASS_ID");
-        userAccount = bundle.getParcelable("USER_ACCOUNT");
 
         if ( id == -1 ){ // Making a new scheduled class
             startTime = Calendar.getInstance();
@@ -176,7 +177,6 @@ public class CreateNewClassActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String typeOfClass = spin.getSelectedItem().toString();
-                String instructorName = userAccount.getUsername();
                 int classCapacity = picker.getValue()+1;
                 long startTimeTime = startTime.getTime().getTime();
                 long endTimeTime = endTime.getTime().getTime();
@@ -189,13 +189,13 @@ public class CreateNewClassActivity extends AppCompatActivity {
                 //Verifying if the class already exists
                 String otherInstructor = database.classExists(typeOfClass, startTimeTime);
 
-                if (otherInstructor != null && !otherInstructor.equals(userAccount.getUsername())) {
+                if (otherInstructor != null && !otherInstructor.equals(username)) {
                     Snackbar.make(findViewById(R.id.create_new_class_type_screen), "Class type already scheduled by " + otherInstructor, Snackbar.LENGTH_SHORT).show();
                 } else {
                     if (id == -1) {
-                        database.addClass(typeOfClass, instructorName, classCapacity, startTimeTime, endTimeTime, difficulty);
+                        database.addClass(typeOfClass, username, classCapacity, startTimeTime, endTimeTime, difficulty);
                     } else {
-                        database.updateClass(id, typeOfClass, instructorName, classCapacity, startTimeTime, endTimeTime, difficulty);
+                        database.updateClass(id, typeOfClass, username, classCapacity, startTimeTime, endTimeTime, difficulty);
                     }
                     Intent returnIntent = new Intent();
                     setResult(RESULT_OK, returnIntent);

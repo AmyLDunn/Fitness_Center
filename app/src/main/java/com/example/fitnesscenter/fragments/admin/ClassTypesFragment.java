@@ -2,7 +2,6 @@ package com.example.fitnesscenter.fragments.admin;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -23,15 +22,19 @@ import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscenter.CreateNewClassTypeActivity;
 import com.example.fitnesscenter.R;
-import com.example.fitnesscenter.database.ClassTypesCursorAdapter;
+import com.example.fitnesscenter.database.ClassTypesAdapter;
 import com.example.fitnesscenter.database.DBHelper;
+import com.example.fitnesscenter.helper.ClassType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class ClassTypesFragment extends Fragment {
 
     private DBHelper database;
-    private Cursor classTypeCursor;
-    private ClassTypesCursorAdapter cursorAdapter;
+    private ArrayList<ClassType> classTypes;
+    private ClassTypesAdapter classTypeAdapter;
+    ListView classTypeList;
 
     public static ClassTypesFragment newInstance(){
         return new ClassTypesFragment();
@@ -52,13 +55,13 @@ public class ClassTypesFragment extends Fragment {
         database = new DBHelper(getActivity());
 
         // Finds all views
-        ListView classTypeList = (ListView) getActivity().findViewById(R.id.class_types_list);
+        classTypeList = (ListView) getActivity().findViewById(R.id.class_types_list);
         FloatingActionButton fab = getActivity().findViewById(R.id.fab);
 
         // Fills the listview and registers its context menu
-        classTypeCursor = database.getAllClassTypes();
-        cursorAdapter = new ClassTypesCursorAdapter(getActivity(), classTypeCursor);
-        classTypeList.setAdapter(cursorAdapter);
+        classTypes = database.getAllClassTypes();
+        classTypeAdapter = new ClassTypesAdapter(getActivity(), classTypes);
+        classTypeList.setAdapter(classTypeAdapter);
         registerForContextMenu(classTypeList);
 
         // Sets the onClick for the floating action button
@@ -84,25 +87,26 @@ public class ClassTypesFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         // Moves cursor to relevant item
         int index = info.position;
-        classTypeCursor.moveToPosition(index);
+        ClassType thisClassType = classTypes.get(index);
         switch (item.getItemId()){
             case R.id.class_type_option_edit:
                 // Builds the intent to open the edit page
                 Intent intent = new Intent(getActivity(), CreateNewClassTypeActivity.class);
                 // Adds the info about the class to the intent
-                intent.putExtra("CLASS_TYPE_ID", classTypeCursor.getInt(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_ID)));
-                intent.putExtra("CLASS_TYPE_NAME", classTypeCursor.getString(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_NAME)));
-                intent.putExtra("CLASS_TYPE_DESCRIPTION", classTypeCursor.getString(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_DESCRIPTION)));
+                intent.putExtra("CLASS_TYPE_ID", thisClassType.getId());
+                intent.putExtra("CLASS_TYPE_NAME", thisClassType.getName());
+                intent.putExtra("CLASS_TYPE_DESCRIPTION", thisClassType.getDescription());
                 // Launches the intent with a result listener
                 createNewClassTypeLauncher.launch(intent);
                 return true;
             case R.id.class_type_option_delete:
                 // deletes the class type from the database
-                int id_to_delete = classTypeCursor.getInt(classTypeCursor.getColumnIndexOrThrow(DBHelper.CLASS_TYPES_COLUMN_ID));
+                int id_to_delete = thisClassType.getId();
                 database.deleteClassType(id_to_delete);
                 // Refreshes the listview
-                classTypeCursor = database.getAllClassTypes();
-                cursorAdapter.changeCursor(classTypeCursor);
+                classTypes = database.getAllClassTypes();
+                classTypeAdapter = new ClassTypesAdapter(getActivity(), classTypes);
+                classTypeList.setAdapter(classTypeAdapter);
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -114,8 +118,9 @@ public class ClassTypesFragment extends Fragment {
         public void onActivityResult(ActivityResult result) {
             if (result.getResultCode() == Activity.RESULT_OK ) {
                 // Refreshes the listview
-                classTypeCursor = database.getAllClassTypes();
-                cursorAdapter.changeCursor(classTypeCursor);
+                classTypes = database.getAllClassTypes();
+                classTypeAdapter = new ClassTypesAdapter(getActivity(), classTypes);
+                classTypeList.setAdapter(classTypeAdapter);
             }
         }
     });

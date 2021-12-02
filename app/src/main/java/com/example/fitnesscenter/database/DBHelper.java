@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.fitnesscenter.helper.Account;
+import com.example.fitnesscenter.helper.ClassType;
 import com.example.fitnesscenter.helper.ScheduledClass;
 
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ import java.util.Date;
  * DBHelper mydb = new DBHelper(this);
  * Account myAccount = mydb.getAccount("Username", "Password");
  * ArrayList<Account> allAccounts = mydb.getAllAccounts();
- *
  */
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -56,6 +56,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CLASSES_COLUMN_START = "startTime";
     public static final String CLASSES_COLUMN_END = "endTime";
     public static final String CLASSES_COLUMN_DIFFICULTY = "difficulty";
+
+    // Table and column names to hold the enrolled classes links
+    public static final String ENROLLED_TABLE_NAME = "enrolled";
+    public static final String ENROLLED_COLUMN_CLASS = "class";
+    public static final String ENROLLED_COLUMN_USER = "user";
 
     /**
      * Constructor to open the database
@@ -88,10 +93,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 CLASSES_COLUMN_TYPE+" TEXT, "+
                 CLASSES_COLUMN_INSTRUCTOR+" TEXT, "+
                 CLASSES_COLUMN_CAPACITY+" INTEGER, "+
-                CLASSES_COLUMN_CAPACITY+" INTEGER, "+
+                CLASSES_COLUMN_ENROLLED+" INTEGER, "+
                 CLASSES_COLUMN_START+" INTEGER, "+
                 CLASSES_COLUMN_END+" INTEGER, "+
                 CLASSES_COLUMN_DIFFICULTY+" TEXT)");
+        // Make the enrolled classes table
+        db.execSQL("CREATE TABLE "+ENROLLED_TABLE_NAME+" ("+
+                ENROLLED_COLUMN_USER+" TEXT, "+
+                ENROLLED_COLUMN_CLASS+" INTEGER)");
         // Puts the admin account into the accounts table
         db.execSQL("INSERT INTO "+ACCOUNTS_TABLE_NAME+"("+ACCOUNTS_COLUMN_USERNAME+", "+
                 ACCOUNTS_COLUMN_PASSWORD+", "+ACCOUNTS_COLUMN_TYPE+") VALUES (?, ?, ?)",
@@ -109,17 +118,29 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ACCOUNTS_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+CLASS_TYPES_TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+CLASSES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ENROLLED_TABLE_NAME);
         onCreate(db);
     }
 
     /**
      * This searches the accounts list for all accounts
-     * @return The cursor that can access all accounts and their information
+     * @return The arraylist of all accounts
      */
-    public Cursor getAllAccounts(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.rawQuery("SELECT * FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+
+    public ArrayList<Account> getAllAccounts(){
+        ArrayList<Account> accounts = new ArrayList<Account>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+
                 ACCOUNTS_COLUMN_TYPE+" IN (0, 1)", null);
+        if ( cursor.moveToFirst() ){
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(ACCOUNTS_COLUMN_ID));
+                String username = cursor.getString(cursor.getColumnIndexOrThrow(ACCOUNTS_COLUMN_USERNAME));
+                int type = cursor.getInt(cursor.getColumnIndexOrThrow(ACCOUNTS_COLUMN_TYPE));
+                Account newUser = new Account(id, username, type);
+                accounts.add(newUser);
+            } while (cursor.moveToNext());
+        }
+        return accounts;
     }
 
     /**
@@ -134,8 +155,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 ACCOUNTS_COLUMN_USERNAME+" = ? AND "+ACCOUNTS_COLUMN_PASSWORD+" = ?",
                 new String[]{username, password});
         if (result.moveToFirst()){
+            int id = result.getInt(result.getColumnIndexOrThrow(ACCOUNTS_COLUMN_ID));
             int accountType = result.getInt(result.getColumnIndexOrThrow(ACCOUNTS_COLUMN_TYPE));
-            return new Account(username, accountType);
+            return new Account(id, username, accountType);
         }
         return null;
     }
@@ -172,7 +194,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void deleteAccount(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         // Get the username of the account to be deleted
-        Cursor cursor = db.rawQuery("SELECT FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+
                 ACCOUNTS_COLUMN_ID+" = "+id, null);
         cursor.moveToFirst();
         String username = cursor.getString(cursor.getColumnIndexOrThrow(ACCOUNTS_COLUMN_USERNAME));
@@ -187,11 +209,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
     /**
      * This gets all of the class types (not scheduled classes) in the classTypes table
-     * @return A cursor with access to all class types
+     * @return An arraylist of all class types
      */
-    public Cursor getAllClassTypes(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.rawQuery("SELECT * FROM "+CLASS_TYPES_TABLE_NAME+"", null);
+    public ArrayList<ClassType> getAllClassTypes(){
+        ArrayList<ClassType> allClassTypes = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASS_TYPES_TABLE_NAME+"", null);
+        if ( cursor.moveToFirst() ){
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(CLASS_TYPES_COLUMN_ID));
+                String name = cursor.getString(cursor.getColumnIndexOrThrow(CLASS_TYPES_COLUMN_NAME));
+                String description = cursor.getString(cursor.getColumnIndexOrThrow(CLASS_TYPES_COLUMN_DESCRIPTION));
+                ClassType thisClassType = new ClassType(id, name, description);
+                allClassTypes.add(thisClassType);
+            } while ( cursor.moveToNext());
+        }
+        return allClassTypes;
     }
 
     /**
@@ -364,37 +397,73 @@ public class DBHelper extends SQLiteOpenHelper {
         // Collect all data from database
         int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
         String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
+        String instructor = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
         int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
+        int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
         long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
         long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
         String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
-        return new ScheduledClass(classId, type, capacity, startTime, endTime, difficulty);
+        return new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, difficulty);
     }
 
     /**
      * This searches for all of the classes that match the searchKey
      * @param searchKey This is the string to filter the classes by
-     * @return A cursor that can iterate over all relevant classes
+     * @return An arraylist of all scheduled classes matching the search
      */
-    public Cursor getAllClasses(String searchKey){
+    public ArrayList<ScheduledClass> getAllClasses(String searchKey){
+        ArrayList<ScheduledClass> allClasses = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor;
         if ( searchKey == null ){
-            return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME, null);
+            cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME, null);
+        } else {
+            cursor = db.rawQuery("SELECT * FROM " + CLASSES_TABLE_NAME + " WHERE " +
+                            CLASSES_COLUMN_TYPE + " LIKE ? OR " + CLASSES_COLUMN_INSTRUCTOR + " LIKE ?",
+                            new String[]{"%" + searchKey + "%", "%" + searchKey + "%"});
         }
-        return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
-                CLASSES_COLUMN_TYPE+" LIKE ? OR "+CLASSES_COLUMN_INSTRUCTOR+" LIKE ?",
-                new String[]{"%"+searchKey+"%", "%"+searchKey+"%"});
+        if ( cursor.moveToFirst() ){
+            do {
+                int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
+                String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
+                String instructor = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
+                int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
+                int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
+                long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
+                long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+                String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
+                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, difficulty);
+                allClasses.add(thisClass);
+            } while (cursor.moveToNext());
+        }
+        return allClasses;
     }
 
     /**
      * Gets all the classes that a particular instructor is teaching
      * @param username The username of the instructor
-     * @return A cursor that can iterate over all of that instructor's scheduled classes
+     * @return An arraylist of all the user's scheduled classes
      */
-    public Cursor getMyClasses(String username){
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+    public ArrayList<ScheduledClass> getMyClasses(String username){
+        ArrayList<ScheduledClass> myClasses = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
                 CLASSES_COLUMN_INSTRUCTOR+" = ?", new String[]{username});
+        if ( cursor.moveToFirst() ){
+            do {
+                int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
+                String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_TYPE));
+                String instructor = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_INSTRUCTOR));
+                int capacity = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_CAPACITY));
+                int enrolled = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ENROLLED));
+                long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
+                long endTime = cursor.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+                String difficulty = cursor.getString(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_DIFFICULTY));
+                ScheduledClass thisClass = new ScheduledClass(classId, type, instructor, capacity, enrolled, startTime, endTime, difficulty);
+                myClasses.add(thisClass);
+            } while (cursor.moveToNext());
+        }
+        return myClasses;
     }
 
 }

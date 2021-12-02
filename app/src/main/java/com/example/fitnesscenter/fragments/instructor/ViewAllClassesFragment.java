@@ -15,14 +15,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscenter.R;
-import com.example.fitnesscenter.database.ClassesCursorAdapter;
+import com.example.fitnesscenter.database.ClassesAdapter;
 import com.example.fitnesscenter.database.DBHelper;
+import com.example.fitnesscenter.helper.ScheduledClass;
+
+import java.util.ArrayList;
 
 public class ViewAllClassesFragment extends Fragment {
 
     private DBHelper database;
-    private Cursor classesCursor;
-    private ClassesCursorAdapter cursorAdapter;
+    private ArrayList<ScheduledClass> classes;
+    private ClassesAdapter classesAdapter;
+    ListView classesList;
 
     public static ViewAllClassesFragment newInstance() {
         return new ViewAllClassesFragment();
@@ -43,13 +47,13 @@ public class ViewAllClassesFragment extends Fragment {
         database = new DBHelper(getActivity());
 
         // Finds all relevant views
-        ListView classesList = getActivity().findViewById(R.id.list_of_all_scheduled_classes);
+        classesList = getActivity().findViewById(R.id.list_of_all_scheduled_classes);
         EditText searchBar = getActivity().findViewById(R.id.search_bar);
 
         // Initializing the listview to contain all of the scheduled classes
-        classesCursor = database.getAllClasses(null); // The searchkey will be used if the user is trying to search for a class type or instructor
-        cursorAdapter = new ClassesCursorAdapter(getActivity(), classesCursor);
-        classesList.setAdapter(cursorAdapter);
+        classes = database.getAllClasses(null); // The searchkey will be used if the user is trying to search for a class type or instructor
+        classesAdapter = new ClassesAdapter(getActivity(), classes);
+        classesList.setAdapter(classesAdapter);
 
         // Adds a listener to the searchbar
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -61,11 +65,12 @@ public class ViewAllClassesFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // Updates the listview based on the searchBar text
                 if ( searchBar.getText().toString().equals("") ){
-                    classesCursor = database.getAllClasses(null);
+                    classes = database.getAllClasses(null);
                 } else {
-                    classesCursor = database.getAllClasses(searchBar.getText().toString());
+                    classes = database.getAllClasses(searchBar.getText().toString());
                 }
-                cursorAdapter.changeCursor(classesCursor);
+                classesAdapter = new ClassesAdapter(getContext(), classes);
+                classesList.setAdapter(classesAdapter);
             }
 
             @Override

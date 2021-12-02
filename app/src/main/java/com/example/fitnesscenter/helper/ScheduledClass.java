@@ -8,14 +8,16 @@ import java.util.Date;
 
 public class ScheduledClass {
 
-    int id, capacity;
-    String classType, difficulty;
+    int id, capacity, enrolled;
+    String classType, difficulty, instructor;
     Calendar startTime, endTime;
 
-    public ScheduledClass(int id, String classType, int capacity, long startTime, long endTime, String difficulty){
+    public ScheduledClass(int id, String classType, String instructor, int capacity, int enrolled, long startTime, long endTime, String difficulty){
         this.id = id;
         this.classType = classType;
+        this.instructor = instructor;
         this.capacity = capacity;
+        this.enrolled = enrolled;
         this.startTime = Calendar.getInstance();
         this.startTime.setTime(new Date(startTime));
         this.endTime = Calendar.getInstance();
@@ -23,8 +25,20 @@ public class ScheduledClass {
         this.difficulty = difficulty;
     }
 
+    public int getId(){
+        return id;
+    }
+
     public int getCapacity(){
         return capacity;
+    }
+
+    public int getEnrolled() {
+        return enrolled;
+    }
+
+    public String getInstructor(){
+        return instructor;
     }
 
     public String getType(){

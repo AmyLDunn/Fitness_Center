@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.fitnesscenter.database.DBHelper;
+import com.example.fitnesscenter.database.SharedPreferencesManager;
 import com.example.fitnesscenter.helper.Account;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -66,9 +67,10 @@ public class CreateNewAccountActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.create_new_account_screen), "Please enter a password.", Snackbar.LENGTH_SHORT).show();
         } else {
             database.addAccount(username, password, spinnerPosition);
-            Account userAccount = new Account(username, spinnerPosition);
+            SharedPreferencesManager SP = new SharedPreferencesManager(this);
+            SP.setUsername(username);
+            SP.setUserType(spinnerPosition);
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("USER_ACCOUNT", userAccount);
             startActivity(intent);
             finish();
         }

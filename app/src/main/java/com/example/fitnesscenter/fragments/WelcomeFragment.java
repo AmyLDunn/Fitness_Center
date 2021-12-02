@@ -11,24 +11,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscenter.R;
+import com.example.fitnesscenter.database.SharedPreferencesManager;
 import com.example.fitnesscenter.helper.Account;
 
 public class WelcomeFragment extends Fragment {
 
-    Account myAccount;
+    String username;
+    String type;
 
-    public static WelcomeFragment newInstance(Account myAccount){
+    public static WelcomeFragment newInstance(){
         WelcomeFragment fragment = new WelcomeFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("USER_ACCOUNT", myAccount);
-        fragment.setArguments(bundle);
         return fragment;
-    }
-
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        Bundle bundle = getActivity().getIntent().getExtras();
-        myAccount = bundle.getParcelable("USER_ACCOUNT");
     }
 
     @Nullable
@@ -38,9 +31,13 @@ public class WelcomeFragment extends Fragment {
     }
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        SharedPreferencesManager SP = new SharedPreferencesManager(getContext());
+        username = SP.getUsername();
+        type = Account.getTypeName(SP.getUserType());
+
         TextView title = (TextView) getActivity().findViewById(R.id.welcome_username);
-        title.setText("Welcome, "+myAccount.getUsername()+"!");
+        title.setText("Welcome, "+username+"!");
         TextView titleTwo = (TextView) getActivity().findViewById(R.id.welcome_account_type);
-        titleTwo.setText("You are logged in as "+myAccount.getTypeName()+".");
+        titleTwo.setText("You are logged in as "+type+".");
     }
 }
