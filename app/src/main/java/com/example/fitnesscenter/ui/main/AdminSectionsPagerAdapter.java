@@ -9,8 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.fitnesscenter.fragments.WelcomeFragment;
-import com.example.fitnesscenter.fragments.AccountsFragment;
-import com.example.fitnesscenter.fragments.ClassTypesFragment;
+import com.example.fitnesscenter.fragments.admin.AccountsFragment;
+import com.example.fitnesscenter.fragments.admin.ClassTypesFragment;
 import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.helper.Account;
 

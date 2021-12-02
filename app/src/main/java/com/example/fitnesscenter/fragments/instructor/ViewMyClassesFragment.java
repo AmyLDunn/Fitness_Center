@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.fragments;
+package com.example.fitnesscenter.fragments.instructor;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,7 +28,7 @@ import com.example.fitnesscenter.database.DBHelper;
 import com.example.fitnesscenter.helper.Account;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ViewMyScheduledEventsFragment extends Fragment {
+public class ViewMyClassesFragment extends Fragment {
 
     DBHelper database;
     Cursor classesCursor;
@@ -36,8 +36,8 @@ public class ViewMyScheduledEventsFragment extends Fragment {
 
     Account myAccount;
 
-    public static ViewMyScheduledEventsFragment newInstance(Account myAccount) {
-        ViewMyScheduledEventsFragment fragment = new ViewMyScheduledEventsFragment();
+    public static ViewMyClassesFragment newInstance(Account myAccount) {
+        ViewMyClassesFragment fragment = new ViewMyClassesFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("USER_ACCOUNT", myAccount);
         fragment.setArguments(bundle);
@@ -53,7 +53,7 @@ public class ViewMyScheduledEventsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        return inflater.inflate(R.layout.fragment_view_my_scheduled_events, container, false);
+        return inflater.inflate(R.layout.fragment_view_my_classes, container, false);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){

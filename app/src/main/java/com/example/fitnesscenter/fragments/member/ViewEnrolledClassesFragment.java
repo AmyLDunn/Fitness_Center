@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.fragments;
+package com.example.fitnesscenter.fragments.member;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,10 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscenter.R;
 
-public class ViewMyRegisteredEventsFragment extends Fragment {
+public class ViewEnrolledClassesFragment extends Fragment {
 
-    public static ViewMyRegisteredEventsFragment newInstance() {
-        return new ViewMyRegisteredEventsFragment();
+    public static ViewEnrolledClassesFragment newInstance() {
+        return new ViewEnrolledClassesFragment();
     }
 
     public void onCreate(Bundle savedInstanceState){
@@ -24,7 +24,7 @@ public class ViewMyRegisteredEventsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        return inflater.inflate(R.layout.fragment_view_my_registered_events, container, false);
+        return inflater.inflate(R.layout.fragment_view_enrolled_classes, container, false);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){

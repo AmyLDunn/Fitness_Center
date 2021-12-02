@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.fragments;
+package com.example.fitnesscenter.fragments.instructor;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,14 +18,14 @@ import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.ClassesCursorAdapter;
 import com.example.fitnesscenter.database.DBHelper;
 
-public class ViewAllScheduledEventsFragment extends Fragment {
+public class ViewAllClassesFragment extends Fragment {
 
     private DBHelper database;
     private Cursor classesCursor;
     private ClassesCursorAdapter cursorAdapter;
 
-    public static ViewAllScheduledEventsFragment newInstance() {
-        return new ViewAllScheduledEventsFragment();
+    public static ViewAllClassesFragment newInstance() {
+        return new ViewAllClassesFragment();
     }
 
     public void onCreate(Bundle savedInstanceState){
@@ -35,7 +35,7 @@ public class ViewAllScheduledEventsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
-        return inflater.inflate(R.layout.fragment_view_all_scheduled_events, container, false);
+        return inflater.inflate(R.layout.fragment_view_all_classes, container, false);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){

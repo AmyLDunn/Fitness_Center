@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.fragments;
+package com.example.fitnesscenter.fragments.admin;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,7 +26,6 @@ import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.ClassTypesCursorAdapter;
 import com.example.fitnesscenter.database.DBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 public class ClassTypesFragment extends Fragment {
 

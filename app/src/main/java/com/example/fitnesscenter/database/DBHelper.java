@@ -52,6 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CLASSES_COLUMN_TYPE = "type";
     public static final String CLASSES_COLUMN_INSTRUCTOR = "instructor";
     public static final String CLASSES_COLUMN_CAPACITY = "capacity";
+    public static final String CLASSES_COLUMN_ENROLLED = "enrolled";
     public static final String CLASSES_COLUMN_START = "startTime";
     public static final String CLASSES_COLUMN_END = "endTime";
     public static final String CLASSES_COLUMN_DIFFICULTY = "difficulty";
@@ -86,6 +87,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 CLASSES_COLUMN_ID+" INTEGER PRIMARY KEY, "+
                 CLASSES_COLUMN_TYPE+" TEXT, "+
                 CLASSES_COLUMN_INSTRUCTOR+" TEXT, "+
+                CLASSES_COLUMN_CAPACITY+" INTEGER, "+
                 CLASSES_COLUMN_CAPACITY+" INTEGER, "+
                 CLASSES_COLUMN_START+" INTEGER, "+
                 CLASSES_COLUMN_END+" INTEGER, "+
@@ -286,8 +288,9 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO "+CLASSES_TABLE_NAME+" ("+CLASSES_COLUMN_TYPE+", "+
                 CLASSES_COLUMN_INSTRUCTOR+", "+CLASSES_COLUMN_CAPACITY+", "+
+                CLASSES_COLUMN_ENROLLED+", "+
                 CLASSES_COLUMN_START+", "+CLASSES_COLUMN_END+", "+
-                CLASSES_COLUMN_DIFFICULTY+") VALUES (?, ?, ?, ?, ?, ?)",
+                CLASSES_COLUMN_DIFFICULTY+") VALUES (?, ?, ?, 0, ?, ?, ?)",
                 new String[]{type, instructor, String.valueOf(capacity), String.valueOf(startTime),
                         String.valueOf(endTime), difficulty});
     }

@@ -1,4 +1,4 @@
-package com.example.fitnesscenter.fragments;
+package com.example.fitnesscenter.fragments.admin;
 
 import android.database.Cursor;
 import android.os.Bundle;
