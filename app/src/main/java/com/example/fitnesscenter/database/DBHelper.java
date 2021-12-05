@@ -541,8 +541,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 Cursor cursor2 = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
                         CLASSES_COLUMN_ID+" = "+id, null);
                 cursor2.moveToFirst();
-                long start = cursor2.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
-                long end = cursor2.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
+                long start = cursor2.getLong(cursor2.getColumnIndexOrThrow(CLASSES_COLUMN_START));
+                long end = cursor2.getLong(cursor2.getColumnIndexOrThrow(CLASSES_COLUMN_END));
                 if ( startTime < end && endTime > start ){
                     return true;
                 }
