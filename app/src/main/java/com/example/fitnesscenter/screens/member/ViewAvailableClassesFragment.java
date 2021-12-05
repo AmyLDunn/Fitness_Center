@@ -4,14 +4,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscenter.R;
+import com.example.fitnesscenter.database.DBHelper;
 
 public class ViewAvailableClassesFragment extends Fragment {
+
+    private DBHelper database;
+    private EditText classType;
+    private Spinner dayOfWeek;
+    ListView classesList;
+    int spinnerPosition;
 
     public static ViewAvailableClassesFragment newInstance() {
         return new ViewAvailableClassesFragment();
@@ -28,11 +40,31 @@ public class ViewAvailableClassesFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
-        // TODO: The layout file for this page (fragment_view_available_classes.xml) should have
-        //       a searchbar (edittext) at the top to search by class type (jogging, swimming, etc).
-        //       Underneath that search bar should be a spinner with all the days of the week and
-        //       'All' at the top. This will be used to filter by the weekday.
-        //       The rest of the screen is taken up by the listview.
+
+        //Finds the class type the user is searching for
+        classType = getActivity().findViewById(R.id.list_of_all_scheduled_classes);
+
+        //Finds the day of week the user is searching for
+        /*
+        * 52.) R.array.accountTypeChoices ~ what do I reference for the dates?
+         */
+        dayOfWeek = (Spinner) getActivity().findViewById(R.id.day_of_week);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.accountTypeChoices, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dayOfWeek.setAdapter(adapter);
+        spinnerPosition = 0;
+
+        dayOfWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                spinnerPosition = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         // TODO: In this file, make variables and find all the relevant views (listview, searchbar,
         //       weekday dropdown).

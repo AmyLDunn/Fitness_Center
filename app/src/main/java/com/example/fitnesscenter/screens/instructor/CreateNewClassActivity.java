@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,16 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.fitnesscenter.R;
 import com.example.fitnesscenter.database.DBHelper;
 import com.example.fitnesscenter.database.SharedPreferencesManager;
-import com.example.fitnesscenter.helper.Account;
 import com.example.fitnesscenter.helper.ScheduledClass;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class CreateNewClassActivity extends AppCompatActivity {
 
@@ -74,7 +70,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
         }
 
         //Drop-down list displaying all the class types
-        Spinner spin = (Spinner) findViewById(R.id.select_class_type);
+        Spinner spin = (Spinner) findViewById(R.id.day_of_week);
         // Get the arrayList from the database
         ArrayList<String> classTypeNames = database.getAllClassTypeNames();
         // Pass the arrayList to the adapter

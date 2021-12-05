@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 TextView usernameInput = (TextView) findViewById(R.id.login_username);
-                TextView passwordInput = (TextView) findViewById(R.id.login_password);
+                TextView passwordInput = (TextView) findViewById(R.id.class_search);
                 String username = usernameInput.getText().toString();
                 String password = passwordInput.getText().toString();
                 Account myAccount = database.getAccount(username, password);
