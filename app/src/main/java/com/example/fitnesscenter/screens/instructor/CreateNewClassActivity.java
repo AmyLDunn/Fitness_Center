@@ -70,7 +70,7 @@ public class CreateNewClassActivity extends AppCompatActivity {
         }
 
         //Drop-down list displaying all the class types
-        Spinner spin = (Spinner) findViewById(R.id.day_of_week);
+        Spinner spin = (Spinner) findViewById(R.id.select_class_type);
         // Get the arrayList from the database
         ArrayList<String> classTypeNames = database.getAllClassTypeNames();
         // Pass the arrayList to the adapter

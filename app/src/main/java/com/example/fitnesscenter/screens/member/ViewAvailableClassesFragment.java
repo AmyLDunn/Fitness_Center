@@ -1,7 +1,12 @@
 package com.example.fitnesscenter.screens.member;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,15 +20,24 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.fitnesscenter.R;
+import com.example.fitnesscenter.database.ClassesAdapter;
 import com.example.fitnesscenter.database.DBHelper;
+import com.example.fitnesscenter.database.SharedPreferencesManager;
+import com.example.fitnesscenter.helper.ScheduledClass;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
 
 public class ViewAvailableClassesFragment extends Fragment {
 
     private DBHelper database;
+    String username;
     private EditText classType;
     private Spinner dayOfWeek;
     ListView classesList;
-    int spinnerPosition;
+
+    ArrayList<ScheduledClass> classes;
+    ClassesAdapter classesAdapter;
 
     public static ViewAvailableClassesFragment newInstance() {
         return new ViewAvailableClassesFragment();
@@ -41,23 +55,52 @@ public class ViewAvailableClassesFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState){
 
-        //Finds the class type the user is searching for
-        classType = getActivity().findViewById(R.id.list_of_all_scheduled_classes);
+        // Link to the database
+        database = new DBHelper(getContext());
+        SharedPreferencesManager SP = new SharedPreferencesManager(getContext());
+        username = SP.getUsername();
 
-        //Finds the day of week the user is searching for
-        /*
-        * 52.) R.array.accountTypeChoices ~ what do I reference for the dates?
-         */
-        dayOfWeek = (Spinner) getActivity().findViewById(R.id.day_of_week);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.accountTypeChoices, android.R.layout.simple_spinner_item);
+        // Finds the views
+        classType = getActivity().findViewById(R.id.class_search);
+        dayOfWeek = getActivity().findViewById(R.id.day_of_week);
+        classesList = getActivity().findViewById(R.id.listView_availableClasses);
+
+        // Fills the spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.weekdays, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dayOfWeek.setAdapter(adapter);
-        spinnerPosition = 0;
+
+        // Filling the listview
+        classes = database.getAvailableClasses(username, "", -1); // The searchkey will be used if the user is trying to search for a class type or instructor
+        classesAdapter = new ClassesAdapter(getContext(), classes);
+        classesList.setAdapter(classesAdapter);
+        // Register listview for context menu
+        registerForContextMenu(classesList);
+
+        // Sets listeners
+        classType.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                classes = database.getAvailableClasses(username, classType.getText().toString(), dayOfWeek.getSelectedItemPosition()); // The searchkey will be used if the user is trying to search for a class type or instructor
+                classesAdapter = new ClassesAdapter(getContext(), classes);
+                classesList.setAdapter(classesAdapter);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         dayOfWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                spinnerPosition = position;
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                classes = database.getAvailableClasses(username, classType.getText().toString(), dayOfWeek.getSelectedItemPosition()); // The searchkey will be used if the user is trying to search for a class type or instructor
+                classesAdapter = new ClassesAdapter(getContext(), classes);
+                classesList.setAdapter(classesAdapter);
             }
 
             @Override
@@ -66,28 +109,32 @@ public class ViewAvailableClassesFragment extends Fragment {
             }
         });
 
-        // TODO: In this file, make variables and find all the relevant views (listview, searchbar,
-        //       weekday dropdown).
+    }
 
-        // TODO: Make a method to fill the listview using fragments/instructor/ViewAllClassesFragment.java
-        //       lines 26-29, 47, 50, and 54-56 as an example. Use database.getAvailableClasses()
-        //       to get the ArrayList<ScheduledClass>.
-        //       Arguments for the database.getAvailableClasses() method:
-        //            String username -> pass in the logged in user's name
-        //                               Get this by making a new SharedPreferencesManager object and
-        //                               calling getUsername() on it
-        //            String searchType -> Get from the searchbar (edittext)
-        //            int weekday -> -1 if the spinner is 'All' or the weekday number if it's not 'All'
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.available_class_context_menu, menu);
+    }
 
-        // TODO: Add listeners for the searching.
-        //       Upon typing in the searchbar, it should refresh the page (see
-        //       fragments/instructor/ViewAllClassesFragment.java from lines 59 to 79 for an example).
-        //       Upon changing the spinner value (the weekdays), it should refresh the page as well.
-
-        // TODO: Register the listview for a context menu so that a long-press brings up a popup menu
-        //       with the option to register for the course. You can use database.courseConflict(username, courseId)
-        //       to check if the user has any conflicting times. Up to you how you deal with conflicts.
-
+    public boolean onContextItemSelected(MenuItem item){
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        // Get the class that was pressed
+        int index = info.position;
+        ScheduledClass thisClass;
+        switch (item.getItemId()){
+            case R.id.class_option_enroll:
+                thisClass = classes.get(index);
+                if ( database.courseConflict(username, thisClass.getId()) ) {
+                    Snackbar.make(getView(), "There is a time conflict with that course. Check your enrolled courses.", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    database.enrollInClass(username, thisClass.getId());
+                    getActivity().recreate();
+                }
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
 }

@@ -454,7 +454,7 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor;
         // If a weekday is specified, include that in the search
-        if (searchWeekday != -1) {
+        if (searchWeekday != 0) {
             cursor = db.rawQuery("SELECT * FROM " + CLASSES_TABLE_NAME + " WHERE " +
                             CLASSES_COLUMN_ENROLLED + " < " + CLASSES_COLUMN_CAPACITY + " AND " +
                             CLASSES_COLUMN_TYPE + " LIKE ? AND " + CLASSES_COLUMN_WEEKDAY + " = " + searchWeekday,
@@ -525,7 +525,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 CLASSES_COLUMN_ID+" = "+classId);
     }
 
-    public int courseConflict(String username, int classId){
+    public boolean courseConflict(String username, int classId){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
                 CLASSES_COLUMN_ID+" = "+classId, null);
@@ -544,11 +544,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 long start = cursor2.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_START));
                 long end = cursor2.getLong(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_END));
                 if ( startTime < end && endTime > start ){
-                    return id;
+                    return true;
                 }
             } while ( cursor.moveToNext());
         }
-        return -1;
+        return false;
     }
 
     public void unEnrollFromClass(String username, int classId){

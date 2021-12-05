@@ -14,4 +14,14 @@
         <item>Gym member</item>
         <item>Instructor</item>
     </string-array>
+    <string-array name="weekdays">
+        <item>All</item>
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
 </resources>
