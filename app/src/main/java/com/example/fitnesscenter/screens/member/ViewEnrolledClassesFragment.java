@@ -77,9 +77,10 @@ public class ViewEnrolledClassesFragment extends Fragment {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         // Get the class that was pressed
         int index = info.position;
-        ScheduledClass thisClass = listItems.get(index);
+        ScheduledClass thisClass;
         switch (item.getItemId()){
             case R.id.class_option_unenroll:
+                thisClass = listItems.get(index);
                 database.unEnrollFromClass(username, thisClass.getId());
                 getActivity().recreate();
                 return true;

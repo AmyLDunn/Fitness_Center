@@ -1,7 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TableLayout
+        android:id="@+id/tableLayout_availableCourses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="Course search: " />
+
+            <EditText
+                android:id="@+id/class_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="20dp"
+                android:text="Weekday search: " />
+
+            <Spinner
+                android:id="@+id/day_of_week"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <ListView
+        android:id="@+id/listView_availableClasses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout_availableCourses"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

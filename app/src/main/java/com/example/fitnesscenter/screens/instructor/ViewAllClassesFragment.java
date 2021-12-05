@@ -50,7 +50,7 @@ public class ViewAllClassesFragment extends Fragment {
         EditText searchBar = getActivity().findViewById(R.id.search_bar);
 
         // Initializing the listview to contain all of the scheduled classes
-        classes = database.getAllClasses(null); // The searchkey will be used if the user is trying to search for a class type or instructor
+        classes = database.getAllClasses(""); // The searchkey will be used if the user is trying to search for a class type or instructor
         classesAdapter = new ClassesAdapter(getActivity(), classes);
         classesList.setAdapter(classesAdapter);
 
@@ -74,5 +74,7 @@ public class ViewAllClassesFragment extends Fragment {
         });
 
     }
+
+
 
 }
