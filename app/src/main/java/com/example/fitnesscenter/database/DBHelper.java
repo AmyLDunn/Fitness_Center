@@ -473,16 +473,11 @@ public class DBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         // Remove the enrolled courses
-        ArrayList<ScheduledClass> availableClassesFinal = getAvailableCoursesNotEnrolled(availableClasses, getMyEnrolledClasses(username));
-        return availableClassesFinal;
+        return getAvailableCoursesNotEnrolled(availableClasses, getMyEnrolledClasses(username));
     }
 
     public static <T> ArrayList<T> getAvailableCoursesNotEnrolled(ArrayList<T> availableCourses, ArrayList<T> enrolledCourses){
-        for ( int i = 0; i < enrolledCourses.size(); i++ ){
-            if ( availableCourses.contains(enrolledCourses.get(i))){
-                availableCourses.remove(enrolledCourses.get(i));
-            }
-        }
+        availableCourses.removeAll(enrolledCourses);
         return availableCourses;
     }
 

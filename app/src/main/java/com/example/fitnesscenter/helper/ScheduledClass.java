@@ -76,4 +76,12 @@ public class ScheduledClass {
 
     public String getDifficulty() { return difficulty; }
 
+    @Override
+    public boolean equals(Object other){
+        if ( other instanceof ScheduledClass ){
+            return ((ScheduledClass) other).getId() == id;
+        }
+        return false;
+    }
+
 }
