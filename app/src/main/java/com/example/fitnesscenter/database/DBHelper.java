@@ -449,7 +449,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public ArrayList<ScheduledClass> getAvailableClasses(String username, String searchType, int searchWeekday){
         // Make a tree map to store all available classes
-        TreeMap<Integer, ScheduledClass> availableClassesTemp = new TreeMap<>();
+        ArrayList<ScheduledClass> availableClasses = new ArrayList<>();
         // Link to the database
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor;
@@ -469,25 +469,21 @@ public class DBHelper extends SQLiteOpenHelper {
         // Loop over all valid classes and put them in the tree
         if ( cursor.moveToFirst() ){
             do {
-                int classId = cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID));
-                availableClassesTemp.put(classId, createClassObject(cursor));
+                availableClasses.add(createClassObject(cursor));
             } while (cursor.moveToNext());
         }
-        // Start a new cursor query about the classIds that "username" is enrolled in
-        cursor = db.rawQuery("SELECT * FROM "+ENROLLED_TABLE_NAME+" WHERE "+
-                ENROLLED_COLUMN_USER+" = ?", new String[]{username});
-        // Remove all enrolled classes from available classes
-        if ( cursor.moveToFirst() ){
-            do {
-                availableClassesTemp.remove(cursor.getInt(cursor.getColumnIndexOrThrow(ENROLLED_COLUMN_CLASS)));
-            } while ( cursor.moveToNext() );
+        // Remove the enrolled courses
+        ArrayList<ScheduledClass> availableClassesFinal = getAvailableCoursesNotEnrolled(availableClasses, getMyEnrolledClasses(username));
+        return availableClassesFinal;
+    }
+
+    public static <T> ArrayList<T> getAvailableCoursesNotEnrolled(ArrayList<T> availableCourses, ArrayList<T> enrolledCourses){
+        for ( int i = 0; i < enrolledCourses.size(); i++ ){
+            if ( availableCourses.contains(enrolledCourses.get(i))){
+                availableCourses.remove(enrolledCourses.get(i));
+            }
         }
-        // Put the treemap classes into an arraylist
-        ArrayList<ScheduledClass> availableClasses = new ArrayList<>();
-        for ( ScheduledClass item: availableClassesTemp.values()){
-            availableClasses.add(item);
-        }
-        return availableClasses;
+        return availableCourses;
     }
 
     /**
