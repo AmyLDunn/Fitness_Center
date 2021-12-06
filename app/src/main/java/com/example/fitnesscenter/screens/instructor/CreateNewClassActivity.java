@@ -54,9 +54,9 @@ public class CreateNewClassActivity extends AppCompatActivity {
         if ( id == -1 ){ // Making a new scheduled class
             startTime = Calendar.getInstance();
             endTime = Calendar.getInstance();
-            startTime.set(Calendar.HOUR, 12);
+            startTime.set(Calendar.HOUR_OF_DAY, 12);
             startTime.set(Calendar.MINUTE, 0);
-            endTime.set(Calendar.HOUR, 12);
+            endTime.set(Calendar.HOUR_OF_DAY, 12);
             endTime.set(Calendar.MINUTE, 0);
             capacity = 10;
             difficulty = "Beginner";

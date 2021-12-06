@@ -202,12 +202,24 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         String username = cursor.getString(cursor.getColumnIndexOrThrow(ACCOUNTS_COLUMN_USERNAME));
         cursor.close();
+        // Delete all classes scheduled by the deleted account
+        cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+                CLASSES_COLUMN_INSTRUCTOR+" = ?", new String[]{username});
+        if ( cursor.moveToFirst() ){
+            do {
+                deleteClass(cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID)));
+            } while ( cursor.moveToNext());
+        }
+        cursor = db.rawQuery("SELECT * FROM "+ENROLLED_TABLE_NAME+" WHERE "+
+                ENROLLED_COLUMN_USER+" = ?", new String[]{username});
+        if ( cursor.moveToFirst() ){
+            do {
+                unEnrollFromClass(username, cursor.getInt(cursor.getColumnIndexOrThrow(ENROLLED_COLUMN_CLASS)));
+            } while ( cursor.moveToNext());
+        }
         // Delete the account
         db.execSQL("DELETE FROM "+ACCOUNTS_TABLE_NAME+" WHERE "+
                 ACCOUNTS_COLUMN_ID+" = "+id);
-        // Delete all classes scheduled by the deleted account
-        db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+
-                CLASSES_COLUMN_INSTRUCTOR+" = ?", new String[]{username});
     }
 
     /**
@@ -304,11 +316,16 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         String type = cursor.getString(cursor.getColumnIndexOrThrow(CLASS_TYPES_COLUMN_NAME));
         cursor.close();
+        // Deleting all scheduled classes of that type
+        cursor = db.rawQuery("SELECT * FROM "+CLASSES_TABLE_NAME+" WHERE "+
+                CLASSES_COLUMN_TYPE+" = ?", new String[]{type});
+        if ( cursor.moveToFirst() ){
+            do {
+                deleteClass(cursor.getInt(cursor.getColumnIndexOrThrow(CLASSES_COLUMN_ID)));
+            } while ( cursor.moveToNext() );
+        }
         // Deleting the class type
         db.execSQL("DELETE FROM "+CLASS_TYPES_TABLE_NAME+" WHERE "+CLASS_TYPES_COLUMN_ID+"="+id+"");
-        // Deleting all scheduled classes of that type
-        db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_TYPE+" = ?",
-                new String[]{type});
     }
 
     /**
@@ -358,6 +375,13 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public void deleteClass(int id){
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ENROLLED_TABLE_NAME+" WHERE "+
+                ENROLLED_COLUMN_CLASS+" = "+id, null);
+        if ( cursor.moveToFirst() ){
+            do {
+                unEnrollFromClass(cursor.getString(cursor.getColumnIndexOrThrow(ENROLLED_COLUMN_USER)), id);
+            } while ( cursor.moveToNext() );
+        }
         db.execSQL("DELETE FROM "+CLASSES_TABLE_NAME+" WHERE "+CLASSES_COLUMN_ID+" = ?",
                 new String[]{String.valueOf(id)});
     }
