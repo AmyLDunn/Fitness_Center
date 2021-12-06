@@ -84,4 +84,17 @@ public class ScheduledClass {
         return false;
     }
 
+    public boolean isConflicting(ScheduledClass other) {
+
+        if (weekday == other.getWeekday()) {
+
+            if (startTime.compareTo(other.getEndTime()) < 0 && endTime.compareTo(other.getStartTime()) > 0) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
 }

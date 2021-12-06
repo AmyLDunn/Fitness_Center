@@ -34,4 +34,8 @@ public class Account {
         return "administrator";
     }
 
+    public boolean sameUsername(Account other) {
+        return username.equals(other.getUsername());
+    }
+
 }
